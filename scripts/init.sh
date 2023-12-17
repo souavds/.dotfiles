@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 export DOTFILES=$(pwd -P)
 
 SYMBOL="\uf444"
@@ -89,8 +89,7 @@ function link_file() {
 
       else
 
-        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
-        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n$USER_INPUT_MARGIN[s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
         read -n 1 action  < /dev/tty
 
         case "$action" in
@@ -150,7 +149,8 @@ function install_dotfiles() {
 
   local overwrite_all=false backup_all=false skip_all=false
 
-  find -H "$DOTFILES" -maxdepth 2 -name 'linking' | while read linkfile
+  echo "$DOTFILES"
+  find -H "$DOTFILES" -maxdepth 2 -name 'links.prop' | while read linkfile
   do
     cat "$linkfile" | while read line
     do
@@ -176,9 +176,9 @@ function install_asdf() {
 
 
 info "Initiating setup..."
-get_install_command
-install_shell
-install_packages
+#get_install_command
+#install_shell
+#install_packages
 install_dotfiles
 success "Finished setup"
 

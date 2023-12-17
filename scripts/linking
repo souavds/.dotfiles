@@ -1,4 +1,0 @@
-$DOTFILES/.config/nvim=$HOME/.config/nvim
-$DOTFILES/.config/fish=$HOME/.config/fish
-$DOTFILES/.config/wezterm=$HOME/.config/wezterm
-$DOTFILES/.gitconfig=$HOME/.gitconfig
