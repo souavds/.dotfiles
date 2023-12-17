@@ -4,6 +4,7 @@ cd "$(dirname "$0")"
 export DOTFILES=$(pwd -P)
 
 SYMBOL="\uf444"
+USER_INPUT_MARGIN="   "
 
 info () {
   printf "\033[00;34m $SYMBOL $1 \033[0m\n"
@@ -27,7 +28,7 @@ command=
 
 function get_install_command() {
   user "What is the install command in your system? (i.e. brew install)"
-  read -p "   " command < /dev/tty
+  read -p "$USER_INPUT_MARGIN" command < /dev/tty
 }
 
 function install_shell() {
@@ -35,7 +36,8 @@ function install_shell() {
   
   $command fish
 
-  read -p "Do you want to make fish the default shell? (y/n) " yn < /dev/tty
+  user "Do you want to make fish the default shell? (y/n)"
+  read -p "$USER_INPUT_MARGIN" yn < /dev/tty
 
   case $yn in
     [Yy]* ) chsh -s $(which fish) ;;
@@ -65,54 +67,88 @@ function install_packages() {
 function link_file() {
   local src=$1 dst=$2
 
-  local skip=
   local overwrite=
   local backup=
+  local skip=
   local action=
 
   if [ -f "$dst" ] || [ -d "$dst" ] || [ -L "$dst" ]
   then
 
-    local first_line="Path to $dst already exists, what do you want to do?"
-    local second_line="[o]verwrite, [s]kip, [S]kip all, [b]ackup?"
-    read -p "$first_line $second_line " yn < /dev/tty
+    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+    then
 
-    case $yn in
-      [S]* ) echo "> Skipped symlinking all duplicated files"; break ;;
-      [s]* ) echo "> Skipped symlinking $(basename "$src")"; skip=true ;;
-      [o]* ) overwrite=true ;;
-      [b]* ) backup=true ;;
-      * ) echo "> Incorrect option, skipping"; skip=true ;;
-    esac
+      # ignoring exit 1 from readlink in case where file already exists
+      # shellcheck disable=SC2155
+      local currentSrc="$(readlink $dst)"
 
+      if [ "$currentSrc" == "$src" ]
+      then
+
+        skip=true;
+
+      else
+
+        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
+        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+        read -n 1 action  < /dev/tty
+
+        case "$action" in
+          o )
+            overwrite=true;;
+          O )
+            overwrite_all=true;;
+          b )
+            backup=true;;
+          B )
+            backup_all=true;;
+          s )
+            skip=true;;
+          S )
+            skip_all=true;;
+          * )
+            ;;
+        esac
+
+      fi
+
+    fi
+
+    overwrite=${overwrite:-$overwrite_all}
+    backup=${backup:-$backup_all}
+    skip=${skip:-$skip_all}
 
     if [ "$overwrite" == "true" ]
     then
       rm -rf "$dst"
-      echo "> Removed $dst"
+      success "removed $dst"
     fi
 
     if [ "$backup" == "true" ]
     then
-      local timestamp = $(date +%s)
-      local backup = "${dst}.backup($timestamp)"
-      mv "$dst" "$backup"
-      echo "> Moved $dst to $backup"
+      local time="$(date + "%s")"
+      local bkp_file="$dst.backup($time)"
+      mv "$dst" "$bkp_file"
+      success "moved $dst to $bkp_file"
     fi
 
+    if [ "$skip" == "true" ]
+    then
+      success "skipped $src"
+    fi
   fi
 
-  if [ "$skip" != "true" ]
+  if [ "$skip" != "true" ]  # "false" or empty
   then
-    ln -s "$src" "$dst"
-    echo "> Linked $1 to $2"
-  fi
-
-  echo ""
+    ln -s "$1" "$2"
+    success "Successfully symlinked files $1 -> $2"
+  fi 
 }
 
 function install_dotfiles() {
   info "Installing dotfiles"
+
+  local overwrite_all=false backup_all=false skip_all=false
 
   find -H "$DOTFILES" -maxdepth 2 -name 'linking' | while read linkfile
   do
