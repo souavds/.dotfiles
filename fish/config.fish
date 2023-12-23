@@ -8,6 +8,8 @@ alias cz "z"
 alias cat "bat"
 alias ls "eza --icons"
 alias v "nvim"
+alias vcfg "cd ~/dotfiles && v"
+alias ar "asdf reshim"
 
 # asdf
 source ~/.asdf/asdf.fish
