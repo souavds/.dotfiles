@@ -18,7 +18,7 @@ config.color_scheme = 'GruvboxDark'
 config.font = w.font_with_fallback({
   'GeistMono Nerd Font',
 })
-config.font_size = 12
+config.font_size = 16
 
 -- keybindings
 -- config.leader = { key = '/', mod = 'CMD' }

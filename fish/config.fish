@@ -10,6 +10,7 @@ alias ls "eza --icons"
 alias v "nvim"
 alias vcfg "cd ~/dotfiles && v"
 alias ar "asdf reshim"
+alias g "lazygit"
 
 # asdf
 source ~/.asdf/asdf.fish
