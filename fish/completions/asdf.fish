@@ -1,1 +1,0 @@
-/home/souavds/.asdf/completions/asdf.fish

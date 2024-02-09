@@ -9,11 +9,7 @@ alias cat "bat"
 alias ls "eza --icons"
 alias v "nvim"
 alias vcfg "cd ~/dotfiles && v"
-alias ar "asdf reshim"
 alias g "lazygit"
-
-# asdf
-source ~/.asdf/asdf.fish
 
 # plugins options
 set fzf_preview_dir_cmd eza --all --color=always
@@ -25,3 +21,12 @@ zoxide init fish | source
 
 # on startup
 #macchina
+
+# pnpm
+set -gx PNPM_HOME "/home/souavds/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
+
+~/.local/bin/mise activate fish | source
