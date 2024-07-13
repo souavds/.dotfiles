@@ -18,15 +18,17 @@ set fzf_preview_file_cmd bat --color=always --style=numbers
 # sourcing
 starship init fish | source
 zoxide init fish | source
+mise activate fish | source
 
 # on startup
 #macchina
 
+# paths
+
+
 # pnpm
-set -gx PNPM_HOME "/home/souavds/.local/share/pnpm"
+set -gx PNPM_HOME "$HOME/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
-
-~/.local/bin/mise activate fish | source
