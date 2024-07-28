@@ -9,7 +9,8 @@ alias cat "bat"
 alias ls "eza --icons"
 alias v "nvim"
 alias vcfg "cd ~/dotfiles && v"
-alias g "lazygit"
+alias lzg "lazygit"
+alias lzd "lazydocker" 
 
 # plugins options
 set fzf_preview_dir_cmd eza --all --color=always

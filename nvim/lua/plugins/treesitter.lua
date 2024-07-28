@@ -4,14 +4,10 @@ return {
   event = { "BufReadPost", "BufNewFile" },
   cmd = { "TSUpdateSync" },
   config = function()
-    require'nvim-treesitter.configs'.setup {
+    require 'nvim-treesitter.configs'.setup {
       ensure_installed = {
-        "tsx",
-        "typescript",
-        "javascript",
         "html",
         "css",
-        "svelte",
         "gitcommit",
         "json",
         "json5",
@@ -19,7 +15,8 @@ return {
         "markdown",
         "vim",
         "rust",
-        "go"
+        "go",
+        "elixir"
       },
       sync_install = false,
       auto_install = true,

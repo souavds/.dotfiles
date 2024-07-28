@@ -39,25 +39,25 @@ return {
 
     lsp.on_attach(function(client, bufnr)
       lsp.default_keymaps({ buffer = bufnr })
+
       -- autoformat
       lsp.buffer_autoformat()
     end)
 
-
     require('mason').setup({})
     require('mason-lspconfig').setup({
       ensure_installed = {
-        'tsserver',
-        'eslint',
         'rust_analyzer',
         'gopls',
         'html',
         'lua_ls',
-        'svelte',
         'tailwindcss',
+        'elixirls'
       },
       handlers = {
-        lsp.default_setup,
+        function(server_name)
+          require('lspconfig')[server_name].setup({})
+        end,
         lua_ls = function()
           local lua_opts = lsp.nvim_lua_ls()
           require('lspconfig').lua_ls.setup(lua_opts)
@@ -72,8 +72,6 @@ return {
       info = '»'
     })
 
-    lsp.setup()
-
     -- CMP
     local cmp = require('cmp')
     local cmp_select = { behavior = cmp.SelectBehavior.Select }
@@ -85,7 +83,6 @@ return {
         { name = 'buffer' },
         { name = 'path' },
         { name = 'nvim_lua' }
-
       },
       window = {
         completion = cmp.config.window.bordered(),
