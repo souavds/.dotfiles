@@ -11,6 +11,8 @@ return {
     "saadparwaiz1/cmp_luasnip",
   },
   config = function()
+    local lspkind = require("lspkind")
+
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     luasnip.config.setup({})
@@ -64,6 +66,19 @@ return {
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "path" },
+      },
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+      },
+      formatting = {
+        fields = { "abbr", "kind", "menu" },
+        expandable_indicator = true,
+        format = lspkind.cmp_format({
+          mode = "symbol_text",
+          maxWidth = 50,
+          ellipsis_char = "...",
+        }),
       },
     })
   end,
