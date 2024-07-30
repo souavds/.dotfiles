@@ -47,10 +47,6 @@ return {
 				filetypes = { "elixir", "eelixir", "heex" },
 				cmd = { "/home/avds/.lsp/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
 				root_dir = require("lspconfig.util").root_pattern({ "mix.exs" }),
-				server_capabilities = {
-					completionProvider = vim.NIL,
-					definitionProvider = false,
-				},
 			},
 
 			gopls = {
