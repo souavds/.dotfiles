@@ -78,6 +78,9 @@ return {
     local ensure_installed = {
       "stylua",
       "lua_ls",
+      "eslint_d",
+      "prettierd",
+      "prettier",
     }
 
     vim.list_extend(ensure_installed, servers_to_install)
