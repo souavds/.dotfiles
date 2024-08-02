@@ -40,10 +40,16 @@ return {
         },
       },
 
-      lexical = {
-        filetypes = { "elixir", "eelixir", "heex" },
-        cmd = { "/home/avds/.lsp/lexical/_build/dev/package/lexical/bin/start_lexical.sh" },
-        root_dir = require("lspconfig.util").root_pattern({ "mix.exs" }),
+      nextls = {
+        cmd = { "nextls", "--stdio" },
+        init_options = {
+          extensions = {
+            credo = { enable = true },
+          },
+          experimental = {
+            completions = { enable = true },
+          },
+        },
       },
 
       gopls = {
