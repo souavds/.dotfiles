@@ -7,7 +7,7 @@ if w.config_builder then
 end
 
 -- system
-config.enable_wayland = true
+config.enable_wayland = false
 
 -- window
 config.window_decorations = "RESIZE"
@@ -20,7 +20,7 @@ config.color_scheme = "GruvboxDark"
 config.font = w.font_with_fallback({
 	"GeistMono Nerd Font",
 })
-config.font_size = 16
+config.font_size = 13
 
 -- keybindings
 -- config.leader = { key = '/', mod = 'CMD' }
