@@ -18,7 +18,7 @@ config.color_scheme = "GruvboxDark"
 
 -- font
 config.font = w.font_with_fallback({
-	"GeistMono Nerd Font",
+	"CommitMono Nerd Font",
 })
 config.font_size = 13
 
