@@ -11,7 +11,7 @@ function install_shell() {
   user yn -p "Do you want to make fish the default shell? (y/n)"
 
   case $yn in
-    [Yy]* ) chsh -s $(which fish) ;;
+    [Yy]* ) chsh -s $(which fish) && fish ;;
     [Nn]* ) info "> Skipped" ;;
     * ) info "> Incorrect option, skipping";;
   esac
