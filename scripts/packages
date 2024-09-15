@@ -10,6 +10,9 @@ fzf
 fd
 bottom
 ripgrep
-typst
 lazygit
 mise
+lazydocker
+starship
+docker
+just
