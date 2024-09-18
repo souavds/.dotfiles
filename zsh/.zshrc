@@ -17,16 +17,30 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
 
+# Snippets
+zinit snippet OMZP::git
+zinit snippet OMZP::command-not-found
+
 # Load completions
 autoload -Uz compinit && compinit
+zinit cdreplay -q
 
 # Aliases
 alias cd="z"
 alias cat="bat"
-alias ls="eza --icons"
+alias ls="eza --color --icons --git -a"
 alias vim="nvim"
 alias lzg="lazygit"
 alias lzd="lazydocker" 
+
+# Completion style
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color --icons --git -a $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color --icons --git -a $realpath'
+zstyle ':fzf-tab:complete:ls:*' fzf-preview 'eza --color --icons --git -a $realpath'
+zstyle ':fzf-tab:complete:eza:*' fzf-preview 'eza --color --icons --git -a $realpath'
 
 # Shell integrations
 eval "$(oh-my-posh init zsh)"

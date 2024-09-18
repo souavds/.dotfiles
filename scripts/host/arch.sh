@@ -47,8 +47,32 @@ function install_packages() {
   success "Installed all packages"
 }
 
+function install_languages() {
+  info "Installing languages"
+
+  yes y | paru -S jdk-openjdk unixodbc ncurses libssh wxwidgets-gtk3 wxwidgets-common unzip
+
+  mise use -g node go
+  KERL_CONFIGURE_OPTIONS="--enable-wx" mise use -g erlang
+  mise use -g elixir
+  mise reshim
+
+  success "Installed languages"
+}
+
+function setup_shell() {
+  info "Setting up shell"
+
+  mise use -g usage
+
+  success "Finished setting up shell"
+}
+
 info "Initiating arch linux setup"
 perform_system_update
 install_git
 install_aur_helper
 install_shell
+install_languages
+setup_shell
+success "Finished arch linux setup"
