@@ -1,2 +1,0 @@
-$DOTFILES/zsh/.zshrc=$HOME/.zshrc
-$DOTFILES/zsh/completions=$HOME/.config/zsh/completions
