@@ -1,3 +1,4 @@
+stow
 wezterm
 neovim
 curl

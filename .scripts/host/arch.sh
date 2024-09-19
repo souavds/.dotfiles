@@ -1,78 +1,117 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
-source ./scripts/cli/colorizer.sh
+source ./.scripts/lib/preinstall.sh
+source ./.scripts/lib/terminal/tui.sh
+source ./.scripts/lib/common.sh
+source ./.scripts/lib/cleanup.sh
 
-function perform_system_update() {
-  info "Updating system"
+function pkg() {
+  if command -v paru &> /dev/null
+  then
+    paru $@
+  else
+    sudo pacman $@
+  fi
+}
 
-  yes y | sudo pacman -Syu --noconfirm
+function check_and_install() {
+  if ! command -v $1 &> /dev/null
+  then
+    pkg -S $1
+  fi
+}
 
-  success "System updated"
+function system_update() {
+  log ">>> Update system"
+
+  pkg -Syu --noconfirm
+
+  log "<<< Update system"
 }
 
 function install_git() {
-  info "Installing git"
+  log ">>> Git"
 
-  yes y | sudo pacman -S git
+  pkg -S git
 
-  success "Installed git"
+  log "<<< Git"
 }
 
-function install_aur_helper() {
-  info "Installing paru as aur helper"
+function aur_helper() {
+  log ">>> Paru"
 
-  yes y | sudo pacman -S --needed base-devel
-  git clone https://aur.archlinux.org/paru-git.git paru
-  (cd paru && yes y | makepkg -si)
-  rm -rf paru
+  pkg -S --needed base-devel
+  git clone https://aur.archlinux.org/paru-git.git ./tmp/paru
+  (cd ./tmp/paru && yes y | makepkg -si)
+  rm -rf ./tmp/paru
 
-  success "Installed paru"
+  log "<<< Paru"
 } 
 
-function install_shell() {
-  info "Installing zsh shell"
+function install_zsh() {
+  log ">>> ZSH"
   
-  yes y | paru -S zsh
+  pkg -S zsh
 
-  chsh -s $(which zsh) && zsh
+  gum confirm "Do you want to make zsh the default shell?" && (chsh -s $(which zsh) && zsh)
 
-  success "Installed zsh shell"
+  log "<<< ZSH"
 }
 
-function install_packages() {
-  info "Installing packages"
+function packages() {
+  log ">>> Packages"
 
-  yes y | paru -S - < ./scripts/packages 
+  PACKAGES=$(cat ./.scripts/packages.txt | gum choose --no-limit --header "Which packages would you like to install?")
+  pkg -S $PACKAGES
 
-  success "Installed all packages"
+  log "<<< Packages"
 }
 
-function install_languages() {
-  info "Installing languages"
+function languages_dependencies() {
+  log ">>> Languages dependencies"
 
-  yes y | paru -S jdk-openjdk unixodbc ncurses libssh wxwidgets-gtk3 wxwidgets-common unzip
+  pkg -S jdk-openjdk unixodbc ncurses libssh wxwidgets-gtk3 wxwidgets-common unzip
 
-  mise use -g node go
-  KERL_CONFIGURE_OPTIONS="--enable-wx" mise use -g erlang
-  mise use -g elixir
-  mise reshim
-
-  success "Installed languages"
+  log "<<< Languages dependencies"
 }
 
-function setup_shell() {
-  info "Setting up shell"
+function fonts() {
+  log ">>> Fonts"
+  
+  check_and_install curl
+  check_and_install unzip
 
-  mise use -g usage
+  PACKAGES=$(cat ./.scripts/fonts.txt | gum choose --no-limit --header "Which fonts would you like to install?")
+  
+  for font in $PACKAGES
+  do
+    FONT_URL=https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.zip 
+    curl -L --create-dirs -O --output-dir ./tmp/fonts/ "$FONT_URL"
+    (cd ./tmp/fonts && unzip "$font.zip" -d ~/.fonts/$font/)
+  done
 
-  success "Finished setting up shell"
+  log "<<< Fonts"
+} 
+
+function symlink() {
+  log ">>> Symlink"
+
+  gum confirm "Do you want to symlink these dotfiles? (Make sure to backup yours first)" && (stow -D . && stow .)
+
+  log "<<< Symlink"
 }
 
-info "Initiating arch linux setup"
-perform_system_update
-install_git
-install_aur_helper
-install_shell
-install_languages
-setup_shell
-success "Finished arch linux setup"
+echo ">>> Archlinux setup"
+preinstall sudo pacman -S
+system_update
+intall_git
+aur_helper
+intall_zsh
+packages
+languages_dependencies
+languages
+shell_setup
+fonts
+symlink
+cleanup sudo pacman -Rsn
+echo "<<< Archlinux setup"

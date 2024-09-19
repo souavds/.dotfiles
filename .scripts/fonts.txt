@@ -1,0 +1,4 @@
+CommitMono
+GeistMono
+JetBrainsMono
+FiraCode
