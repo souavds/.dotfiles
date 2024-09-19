@@ -53,7 +53,7 @@ function install_zsh() {
   
   pkg -S zsh
 
-  gum confirm "Do you want to make zsh the default shell?" && (chsh -s $(which zsh) && zsh)
+  confirm "Do you want to make zsh the default shell?" && (chsh -s $(which zsh) && zsh)
 
   log "<<< ZSH"
 }
@@ -61,7 +61,7 @@ function install_zsh() {
 function packages() {
   log ">>> Packages"
 
-  PACKAGES=$(cat ./.scripts/packages.txt | gum choose --no-limit --header "Which packages would you like to install?")
+  PACKAGES=$(cat ./.scripts/packages.txt | choose "Which packages would you like to install?")
   pkg -S $PACKAGES
 
   log "<<< Packages"
@@ -78,9 +78,9 @@ function languages_dependencies() {
 echo ">>> Archlinux setup"
 preinstall sudo pacman -S
 system_update
-intall_git
+install_git
 aur_helper
-intall_zsh
+install_zsh
 packages
 languages_dependencies
 languages

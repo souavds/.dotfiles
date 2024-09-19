@@ -44,7 +44,7 @@ function fonts() {
 function symlink() {
   log ">>> Symlink"
 
-  gum confirm "Do you want to symlink these dotfiles? (Make sure to backup yours first)" && (stow -D . && stow .)
+  confirm "Do you want to symlink these dotfiles? (Make sure to backup yours first)" && (stow -D . && stow .)
 
   log "<<< Symlink"
 }
