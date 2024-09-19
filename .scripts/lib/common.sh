@@ -20,3 +20,31 @@ function shell_setup() {
 
   log "<<< Shell setup"
 }
+
+function fonts() {
+  log ">>> Fonts"
+
+  DEST_FONT_DIR="$1"
+  
+  check_and_install curl
+  check_and_install unzip
+
+  PACKAGES=$(cat ./.scripts/fonts.txt | gum choose --no-limit --header "Which fonts would you like to install?")
+  
+  for font in $PACKAGES
+  do
+    FONT_URL=https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.zip 
+    curl -L --create-dirs -O --output-dir ./tmp/fonts/ "$FONT_URL"
+    (cd ./tmp/fonts && unzip "$font.zip" -d "$DEST_FONT_DIR$font/")
+  done
+
+  log "<<< Fonts"
+} 
+
+function symlink() {
+  log ">>> Symlink"
+
+  gum confirm "Do you want to symlink these dotfiles? (Make sure to backup yours first)" && (stow -D . && stow .)
+
+  log "<<< Symlink"
+}
