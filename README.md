@@ -15,6 +15,8 @@ stow -D . && stow .
 
 ### Roadmap
 
+- [ ] SSH agent
+- [ ] GPG Keys
 - [ ] Linux laptop utils
     - [ ] Battery
     - [ ] Nvidia

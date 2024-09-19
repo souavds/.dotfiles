@@ -85,7 +85,7 @@ packages
 languages_dependencies
 languages
 shell_setup
-fonts ~/.fonts/
+fonts $HOME/.fonts/
 symlink
 cleanup sudo pacman -Rsn
 echo "<<< Archlinux setup"

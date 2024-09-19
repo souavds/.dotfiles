@@ -3,7 +3,6 @@ wezterm
 neovim
 curl
 git
-macchina
 bat
 eza
 zoxide
@@ -17,3 +16,4 @@ lazydocker
 docker
 just
 oh-my-posh
+fastfetch

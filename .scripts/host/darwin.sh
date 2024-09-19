@@ -59,12 +59,12 @@ echo ">>> Darwin setup"
 install_brew
 preinstall brew install
 system_update
-intall_git
-intall_zsh
+install_git
+install_zsh
 packages
 languages
 shell_setup
-fonts ~/Library/Fonts/
+fonts $HOME/Library/Fonts/
 symlink
 cleanup brew uninstall
 echo "<<< Darwin setup"
