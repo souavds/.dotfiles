@@ -59,4 +59,4 @@ eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/theme.omp.json)"
 eval "$(fzf --zsh)"
 eval "$(mise activate zsh)"
 eval "$(zoxide init zsh)"
-fastfetch
+eval "$(op completion zsh)"; compdef _op op
