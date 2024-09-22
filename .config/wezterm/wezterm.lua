@@ -14,7 +14,7 @@ config.window_decorations = "RESIZE"
 config.use_fancy_tab_bar = false
 
 -- color
-config.color_scheme = "GruvboxDark"
+config.color_scheme = "Catppuccin Macchiato"
 
 -- font
 config.font = w.font_with_fallback({
