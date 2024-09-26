@@ -1,5 +1,4 @@
 stow
-wezterm
 neovim
 curl
 git
@@ -18,3 +17,7 @@ just
 oh-my-posh
 fastfetch
 1password-cli
+yazi
+tmux
+jq
+kitty
