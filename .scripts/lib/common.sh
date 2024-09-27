@@ -41,6 +41,14 @@ function fonts() {
   log "<<< Fonts"
 } 
 
+function install_tmux() {
+  log ">>> Tmux"
+
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+  log "<<< Tmux"
+}
+
 function symlink() {
   log ">>> Symlink"
 

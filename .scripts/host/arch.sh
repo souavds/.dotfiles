@@ -86,6 +86,7 @@ languages_dependencies
 languages
 shell_setup
 fonts $HOME/.fonts/
+install_tmux
 symlink
 cleanup sudo pacman -Rsn
 echo "<<< Archlinux setup"

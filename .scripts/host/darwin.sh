@@ -65,6 +65,7 @@ packages
 languages
 shell_setup
 fonts $HOME/Library/Fonts/
+install_tmux
 symlink
 cleanup brew uninstall
 echo "<<< Darwin setup"
