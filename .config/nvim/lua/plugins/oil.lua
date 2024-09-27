@@ -14,6 +14,12 @@ return {
       view_options = {
         show_hidden = true,
       },
+      float = {
+        padding = 2,
+        max_width = 80,
+        max_height = 100,
+        border = "rounded",
+      },
     })
 
     -- Open parent directory in current window
