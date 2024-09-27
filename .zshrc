@@ -10,6 +10,8 @@ source "${ZINIT_HOME}/zinit.zsh"
 
 # Options
 export EDITOR=nvim
+export XDG_CONFIG_HOME="$HOME/.config"
+export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
 
 # Plugins
 zinit light zsh-users/zsh-syntax-highlighting
@@ -64,3 +66,4 @@ eval "$(fzf --zsh)"
 eval "$(mise activate zsh)"
 eval "$(zoxide init zsh)"
 eval "$(op completion zsh)"; compdef _op op
+eval "$(tmuxifier init -)"
