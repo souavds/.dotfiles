@@ -38,12 +38,16 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 
 # Aliases
-alias cd="z"
 alias cat="bat"
 alias ls="eza --color --icons --git -a"
 alias vim="nvim"
 alias lzg="lazygit"
 alias lzd="lazydocker" 
+
+# Functions
+function cd {
+  z "$@" && ls
+}
 
 # Completion style
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
