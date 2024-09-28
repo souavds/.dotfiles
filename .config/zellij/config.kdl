@@ -1,4 +1,4 @@
-theme "catppuccin-macchiato"
+theme "catppuccin-mocha"
 pane_frames false
 
 themes {
