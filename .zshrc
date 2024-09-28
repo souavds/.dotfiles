@@ -12,6 +12,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 export EDITOR=nvim
 export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH" 
 
 # Plugins
 zinit light zsh-users/zsh-syntax-highlighting
