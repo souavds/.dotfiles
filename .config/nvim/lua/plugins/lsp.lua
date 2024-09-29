@@ -1,12 +1,9 @@
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    { "folke/lazydev.nvim" },
     { "williamboman/mason.nvim", config = true },
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-
-    { "j-hui/fidget.nvim", opts = {} },
     {
       "folke/lazydev.nvim",
       ft = "lua",
@@ -117,12 +114,16 @@ return {
           settings = {}
         end
 
-        local builtin = require("telescope.builtin")
+        local MiniExtra = require("mini.extra")
 
         vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
         vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
-        vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0 })
-        vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0 })
+        vim.keymap.set("n", "gd", function()
+          MiniExtra.pickers.lsp({ scope = "definition" })
+        end, { buffer = 0 })
+        vim.keymap.set("n", "gr", function()
+          MiniExtra.pickers.lsp({ scope = "references" })
+        end, { buffer = 0 })
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
         vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })

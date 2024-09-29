@@ -11,6 +11,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 # Options
 export EDITOR=nvim
 export XDG_CONFIG_HOME="$HOME/.config"
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH" 
 
