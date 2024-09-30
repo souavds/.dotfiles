@@ -4,11 +4,13 @@ return {
   config = function()
     local miniclue = require("mini.clue")
 
+    local Map = require("core.mappings")
+
     miniclue.setup({
       triggers = {
         -- Leader triggers
-        { mode = "n", keys = "<Leader>" },
-        { mode = "x", keys = "<Leader>" },
+        { mode = "n", keys = "<leader>" },
+        { mode = "x", keys = "<leader>" },
 
         -- Built-in completion
         { mode = "i", keys = "<C-x>" },
@@ -37,13 +39,13 @@ return {
         { mode = "x", keys = "z" },
       },
       clues = {
-        -- Enhance this by adding descriptions for <Leader> mapping groups
         miniclue.gen_clues.builtin_completion(),
         miniclue.gen_clues.g(),
         miniclue.gen_clues.marks(),
         miniclue.gen_clues.registers(),
         miniclue.gen_clues.windows(),
         miniclue.gen_clues.z(),
+        Map.clues,
       },
       window = {
         config = {

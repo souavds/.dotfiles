@@ -2,8 +2,7 @@ return {
   "echasnovski/mini.files",
   version = false,
   config = function()
-    local MiniFiles = require("mini.files")
-    MiniFiles.setup({
+    require("mini.files").setup({
       windows = {
         max_number = 2,
         preview = true,
@@ -12,13 +11,5 @@ return {
         width_preview = 60,
       },
     })
-
-    -- Open parent directory in current window
-    vim.keymap.set("n", "-", function()
-      MiniFiles.open(vim.bo.buftype ~= "nofile" and vim.api.nvim_buf_get_name(0) or nil, true)
-    end, { desc = "Open parent directory" })
-    vim.keymap.set("n", "<leader>-", function()
-      MiniFiles.open()
-    end, { desc = "Open root directory" })
   end,
 }

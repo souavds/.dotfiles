@@ -114,23 +114,11 @@ return {
           settings = {}
         end
 
-        local MiniExtra = require("mini.extra")
+        local Map = require("core.mappings")
+
+        Map.OnLspAttach(bufnr)
 
         vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
-        vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
-        vim.keymap.set("n", "gd", function()
-          MiniExtra.pickers.lsp({ scope = "definition" })
-        end, { buffer = 0 })
-        vim.keymap.set("n", "gr", function()
-          MiniExtra.pickers.lsp({ scope = "references" })
-        end, { buffer = 0 })
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
-        vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
-
-        vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
-        vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
-
         local filetype = vim.bo[bufnr].filetype
         if disable_semantic_tokens[filetype] then
           client.server_capabilities.semanticTokensProvider = nil
