@@ -15,6 +15,8 @@ stow -D . && stow .
 
 ### Roadmap
 
+- [ ] Neovim
+    - [ ] Organize keymapping
 - [ ] SSH agent
 - [ ] GPG Keys
 - [ ] Linux laptop utils
