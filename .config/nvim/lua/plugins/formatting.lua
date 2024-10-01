@@ -20,7 +20,7 @@ return {
       callback = function(args)
         conform.format({
           bufnr = args.buf,
-          lsp_fallback = true,
+          lsp_format = "fallback",
           quiet = true,
         })
       end,
