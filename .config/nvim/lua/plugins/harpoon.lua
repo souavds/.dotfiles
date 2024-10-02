@@ -6,25 +6,27 @@ return {
     local harpoon = require("harpoon")
     harpoon:setup()
 
-    vim.keymap.set("n", "<M-a>", function()
-      harpoon:list():add()
-    end)
-    vim.keymap.set("n", "<M-e>", function()
-      harpoon.ui:toggle_quick_menu(harpoon:list())
-    end)
+    local Map = require("core.mappings")
 
-    -- Set <space>1..<space>5 be my shortcuts to moving to the files
+    Map.leader.n("ha", function()
+      harpoon:list():add()
+    end, { desc = "Add (HRP)" })
+
+    Map.leader.n("he", function()
+      harpoon.ui:toggle_quick_menu(harpoon:list())
+    end, { desc = "Toggle (HRP)" })
+
     for _, idx in ipairs({ 1, 2, 3, 4, 5 }) do
-      vim.keymap.set("n", string.format("<M-%d>", idx), function()
+      Map.mode.n(string.format("<A-%d>", idx), function()
         harpoon:list():select(idx)
       end)
     end
 
-    vim.keymap.set("n", "<M-p>", function()
+    Map.mode.n("<A-p>", function()
       harpoon:list():prev()
-    end)
-    vim.keymap.set("n", "<M-n>", function()
+    end, { desc = "Previous item (HRP)" })
+    Map.mode.n("<A-n>", function()
       harpoon:list():next()
-    end)
+    end, { desc = "Next item (HRP)" })
   end,
 }

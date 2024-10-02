@@ -140,9 +140,6 @@ Map.leader.n("ef", "<CMD>:lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>",
 -- Buffer (b) --
 -- TODO
 
--- Visits (v) --
--- TODO
-
 -- Package Manager (p) --
 Map.leader.n("pp", "<CMD>Lazy<CR>", { desc = "Open Deps (PKG)" })
 Map.leader.n("pi", "<CMD>Lazy install<CR>", { desc = "Deps install (PKG)" })
