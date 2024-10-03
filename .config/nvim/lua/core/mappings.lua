@@ -37,12 +37,12 @@ local Map = {
   OnLspAttach = nil,
   clues = {
     { mode = "n", keys = "<leader>b", desc = "+Buffer" },
-    { mode = "n", keys = "<leader>e", desc = "+Explore" },
     { mode = "n", keys = "<leader>f", desc = "+Find" },
     { mode = "n", keys = "<leader>g", desc = "+Git" },
     { mode = "n", keys = "<leader>gb", desc = "+Blame" },
     { mode = "n", keys = "<leader>l", desc = "+LSP" },
     { mode = "n", keys = "<leader>p", desc = "+Deps" },
+    { mode = "n", keys = "<leader>v", desc = "+Visits" },
   },
 }
 
@@ -133,9 +133,28 @@ Map.leader.n("gg", "<CMD>LazyGit<CR>", { desc = "Open LazyGit (GIT)" })
 Map.leader.n("gbl", "<CMD>Gitsigns blame_line full=true<CR>", { desc = "Blame line (GIT)" })
 Map.leader.n("gbt", "<CMD>Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle blame line (GIT)" })
 
--- Explorer (e) --
-Map.leader.n("ed", "<CMD>:lua MiniFiles.open()<CR>", { desc = "Open directory (EXP)" })
-Map.leader.n("ef", "<CMD>:lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>", { desc = "Open file directory (EXP)" })
+-- Explorer (-) --
+Map.mode.n(
+  "-",
+  "<CMD>:lua MiniFiles.open(vim.bo.buftype ~= 'nofile' and vim.api.nvim_buf_get_name(0) or nil, true)<CR>",
+  { desc = "Open directory (EXP)" }
+)
+Map.leader.n("-", "<CMD>:lua MiniFiles.open()<CR>", { desc = "Open directory (EXP)" })
+
+-- Visits (v) --
+Map.leader.n("va", "<CMD>:lua MiniVisits.add_label('core')<CR>", { desc = "Add file to core (VST)" })
+Map.leader.n("vA", "<CMD>:lua MiniVisits.add_label()<CR>", { desc = "Add file to (VST)" })
+Map.leader.n(
+  "vl",
+  "<CMD>:lua MiniVisits.select_path(nil, { filter = 'core' })<CR>",
+  { desc = "Select all files in core (VST)" }
+)
+Map.leader.n("vv", "<CMD>:lua MiniExtra.pickers.visit_labels()<CR>", { desc = "Select all labels (VST)" })
+Map.leader.n("vp", "<CMD>:lua MiniExtra.pickers.visit_paths()<CR>", { desc = "Select all paths (VST)" })
+Map.leader.n("vx", "<CMD>:lua MiniVisits.remove_path()<CR>", { desc = "Remove path (VST)" })
+Map.leader.n("vw", "<CMD>:lua MiniVisits.remove_path('', '')<CR>", { desc = "Remove all paths (VST)" })
+Map.leader.n("vr", "<CMD>:lua MiniVisits.remove_label('core')<CR>", { desc = "Remove file from core (VST)" })
+Map.leader.n("vR", "<CMD>:lua MiniVisits.remove_label()<CR>", { desc = "Remove file from (VST)" })
 
 -- Buffer (b) --
 -- TODO

@@ -22,4 +22,6 @@ if not status_ok then
   return
 end
 
-lazy.setup("plugins")
+lazy.setup("plugins", {
+  change_detection = { notify = false },
+})
