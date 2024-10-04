@@ -1,27 +1,27 @@
-local fn = vim.fn
-
--- Automatically install Lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-  print("Installing lazy.nvim close and reopen neovim...")
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
-
 vim.opt.rtp:prepend(lazypath)
 
--- Use a protected call so we don't error out on first use
-local status_ok, lazy = pcall(require, "lazy")
-if not status_ok then
-  return
-end
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-lazy.setup("plugins", {
+require("core.opts")
+require("lazy").setup({
+  spec = {
+    { import = "plugins" },
+  },
+  checker = { enabled = true },
   change_detection = { notify = false },
 })

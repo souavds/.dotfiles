@@ -35,15 +35,6 @@ local Map = {
   mode = create_mode_table(keymap),
   leader = create_mode_table(keymap_leader),
   OnLspAttach = nil,
-  clues = {
-    { mode = "n", keys = "<leader>b", desc = "+Buffer" },
-    { mode = "n", keys = "<leader>f", desc = "+Find" },
-    { mode = "n", keys = "<leader>g", desc = "+Git" },
-    { mode = "n", keys = "<leader>gb", desc = "+Blame" },
-    { mode = "n", keys = "<leader>l", desc = "+LSP" },
-    { mode = "n", keys = "<leader>p", desc = "+Deps" },
-    { mode = "n", keys = "<leader>v", desc = "+Visits" },
-  },
 }
 
 -- Modes
@@ -98,72 +89,65 @@ Map.mode.x("<A-j>", ":m '>+1<CR>gv=gv", { silent = true, noremap = true })
 Map.mode.x("<A-k>", ":m '<-2<CR>gv=gv", { silent = true, noremap = true })
 
 -- Plugins --
--- Fuzzy (f) --
-Map.leader.n("ff", "<CMD>Pick files<CR>", { desc = "Find file (FND)" })
-Map.leader.n("fb", "<CMD>Pick buffers<CR>", { desc = "Find buffers (FND)" })
-Map.leader.n("fh", "<CMD>Pick help<CR>", { desc = "Find help tags (FND)" })
-Map.leader.n("fg", "<CMD>Pick grep_live<CR>", { desc = "Live grep (FND)" })
-Map.leader.n("fG", "<CMD>Pick grep pattern='<cword>'<CR>", { desc = "Grep current word (FND)" })
-Map.leader.n("fr", "<CMD>Pick resume<CR>", { desc = "Resume find (FND)" })
-Map.leader.n("fld", "<CMD>Pick lsp scope='definition'<CR>", { desc = "Definition (FND_LSP)" })
-Map.leader.n("flr", "<CMD>Pick lsp scope='references'<CR>", { desc = "References (FND_LSP)" })
-Map.leader.n("flD", "<CMD>Pick lsp scope='declaration'<CR>", { desc = "Declaration (FND_LSP)" })
-Map.leader.n("flt", "<CMD>Pick lsp scope='type_definition'<CR>", { desc = "Type definition (FND_LSP)" })
+-- Fuzzy --
+Map.leader.n("ff", "<CMD>lua require('telescope.builtin').find_files()<CR>", { desc = "Find files (FND)" })
+Map.leader.n("fb", "<CMD>lua require('telescope.builtin').buffers()<CR>", { desc = "Find buffers (FND)" })
+Map.leader.n("fh", "<CMD>lua require('telescope.builtin').help_tags()<CR>", { desc = "Find help tags (FND)" })
+Map.leader.n("fg", "<CMD>lua require('telescope.builtin').live_grep()<CR>", { desc = "Find live grep (FND)" })
 
--- LSP (l) --
---- some mappings available at plugins.lsp
+-- LSP --
 Map.OnLspAttach = function(bufnr)
-  Map.leader.n(
-    "ls",
-    "<CMD>:lua vim.lsp.buf.signature_help()<CR>",
-    { desc = "Signature information (LSP)", buffer = bufnr }
+  Map.mode.n(
+    "gd",
+    "<CMD>lua require('telescope.builtin').lsp_definitions()<CR>",
+    { desc = "Go to definitions (LSP)", buffer = bufnr }
   )
-  Map.leader.n("ld", "<CMD>:lua vim.diagnostic.open_float()<CR>", { desc = "Diagnostic popup (LSP)", buffer = bufnr })
-  Map.leader.n("lj", "<CMD>:lua vim.diagnostic.goto_next()<CR>", { desc = "Next diagnostic (LSP)", buffer = bufnr })
-  Map.leader.n("lk", "<CMD>:lua vim.diagnostic.goto_prev()<CR>", { desc = "Prev diagnostic (LSP)", buffer = bufnr })
-  Map.leader.n("lgd", "<CMD>:lua vim.lsp.buf.definition()<CR>", { desc = "Go to definition (LSP)", buffer = bufnr })
-  Map.leader.n("lh", "<CMD>:lua vim.lsp.buf.hover()<CR>", { desc = "Cursor symbol information (LSP)", buffer = bufnr })
-  Map.leader.n("lr", "<CMD>:lua vim.lsp.buf.rename()<CR>", { desc = "Rename file (LSP)", buffer = bufnr })
-  Map.leader.n("lca", "<CMD>:lua vim.lsp.buf.code_action()<CR>", { desc = "Cursor code Action (LSP)", buffer = bufnr })
-  Map.leader.n("lf", "<CMD>:lua vim.lsp.buf.format()<CR>", { desc = "Format file (LSP)", buffer = bufnr })
+  Map.mode.n(
+    "gr",
+    "<CMD>lua require('telescope.builtin').lsp_references()<CR>",
+    { desc = "Go to references (LSP)", buffer = bufnr }
+  )
+  Map.mode.n("gD", "<CMD>lua vim.lsp.buf.declaration()<CR>", { desc = "Go to declaration (LSP)", buffer = bufnr })
+  Map.mode.n(
+    "gT",
+    "<CMD>lua vim.lsp.buf.type_definition()<CR>",
+    { desc = "Go to type definition (LSP)", buffer = bufnr }
+  )
+  Map.mode.n("K", "<CMD>lua vim.lsp.buf.hover()<CR>", { desc = "Symbol information (LSP)", buffer = bufnr })
+  Map.leader.n("cr", "<CMD>lua vim.lsp.buf.rename()<CR>", { desc = "Rename (LSP)", buffer = bufnr })
+  Map.leader.n("ca", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code Action (LSP)", buffer = bufnr })
+  Map.leader.n(
+    "wd",
+    "<CMD>lua require('telescope.builtin').lsp_document_symbols()<CR>",
+    { desc = "Document symbols", buffer = bufnr }
+  )
+
+  -- Map.leader.n(
+  --   "ls",
+  --   "<CMD>:lua vim.lsp.buf.signature_help()<CR>",
+  --   { desc = "Signature information (LSP)", buffer = bufnr }
+  -- )
+  -- Map.leader.n("ld", "<CMD>:lua vim.diagnostic.open_float()<CR>", { desc = "Diagnostic popup (LSP)", buffer = bufnr })
+  -- Map.leader.n("lj", "<CMD>:lua vim.diagnostic.goto_next()<CR>", { desc = "Next diagnostic (LSP)", buffer = bufnr })
+  -- Map.leader.n("lk", "<CMD>:lua vim.diagnostic.goto_prev()<CR>", { desc = "Prev diagnostic (LSP)", buffer = bufnr })
+  -- Map.leader.n("lf", "<CMD>:lua vim.lsp.buf.format()<CR>", { desc = "Format file (LSP)", buffer = bufnr })
 end
 
 -- Git (g) --
 Map.leader.n("gg", "<CMD>LazyGit<CR>", { desc = "Open LazyGit (GIT)" })
-Map.leader.n("gbl", "<CMD>Gitsigns blame_line full=true<CR>", { desc = "Blame line (GIT)" })
+Map.leader.n("gbb", "<CMD>Gitsigns blame_line full=true<CR>", { desc = "Blame line (GIT)" })
 Map.leader.n("gbt", "<CMD>Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle blame line (GIT)" })
 
 -- Explorer (-) --
-Map.mode.n(
-  "-",
-  "<CMD>:lua MiniFiles.open(vim.bo.buftype ~= 'nofile' and vim.api.nvim_buf_get_name(0) or nil, true)<CR>",
-  { desc = "Open directory (EXP)" }
-)
-Map.leader.n("-", "<CMD>:lua MiniFiles.open()<CR>", { desc = "Open directory (EXP)" })
+Map.mode.n("-", "<CMD>Oil --float<CR>", { desc = "Open parent directory (EXP)" })
 
--- Visits (v) --
-Map.leader.n("va", "<CMD>:lua MiniVisits.add_label('core')<CR>", { desc = "Add file to core (VST)" })
-Map.leader.n("vA", "<CMD>:lua MiniVisits.add_label()<CR>", { desc = "Add file to (VST)" })
-Map.leader.n(
-  "vl",
-  "<CMD>:lua MiniVisits.select_path(nil, { filter = 'core' })<CR>",
-  { desc = "Select all files in core (VST)" }
-)
-Map.leader.n("vv", "<CMD>:lua MiniExtra.pickers.visit_labels()<CR>", { desc = "Select all labels (VST)" })
-Map.leader.n("vp", "<CMD>:lua MiniExtra.pickers.visit_paths()<CR>", { desc = "Select all paths (VST)" })
-Map.leader.n("vx", "<CMD>:lua MiniVisits.remove_path()<CR>", { desc = "Remove path (VST)" })
-Map.leader.n("vw", "<CMD>:lua MiniVisits.remove_path('', '')<CR>", { desc = "Remove all paths (VST)" })
-Map.leader.n("vr", "<CMD>:lua MiniVisits.remove_label('core')<CR>", { desc = "Remove file from core (VST)" })
-Map.leader.n("vR", "<CMD>:lua MiniVisits.remove_label()<CR>", { desc = "Remove file from (VST)" })
-
--- Buffer (b) --
--- TODO
+-- Buffer --
+Map.leader.n("b", "<CMD>Grapple toggle<CR>", { desc = "Grapple toggle tag (BUF)" })
+Map.leader.n("B", "<CMD>Grapple toggle_tags<CR>", { desc = "Grapple open tags window (BUF)" })
+Map.leader.n("n", "<CMD>Grapple cycle_tags next<CR>", { desc = "Grapple cycle next tag (BUF)" })
+Map.leader.n("p", "<CMD>Grapple cycle_tags prev<CR>", { desc = "Grapple cycle previous tag (BUF)" })
 
 -- Package Manager (p) --
-Map.leader.n("pp", "<CMD>Lazy<CR>", { desc = "Open Deps (PKG)" })
-Map.leader.n("pi", "<CMD>Lazy install<CR>", { desc = "Deps install (PKG)" })
-Map.leader.n("pu", "<CMD>Lazy update<CR>", { desc = "Deps update (PKG)" })
-Map.leader.n("pc", "<CMD>Lazy clean<CR>", { desc = "Deps clean (PKG)" })
-Map.leader.n("ps", "<CMD>Lazy sync<CR>", { desc = "Deps sync (PKG)" })
+Map.leader.n("L", "<CMD>Lazy<CR>", { desc = "Open deps (PKG)" })
 
 return Map
