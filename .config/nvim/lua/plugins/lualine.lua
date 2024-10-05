@@ -4,7 +4,7 @@ return {
     require("lualine").setup({
       options = {
         icons_enabled = true,
-        theme = "catppuccin-mocha",
+        theme = "auto",
       },
     })
   end,
