@@ -139,7 +139,7 @@ Map.leader.n("gbb", "<CMD>Gitsigns blame_line full=true<CR>", { desc = "Blame li
 Map.leader.n("gbt", "<CMD>Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle blame line (GIT)" })
 
 -- Explorer (-) --
-Map.mode.n("-", "<CMD>Oil --float<CR>", { desc = "Open parent directory (EXP)" })
+Map.mode.n("-", "<CMD>Oil<CR>", { desc = "Open parent directory (EXP)" })
 
 -- Buffer --
 Map.leader.n("b", "<CMD>Grapple toggle<CR>", { desc = "Grapple toggle tag (BUF)" })
