@@ -7,6 +7,14 @@ local keymap_leader = function(mode, suffix, rhs, opts)
   keymap(mode, "<leader>" .. suffix, rhs, opts)
 end
 
+local function close_floating()
+  for _, win in pairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(win).relative == "win" then
+      vim.api.nvim_win_close(win, false)
+    end
+  end
+end
+
 local create_mode_table = function(fn)
   return {
     n = function(lhs, rhs, opts)
@@ -46,6 +54,11 @@ local Map = {
 --   command_mode = "c",
 
 -- Normal --
+Map.mode.n("<esc>", function()
+  close_floating()
+  vim.cmd(":noh")
+end, { silent = true, desc = "Remove Search Highlighting, Dismiss Popups" })
+
 -- Better window navigation
 Map.mode.n("<C-h>", "<C-w>h", { silent = true, noremap = true })
 Map.mode.n("<C-j>", "<C-w>j", { silent = true, noremap = true })
@@ -90,21 +103,22 @@ Map.mode.x("<A-k>", ":m '<-2<CR>gv=gv", { silent = true, noremap = true })
 
 -- Plugins --
 -- Fuzzy --
-Map.leader.n("ff", "<CMD>lua require('telescope.builtin').find_files()<CR>", { desc = "Find files (FND)" })
-Map.leader.n("fb", "<CMD>lua require('telescope.builtin').buffers()<CR>", { desc = "Find buffers (FND)" })
-Map.leader.n("fh", "<CMD>lua require('telescope.builtin').help_tags()<CR>", { desc = "Find help tags (FND)" })
-Map.leader.n("fg", "<CMD>lua require('telescope.builtin').live_grep()<CR>", { desc = "Find live grep (FND)" })
+Map.leader.n("ff", "<CMD>lua require('fzf-lua').files()<CR>", { desc = "Find files (FND)" })
+Map.leader.n("fb", "<CMD>lua require('fzf-lua').buffers()<CR>", { desc = "Find buffers (FND)" })
+Map.leader.n("fh", "<CMD>lua require('fzf-lua').helptags()<CR>", { desc = "Find help tags (FND)" })
+Map.leader.n("fg", "<CMD>lua require('fzf-lua').live_grep()<CR>", { desc = "Find live grep (FND)" })
+Map.leader.n("fR", "<CMD>lua require('fzf-lua').resume()<CR>", { desc = "Find resume (FND)" })
 
 -- LSP --
 Map.OnLspAttach = function(bufnr)
   Map.mode.n(
     "gd",
-    "<CMD>lua require('telescope.builtin').lsp_definitions()<CR>",
+    "<CMD>lua require('fzf-lua').lsp_definitions()<CR>",
     { desc = "Go to definitions (LSP)", buffer = bufnr }
   )
   Map.mode.n(
     "gr",
-    "<CMD>lua require('telescope.builtin').lsp_references()<CR>",
+    "<CMD>lua require('fzf-lua').lsp_references()<CR>",
     { desc = "Go to references (LSP)", buffer = bufnr }
   )
   Map.mode.n("gD", "<CMD>lua vim.lsp.buf.declaration()<CR>", { desc = "Go to declaration (LSP)", buffer = bufnr })
@@ -115,11 +129,20 @@ Map.OnLspAttach = function(bufnr)
   )
   Map.mode.n("K", "<CMD>lua vim.lsp.buf.hover()<CR>", { desc = "Symbol information (LSP)", buffer = bufnr })
   Map.leader.n("cr", "<CMD>lua vim.lsp.buf.rename()<CR>", { desc = "Rename (LSP)", buffer = bufnr })
-  Map.leader.n("ca", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code Action (LSP)", buffer = bufnr })
+  Map.leader.n(
+    "ca",
+    "<CMD>lua require('fzf-lua').lsp_code_actions({ winopts = {relative='cursor',row=1.01, col=0, height=0.2, width=0.4} })<CR>",
+    { desc = "Code Action (LSP)", buffer = bufnr }
+  )
   Map.leader.n(
     "wd",
-    "<CMD>lua require('telescope.builtin').lsp_document_symbols()<CR>",
+    "<CMD>lua require('fzf-lua').lsp_document_symbols()<CR>",
     { desc = "Document symbols", buffer = bufnr }
+  )
+  Map.leader.n(
+    "cl",
+    "<CMD>lua vim.diagnostic.open_float(0, { scope = 'line' })<CR>",
+    { desc = "Line diagnostic (LSP)", buffer = bufnr }
   )
 
   -- Map.leader.n(
