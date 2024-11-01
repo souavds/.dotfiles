@@ -79,29 +79,6 @@ Map.mode.n("<S-h>", ":bprevious<CR>", { silent = true, noremap = true })
 Map.mode.n("<A-j>", ":m .+1<CR>==", { silent = true, noremap = true })
 Map.mode.n("<A-k>", ":m .-2<CR>==", { silent = true, noremap = true })
 
--- Insert --
--- Press jk fast to exit insert mod
-Map.mode.i("jk", "<ESC>", { silent = true, noremap = true })
-Map.mode.i("kj", "<ESC>", { silent = true, noremap = true })
-
--- Visual --
--- Stay in indent mode
-Map.mode.v("<", "<gv^", { silent = true, noremap = true })
-Map.mode.v(">", ">gv^", { silent = true, noremap = true })
-
--- Move text up and down
-Map.mode.v("<A-j>", ":m '>+1<CR>gv=gv", { silent = true, noremap = true })
-Map.mode.v("<A-k>", ":m '<-2<CR>gv=gv", { silent = true, noremap = true })
-Map.mode.v("p", '"_dP')
-
--- Visual Block --
--- Move text up and down
-Map.mode.x("J", ":m '>+1<CR>gv=gv", { silent = true, noremap = true })
-Map.mode.x("K", ":m '<-2<CR>gv=gv", { silent = true, noremap = true })
-Map.mode.x("<A-j>", ":m '>+1<CR>gv=gv", { silent = true, noremap = true })
-Map.mode.x("<A-k>", ":m '<-2<CR>gv=gv", { silent = true, noremap = true })
-
--- Plugins --
 -- Fuzzy --
 Map.leader.n("ff", "<CMD>lua require('fzf-lua').files()<CR>", { desc = "Find files (FND)" })
 Map.leader.n("fb", "<CMD>lua require('fzf-lua').buffers()<CR>", { desc = "Find buffers (FND)" })
@@ -170,7 +147,43 @@ Map.leader.n("B", "<CMD>Grapple toggle_tags<CR>", { desc = "Grapple open tags wi
 Map.leader.n("n", "<CMD>Grapple cycle_tags next<CR>", { desc = "Grapple cycle next tag (BUF)" })
 Map.leader.n("p", "<CMD>Grapple cycle_tags prev<CR>", { desc = "Grapple cycle previous tag (BUF)" })
 
+-- Testing (t) --
+Map.leader.n("too", "<CMD>lua require('neotest').output.open()<CR>", { desc = "Open test result (TEST)" })
+Map.leader.n("tos", "<CMD>lua require('neotest').summary.toggle()<CR>", { desc = "Toggle test summary (TEST)" })
+Map.leader.n("tt", "<CMD>lua require('neotest').run.run()<CR>", { desc = "Test nearest (TEST)" })
+Map.leader.n("tf", "<CMD>lua require('neotest').run.run(vim.fn.expand('%'))<CR>", { desc = "Test file (TEST)" })
+Map.leader.n("ts", "<CMD>lua require('neotest').run.stop()<CR>", { desc = "Stop test (TEST)" })
+Map.leader.n("tww", "<CMD>lua require('neotest').watch.watch()<CR>", { desc = "Watch nearest test (TEST)" })
+Map.leader.n(
+  "twf",
+  "<CMD>lua require('neotest').watch.watch(vim.fn.expand('%'))<CR>",
+  { desc = "Watch test file (TEST)" }
+)
+Map.leader.n("tws", "<CMD>lua require('neotest').watch.stop()<CR>", { desc = "Stop watch test (TEST)" })
+
 -- Package Manager (p) --
 Map.leader.n("L", "<CMD>Lazy<CR>", { desc = "Open deps (PKG)" })
+
+-- Insert --
+-- Press jk fast to exit insert mod
+Map.mode.i("jk", "<ESC>", { silent = true, noremap = true })
+Map.mode.i("kj", "<ESC>", { silent = true, noremap = true })
+
+-- Visual --
+-- Stay in indent mode
+Map.mode.v("<", "<gv^", { silent = true, noremap = true })
+Map.mode.v(">", ">gv^", { silent = true, noremap = true })
+
+-- Move text up and down
+Map.mode.v("<A-j>", ":m '>+1<CR>gv=gv", { silent = true, noremap = true })
+Map.mode.v("<A-k>", ":m '<-2<CR>gv=gv", { silent = true, noremap = true })
+Map.mode.v("p", '"_dP')
+
+-- Visual Block --
+-- Move text up and down
+Map.mode.x("J", ":m '>+1<CR>gv=gv", { silent = true, noremap = true })
+Map.mode.x("K", ":m '<-2<CR>gv=gv", { silent = true, noremap = true })
+Map.mode.x("<A-j>", ":m '>+1<CR>gv=gv", { silent = true, noremap = true })
+Map.mode.x("<A-k>", ":m '<-2<CR>gv=gv", { silent = true, noremap = true })
 
 return Map
