@@ -1,6 +1,5 @@
 return {
   "hrsh7th/nvim-cmp",
-  enabled = false,
   lazy = false,
   priority = 100,
   dependencies = {
@@ -11,6 +10,12 @@ return {
     "hrsh7th/cmp-cmdline",
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
+    {
+      "zbirenbaum/copilot-cmp",
+      config = function()
+        require("copilot_cmp").setup()
+      end,
+    },
   },
   config = function()
     local lspkind = require("lspkind")
@@ -45,10 +50,7 @@ return {
         end, { "i", "s" }),
       }),
       sources = {
-        {
-          name = "lazydev",
-          group_index = 0,
-        },
+        { name = "copilot" },
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "buffer" },
@@ -66,6 +68,7 @@ return {
           mode = "symbol_text",
           maxWidth = 50,
           ellipsis_char = "...",
+          symbol_map = { Copilot = "" },
         }),
       },
     })

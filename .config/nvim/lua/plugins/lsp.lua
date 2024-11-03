@@ -17,13 +17,12 @@ return {
     { "Bilal2453/luvit-meta", lazy = true },
   },
   config = function()
-    -- local capabilities = nil
-    -- if pcall(require, "cmp_nvim_lsp") then
-    --   capabilities = require("cmp_nvim_lsp").default_capabilities()
-    -- end
+    local capabilities = nil
+    if pcall(require, "cmp_nvim_lsp") then
+      capabilities = require("cmp_nvim_lsp").default_capabilities()
+    end
 
     local lspconfig = require("lspconfig")
-    local blink = require("blink.cmp")
 
     local servers = {
       lua_ls = {
@@ -95,7 +94,7 @@ return {
         config = {}
       end
       config = vim.tbl_deep_extend("force", {}, {
-        capabilities = blink.get_lsp_capabilities(config.server_capabilities, true),
+        capabilities = capabilities,
       }, config)
 
       lspconfig[name].setup(config)
