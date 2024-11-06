@@ -134,7 +134,7 @@ Map.OnLspAttach = function(bufnr)
 end
 
 -- Git (g) --
-Map.leader.n("gg", "<CMD>LazyGit<CR>", { desc = "Open LazyGit (GIT)" })
+-- Map.leader.n("gg", "<CMD>LazyGit<CR>", { desc = "Open LazyGit (GIT)" })
 Map.leader.n("gbb", "<CMD>Gitsigns blame_line full=true<CR>", { desc = "Blame line (GIT)" })
 Map.leader.n("gbt", "<CMD>Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle blame line (GIT)" })
 
