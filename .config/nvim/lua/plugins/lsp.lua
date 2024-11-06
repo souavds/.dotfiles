@@ -37,6 +37,8 @@ return {
         },
       },
 
+      ruby_lsp = {},
+
       nextls = {
         cmd = { "nextls", "--stdio" },
         init_options = {
