@@ -41,8 +41,9 @@ function aur_helper() {
   log ">>> Paru"
 
   pkg -S --needed base-devel
+  rm -rf ./tmp/paru
   git clone https://aur.archlinux.org/paru-git.git ./tmp/paru
-  (cd ./tmp/paru && yes y | makepkg -si)
+  (cd ./tmp/paru && makepkg -si)
   rm -rf ./tmp/paru
 
   log "<<< Paru"
