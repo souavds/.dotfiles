@@ -5,10 +5,7 @@ return {
   lazy = false,
   ---@type snacks.Config
   opts = {
-    bigfile = { enabled = false },
-    notifier = { enabled = false },
-    quickfile = { enabled = false },
-    statuscolumn = { enabled = false },
-    words = { enabled = false },
+    dashboard = { enabled = true },
+    gitbrowse = { enabled = true },
   },
 }

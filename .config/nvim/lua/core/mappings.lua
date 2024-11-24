@@ -137,6 +137,7 @@ end
 Map.leader.n("gg", "<CMD>lua Snacks.lazygit()<CR>", { desc = "Open LazyGit (GIT)" })
 Map.leader.n("gbb", "<CMD>Gitsigns blame_line full=true<CR>", { desc = "Blame line (GIT)" })
 Map.leader.n("gbt", "<CMD>Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle blame line (GIT)" })
+Map.leader.n("goo", "<CMD>lua Snacks.gitbrowse()<CR>", { desc = "Git browse (GIT)" })
 
 -- Explorer (-) --
 Map.mode.n("-", "<CMD>Oil<CR>", { desc = "Open parent directory (EXP)" })
