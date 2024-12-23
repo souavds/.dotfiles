@@ -18,8 +18,8 @@ return {
   },
   config = function()
     local capabilities = nil
-    if pcall(require, "cmp_nvim_lsp") then
-      capabilities = require("cmp_nvim_lsp").default_capabilities()
+    if pcall(require, "blink.cmp") then
+      capabilities = require("blink.cmp").get_lsp_capabilities()
     end
 
     local lspconfig = require("lspconfig")
