@@ -20,4 +20,4 @@ fastfetch
 yazi
 tmux
 jq
-kitty
+ghostty
