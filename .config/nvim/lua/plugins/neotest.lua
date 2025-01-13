@@ -7,6 +7,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     -- adapters
     "marilari88/neotest-vitest",
+    "nvim-neotest/neotest-jest",
     "olimorris/neotest-rspec",
     "jfpedroza/neotest-elixir",
   },
@@ -14,6 +15,7 @@ return {
     require("neotest").setup({
       adapters = {
         require("neotest-vitest"),
+        require("neotest-jest"),
         require("neotest-rspec"),
         require("neotest-elixir"),
       },
