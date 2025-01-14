@@ -118,7 +118,7 @@ Map.OnLspAttach = function(bufnr)
   )
   Map.leader.n(
     "cl",
-    "<CMD>lua vim.diagnostic.open_float(0, { scope = 'line' })<CR>",
+    "<CMD>lua vim.diagnostic.open_float(0, { scope = 'line', border = 'rounded' })<CR>",
     { desc = "Line diagnostic (LSP)", buffer = bufnr }
   )
 

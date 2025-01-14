@@ -10,7 +10,6 @@ return {
         git_icons = false,
         file_icons = false,
         color_icons = false,
-        formatter = "path.filename_first",
       },
       files = {
         cwd_prompt = false,
