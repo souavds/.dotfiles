@@ -80,22 +80,22 @@ Map.mode.n("<A-j>", ":m .+1<CR>==", { silent = true, noremap = true })
 Map.mode.n("<A-k>", ":m .-2<CR>==", { silent = true, noremap = true })
 
 -- Fuzzy --
-Map.leader.n("ff", "<CMD>lua require('fzf-lua').files()<CR>", { desc = "Find files (FND)" })
-Map.leader.n("fb", "<CMD>lua require('fzf-lua').buffers()<CR>", { desc = "Find buffers (FND)" })
-Map.leader.n("fh", "<CMD>lua require('fzf-lua').helptags()<CR>", { desc = "Find help tags (FND)" })
-Map.leader.n("fg", "<CMD>lua require('fzf-lua').live_grep()<CR>", { desc = "Find live grep (FND)" })
-Map.leader.n("fR", "<CMD>lua require('fzf-lua').resume()<CR>", { desc = "Find resume (FND)" })
+Map.leader.n("ff", "<CMD>lua require('snacks').picker.files()<CR>", { desc = "Find files (FND)" })
+Map.leader.n("fb", "<CMD>lua require('snacks').picker.buffers()<CR>", { desc = "Find buffers (FND)" })
+Map.leader.n("fh", "<CMD>lua require('snacks').picker.helptags()<CR>", { desc = "Find help tags (FND)" })
+Map.leader.n("fg", "<CMD>lua require('snacks').picker.grep()<CR>", { desc = "Find live grep (FND)" })
+Map.leader.n("fR", "<CMD>lua require('snacks').picker.resume()<CR>", { desc = "Find resume (FND)" })
 
 -- LSP --
 Map.OnLspAttach = function(bufnr)
   Map.mode.n(
     "gd",
-    "<CMD>lua require('fzf-lua').lsp_definitions()<CR>",
+    "<CMD>lua require('snacks').picker.lsp_definitions()<CR>",
     { desc = "Go to definitions (LSP)", buffer = bufnr }
   )
   Map.mode.n(
     "gr",
-    "<CMD>lua require('fzf-lua').lsp_references()<CR>",
+    "<CMD>lua require('snacks').picker.lsp_references()<CR>",
     { desc = "Go to references (LSP)", buffer = bufnr }
   )
   Map.mode.n("gD", "<CMD>lua vim.lsp.buf.declaration()<CR>", { desc = "Go to declaration (LSP)", buffer = bufnr })
@@ -106,14 +106,10 @@ Map.OnLspAttach = function(bufnr)
   )
   Map.mode.n("K", "<CMD>lua vim.lsp.buf.hover()<CR>", { desc = "Symbol information (LSP)", buffer = bufnr })
   Map.leader.n("cr", "<CMD>lua vim.lsp.buf.rename()<CR>", { desc = "Rename (LSP)", buffer = bufnr })
-  Map.leader.n(
-    "ca",
-    "<CMD>lua require('fzf-lua').lsp_code_actions({ winopts = {relative='cursor',row=1.01, col=0, height=0.2, width=0.4} })<CR>",
-    { desc = "Code Action (LSP)", buffer = bufnr }
-  )
+  Map.leader.n("ca", "<CMD>lua vim.lsp.buf.code_action()<CR>", { desc = "Code Action (LSP)", buffer = bufnr })
   Map.leader.n(
     "wd",
-    "<CMD>lua require('fzf-lua').lsp_document_symbols()<CR>",
+    "<CMD>lua require('snacks').picker.lsp_document_symbols()<CR>",
     { desc = "Document symbols", buffer = bufnr }
   )
   Map.leader.n(
