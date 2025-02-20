@@ -68,6 +68,12 @@ return {
       },
 
       cssls = {},
+
+      tailwindcss = {},
+
+      svelte = {},
+
+      astro = {},
     }
 
     local servers_to_install = vim.tbl_filter(function(key)
