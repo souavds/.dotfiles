@@ -55,7 +55,11 @@ alias lzd="lazydocker"
 
 # Functions
 function cd {
-  z "$@" && ls
+  z "$@" && eza --color --icons --git -a
+}
+
+function cvim {
+  z "$@" && nvim
 }
 
 # Completion style
