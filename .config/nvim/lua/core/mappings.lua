@@ -129,6 +129,9 @@ Map.OnLspAttach = function(bufnr)
   -- Map.leader.n("lf", "<CMD>:lua vim.lsp.buf.format()<CR>", { desc = "Format file (LSP)", buffer = bufnr })
 end
 
+-- AI (a) --
+Map.leader.n("aa", "<CMD>CodeCompanionChat toggle<CR>", { desc = "Code Companion Chat (AI)" })
+
 -- Git (g) --
 Map.leader.n("gg", "<CMD>lua Snacks.lazygit()<CR>", { desc = "Open LazyGit (GIT)" })
 Map.leader.n("gbb", "<CMD>Gitsigns blame_line full=true<CR>", { desc = "Blame line (GIT)" })
