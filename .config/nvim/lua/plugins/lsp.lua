@@ -145,5 +145,16 @@ return {
         end
       end,
     })
+
+    vim.diagnostic.config({
+      virtual_text = {
+        prefix = "●",
+        spacing = 2,
+      },
+      underline = true,
+      signs = true,
+      update_in_insert = false,
+      severity_sort = true,
+    })
   end,
 }

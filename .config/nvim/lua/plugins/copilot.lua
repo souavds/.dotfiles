@@ -1,8 +1,7 @@
 return {
   "zbirenbaum/copilot.lua",
   cmd = "Copilot",
-  event = "BufEnter",
-  build = ":Copilot auth",
+  event = "InsertEnter",
   config = function()
     require("copilot").setup({
       suggestion = { enabled = false },
