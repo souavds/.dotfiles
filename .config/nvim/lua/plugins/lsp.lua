@@ -5,6 +5,11 @@ return {
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     {
+      "pmizio/typescript-tools.nvim",
+      dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      opts = {},
+    },
+    {
       "folke/lazydev.nvim",
       ft = "lua",
       opts = {
@@ -30,14 +35,6 @@ return {
           semanticTokensProvider = vim.NIL,
         },
       },
-
-      ts_ls = {
-        server_capabilities = {
-          documentFormattingProvider = false,
-        },
-      },
-
-      ruby_lsp = {},
 
       nextls = {
         cmd = { "nextls", "--stdio" },
