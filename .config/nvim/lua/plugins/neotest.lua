@@ -8,7 +8,6 @@ return {
     -- adapters
     "marilari88/neotest-vitest",
     "nvim-neotest/neotest-jest",
-    "olimorris/neotest-rspec",
     "jfpedroza/neotest-elixir",
   },
   config = function()
@@ -16,7 +15,6 @@ return {
       adapters = {
         require("neotest-vitest"),
         require("neotest-jest"),
-        require("neotest-rspec"),
         require("neotest-elixir"),
       },
     })
