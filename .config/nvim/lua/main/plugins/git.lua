@@ -15,6 +15,7 @@ deps.later(function()
   deps.add({
     source = 'lewis6991/gitsigns.nvim',
   })
+
   require('gitsigns').setup()
 
   keys.map('n', '<leader>gb', function() require('gitsigns').blame_line({ full = true }) end, { desc = 'Blame line' })

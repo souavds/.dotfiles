@@ -29,6 +29,7 @@ deps.now(function()
     'elixir',
     'javascript',
     'typescript',
+    'tsx',
   }
 
   require('nvim-treesitter.install').prefer_git = true
@@ -42,7 +43,7 @@ deps.now(function()
       enable = true,
       additional_vim_regex_highlighting = false,
     },
-    ident = {
+    indent = {
       enable = true,
     },
   })

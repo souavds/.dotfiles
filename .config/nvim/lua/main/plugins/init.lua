@@ -1,6 +1,5 @@
 require('main.plugins.deps')
-require('main.plugins.ui')
-require('main.plugins.navigation')
+require('main.plugins.editor')
 require('main.plugins.ai')
 require('main.plugins.treesitter')
 require('main.plugins.lsp')
