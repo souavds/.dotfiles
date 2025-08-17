@@ -3,7 +3,8 @@ local deps = require('main.plugins.deps')
 deps.now(function()
   deps.add({
     source = 'nvim-treesitter/nvim-treesitter',
-    checkout = 'main',
+    checkout = 'master',
+    monitor = 'main',
     hooks = {
       post_checkout = function() vim.cmd('TSUpdate') end,
     },
@@ -32,7 +33,6 @@ deps.now(function()
     'tsx',
   }
 
-  require('nvim-treesitter.install').prefer_git = true
   require('nvim-treesitter.configs').setup({
     ensure_installed = ensure_installed,
     modules = {},

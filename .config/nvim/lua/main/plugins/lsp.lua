@@ -3,7 +3,15 @@ local deps = require('main.plugins.deps')
 -- Installer
 deps.later(function()
   deps.add({ source = 'mason-org/mason.nvim' })
-  require('mason').setup()
+  require('mason').setup({
+    ui = {
+      icons = {
+        package_installed = '✓',
+        package_pending = '➜',
+        package_uninstalled = '✗',
+      },
+    },
+  })
 end)
 
 -- LSP
@@ -12,6 +20,10 @@ deps.later(function()
   deps.add({
     source = 'mason-org/mason-lspconfig.nvim',
     depends = { 'mason-org/mason.nvim', 'neovim/nvim-lspconfig' },
+  })
+  deps.add({
+    source = 'WhoIsSethDaniel/mason-tool-installer.nvim',
+    depends = { 'mason-org/mason.nvim' },
   })
 
   local lsp_servers = {
@@ -34,6 +46,9 @@ deps.later(function()
   vim.list_extend(ensure_installed, lsp_servers)
   vim.list_extend(ensure_installed, formatters_linters)
   require('mason-lspconfig').setup({
+    ensure_installed = lsp_servers,
+  })
+  require('mason-tool-installer').setup({
     ensure_installed = ensure_installed,
   })
 
