@@ -1,0 +1,49 @@
+local deps = require('main.plugins.deps')
+
+deps.now(function()
+  deps.add({
+    source = 'nvim-treesitter/nvim-treesitter',
+    checkout = 'main',
+    hooks = {
+      post_checkout = function() vim.cmd('TSUpdate') end,
+    },
+  })
+
+  -- deps.add({
+  --   source = 'nvim-treesitter/nvim-treesitter-textobjects',
+  --   depends = { 'nvim-treesitter/nvim-treesitter' },
+  -- })
+
+  local ensure_installed = {
+    'bash',
+    'diff',
+    'html',
+    'css',
+    'gitcommit',
+    'json',
+    'json5',
+    'lua',
+    'luadoc',
+    'markdown',
+    'vim',
+    'elixir',
+    'javascript',
+    'typescript',
+  }
+
+  require('nvim-treesitter.install').prefer_git = true
+  require('nvim-treesitter.configs').setup({
+    ensure_installed = ensure_installed,
+    modules = {},
+    ignore_install = {},
+    sync_install = false,
+    auto_install = true,
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
+    ident = {
+      enable = true,
+    },
+  })
+end)
