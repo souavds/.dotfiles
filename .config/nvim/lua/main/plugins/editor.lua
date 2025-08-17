@@ -58,6 +58,29 @@ deps.now(function()
   require('mini.statusline').setup({})
 end)
 
+-- starter
+deps.now(function()
+  deps.add({
+    source = 'echasnovski/mini.starter',
+  })
+
+  local starter = require('mini.starter')
+
+  starter.setup({
+    header = "sdvauos' nvim",
+    items = {
+      starter.sections.sessions(5),
+      starter.sections.recent_files(5, false),
+      starter.sections.builtin_actions(),
+    },
+    content_hooks = {
+      starter.gen_hook.adding_bullet(),
+      starter.gen_hook.aligning('center', 'top'),
+      starter.gen_hook.padding(3, 5),
+    },
+  })
+end)
+
 -- clue
 deps.now(function()
   deps.add({
@@ -139,7 +162,7 @@ deps.now(function()
   keys.map('n', '-', '<CMD>Oil<CR>', { desc = 'File explorer' })
 end)
 
--- Dashboard / FZF / Git browswe
+-- FZF / Git browse
 deps.now(function()
   deps.add({ source = 'folke/snacks.nvim' })
 
