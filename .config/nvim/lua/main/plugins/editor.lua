@@ -162,35 +162,20 @@ deps.now(function()
   keys.map('n', '-', '<CMD>Oil<CR>', { desc = 'File explorer' })
 end)
 
--- FZF / Git browse
+-- FZF
 deps.now(function()
-  deps.add({ source = 'folke/snacks.nvim' })
+  deps.add({ source = 'echasnovski/mini.pick' })
+  deps.add({ source = 'echasnovski/mini.extra' })
 
-  require('snacks').setup({
-    gitbrowser = { enabled = true },
-    picker = {
-      ui_select = true,
-      formatters = {
-        file = {
-          filename_first = true,
-          truncate = 120,
-        },
-      },
-      sources = {
-        files = {
-          hidden = true,
-        },
-        grep = {
-          hidden = true,
-        },
-      },
-    },
-  })
+  require('mini.pick').setup({})
+  require('mini.extra').setup({})
 
-  keys.map('n', '<leader>ff', "<CMD>lua require('snacks').picker.files()<CR>", { desc = 'Find files' })
-  keys.map('n', '<leader>fb', "<CMD>lua require('snacks').picker.buffers()<CR>", { desc = 'Find buffers' })
-  keys.map('n', '<leader>fh', "<CMD>lua require('snacks').picker.help()<CR>", { desc = 'Find help pages' })
-  keys.map('n', '<leader>fg', "<CMD>lua require('snacks').picker.grep()<CR>", { desc = 'Find live grep' })
-  keys.map('n', '<leader>fR', "<CMD>lua require('snacks').picker.resume()<CR>", { desc = 'Find resume' })
-  keys.map('n', '<leader>go', "<CMD>lua require('snacks').gitbrowse()<CR>", { desc = 'Open git' })
+  vim.ui.select = MiniPick.ui_select
+
+  keys.map('n', '<leader>ff', '<CMD>:Pick files<CR>', { desc = 'Find files' })
+  keys.map('n', '<leader>fb', '<CMD>:Pick buffers<CR>', { desc = 'Find buffers' })
+  keys.map('n', '<leader>fh', '<CMD>:Pick help<CR>', { desc = 'Find help pages' })
+  keys.map('n', '<leader>fg', '<CMD>:Pick grep_live<CR>', { desc = 'Find live grep' })
+  keys.map('n', '<leader>fG', '<CMD>:Pick grep pattern="<cword>"<CR>', { desc = 'Find grep word' })
+  keys.map('n', '<leader>fR', '<CMD>:Pick resume<CR>', { desc = 'Find resume' })
 end)
