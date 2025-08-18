@@ -1,4 +1,6 @@
 local deps = require('main.plugins.deps')
+local events = require('main.core.events')
+local keys = require('main.core.keymaps')
 
 -- Installer
 deps.later(function()
@@ -10,66 +12,6 @@ deps.later(function()
         package_pending = '➜',
         package_uninstalled = '✗',
       },
-    },
-  })
-end)
-
--- LSP
-deps.later(function()
-  deps.add({ source = 'neovim/nvim-lspconfig' })
-  deps.add({
-    source = 'mason-org/mason-lspconfig.nvim',
-    depends = { 'mason-org/mason.nvim', 'neovim/nvim-lspconfig' },
-  })
-  deps.add({
-    source = 'WhoIsSethDaniel/mason-tool-installer.nvim',
-    depends = { 'mason-org/mason.nvim' },
-  })
-
-  local lsp_servers = {
-    'lua_ls',
-    'cssls',
-    'tailwindcss',
-  }
-
-  local formatters_linters = {
-    'stylua',
-    'eslint_d',
-    'prettierd',
-    'prettier',
-    'biome',
-  }
-
-  local ensure_installed = {}
-
-  vim.list_extend(ensure_installed, lsp_servers)
-  vim.list_extend(ensure_installed, formatters_linters)
-  require('mason-lspconfig').setup({
-    ensure_installed = lsp_servers,
-  })
-  require('mason-tool-installer').setup({
-    ensure_installed = ensure_installed,
-  })
-
-  vim.lsp.enable(lsp_servers)
-  vim.diagnostic.config({
-    virtual_text = {
-      prefix = '●',
-      spacing = 2,
-    },
-    underline = true,
-    signs = true,
-    update_in_insert = false,
-    severity_sort = true,
-  })
-end)
-
-deps.later(function()
-  deps.add({ source = 'folke/lazydev.nvim', depends = { 'saghen/blink.cmp' } })
-
-  require('lazydev').setup({
-    library = {
-      { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
     },
   })
 end)
@@ -146,6 +88,94 @@ deps.later(function()
           async = true,
         },
       },
+    },
+  })
+end)
+
+-- LSP
+deps.later(function()
+  deps.add({ source = 'neovim/nvim-lspconfig' })
+  deps.add({
+    source = 'mason-org/mason-lspconfig.nvim',
+    depends = { 'mason-org/mason.nvim', 'neovim/nvim-lspconfig' },
+  })
+  deps.add({
+    source = 'WhoIsSethDaniel/mason-tool-installer.nvim',
+    depends = { 'mason-org/mason.nvim' },
+  })
+
+  local lsp_servers = {
+    'lua_ls',
+    'cssls',
+    'tailwindcss',
+  }
+
+  local formatters_linters = {
+    'stylua',
+    'eslint_d',
+    'prettierd',
+    'prettier',
+    'biome',
+  }
+
+  local ensure_installed = {}
+
+  vim.list_extend(ensure_installed, lsp_servers)
+  vim.list_extend(ensure_installed, formatters_linters)
+  require('mason-lspconfig').setup({
+    ensure_installed = lsp_servers,
+  })
+  require('mason-tool-installer').setup({
+    ensure_installed = ensure_installed,
+  })
+
+  vim.lsp.enable(lsp_servers)
+  vim.diagnostic.config({
+    virtual_text = {
+      prefix = '●',
+      spacing = 2,
+    },
+    underline = true,
+    signs = true,
+    update_in_insert = false,
+    severity_sort = true,
+  })
+
+  events.autocmd('LspAttach', {
+    callback = function(args)
+      local bufnr = args.buf
+
+      keys.map(
+        'n',
+        '<leader>ld',
+        '<CMD>:Pick lsp scope="definition"<CR>',
+        { buffer = bufnr, desc = 'Find definitions' }
+      )
+      keys.map('n', '<leader>lr', '<CMD>:Pick lsp scope="references"<CR>', { buffer = bufnr, desc = 'Find references' })
+      keys.map('n', '<leader>lh', '<CMD>:lua vim.lsp.buf.hover()<CR>', {
+        buffer = bufnr,
+        desc = 'Show hover information',
+      })
+      keys.map('n', '<leader>ll', '<CMD>:lua vim.diagnostic.open_float(0, { scope = "line" })<CR>', {
+        buffer = bufnr,
+        desc = 'Show line diagnostics',
+      })
+      keys.map('n', '<leader>lcr', '<CMD>:lua vim.lsp.buf.rename()<CR>', { buffer = bufnr, desc = 'Rename symbol' })
+      keys.map('n', '<leader>lca', '<CMD>:lua vim.lsp.buf.code_action()<CR>', {
+        buffer = bufnr,
+        desc = 'Code actions',
+      })
+    end,
+  })
+end)
+
+-- lazydev
+deps.later(function()
+  deps.add({ source = 'folke/lazydev.nvim', depends = { 'saghen/blink.cmp' } })
+
+  require('lazydev').setup({
+    library = {
+      { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
     },
   })
 end)

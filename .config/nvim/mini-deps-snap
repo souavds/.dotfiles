@@ -28,7 +28,7 @@ return {
   ["neotest-jest"] = "46ccc50273838f0b48e3c4814c1c46c0ccfe9edf",
   ["neotest-vitest"] = "a6099e1fb55a2c2851da3dd0f4d510af9a234c92",
   ["nvim-lint"] = "7ef127aaede2a4d5ad8df8321e2eb4e567f29594",
-  ["nvim-lspconfig"] = "a6dbc91d9ae373a87bcd9e3c15853e309691c39b",
+  ["nvim-lspconfig"] = "34c9ecfdcc19d579f51c072300a71445fbec9da8",
   ["nvim-nio"] = "21f5324bfac14e22ba26553caf69ec76ae8a7662",
   ["nvim-treesitter"] = "42fc28ba918343ebfd5565147a42a26580579482",
   ["oil.nvim"] = "bbad9a76b2617ce1221d49619e4e4b659b3c61fc",

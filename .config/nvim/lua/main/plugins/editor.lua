@@ -126,6 +126,8 @@ deps.now(function()
       { mode = 'n', keys = '<leader>d', desc = '+deps' },
       { mode = 'n', keys = '<leader>f', desc = '+find' },
       { mode = 'n', keys = '<leader>g', desc = '+git' },
+      { mode = 'n', keys = '<leader>l', desc = '+lsp' },
+      { mode = 'n', keys = '<leader>lc', desc = '+lsp+code_actions' },
       { mode = 'n', keys = '<leader>t', desc = '+test' },
       { mode = 'n', keys = '<leader>tw', desc = '+test+watch' },
       miniclue.gen_clues.builtin_completion(),
