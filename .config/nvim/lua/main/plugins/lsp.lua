@@ -28,7 +28,6 @@ deps.later(function()
 
   local lsp_servers = {
     'lua_ls',
-    'ts_ls',
     'cssls',
     'tailwindcss',
   }

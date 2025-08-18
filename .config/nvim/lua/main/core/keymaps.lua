@@ -6,7 +6,16 @@ M.map('n', '<leader>o', ':update<CR> :source<CR>', { desc = 'Update and source' 
 M.map('n', '<leader>w', ':write<CR>', { desc = 'Save' })
 M.map('n', '<leader>q', ':quit<CR>', { desc = 'Quit' })
 
-M.map('n', '<esc>', ':noh<CR>', { silent = true, desc = 'Remove search highlighting, dismiss popups' })
+local function close_floating()
+  for _, win in pairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(win).relative == 'win' then vim.api.nvim_win_close(win, false) end
+  end
+end
+
+M.map('n', '<esc>', function()
+  vim.cmd('noh')
+  close_floating()
+end, { silent = true, desc = 'Remove search highlighting, dismiss popups' })
 
 -- Text manipulation
 M.map('n', '<A-j>', ':m .+1<CR>==', { silent = true, noremap = true, desc = 'Move line down' })

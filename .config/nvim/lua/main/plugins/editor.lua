@@ -122,6 +122,7 @@ deps.now(function()
       { mode = 'x', keys = 'z' },
     },
     clues = {
+      { mode = 'n', keys = '<leader>b', desc = '+buffer' },
       { mode = 'n', keys = '<leader>d', desc = '+deps' },
       { mode = 'n', keys = '<leader>f', desc = '+find' },
       { mode = 'n', keys = '<leader>g', desc = '+git' },
@@ -162,7 +163,7 @@ deps.now(function()
   keys.map('n', '-', '<CMD>Oil<CR>', { desc = 'File explorer' })
 end)
 
--- FZF
+-- fzf
 deps.now(function()
   deps.add({ source = 'echasnovski/mini.pick' })
   deps.add({ source = 'echasnovski/mini.extra' })
@@ -178,4 +179,30 @@ deps.now(function()
   keys.map('n', '<leader>fg', '<CMD>:Pick grep_live<CR>', { desc = 'Find live grep' })
   keys.map('n', '<leader>fG', '<CMD>:Pick grep pattern="<cword>"<CR>', { desc = 'Find grep word' })
   keys.map('n', '<leader>fR', '<CMD>:Pick resume<CR>', { desc = 'Find resume' })
+end)
+
+-- buffer
+deps.now(function()
+  deps.add({ source = 'echasnovski/mini.visits' })
+
+  require('mini.visits').setup({})
+
+  keys.map('n', '<leader>ba', '<CMD>:lua MiniVisits.add_label("core")<CR>', { desc = 'Add file to core' })
+  keys.map('n', '<leader>br', '<CMD>:lua MiniVisits.remove_label("core")<CR>', { desc = 'Remove file from core' })
+  keys.map('n', '[[', function()
+    local sort_latest = MiniVisits.gen_sort.default({ recency_weight = 1 })
+    MiniVisits.iterate_paths('forward', vim.fn.getcwd(), { filter = 'core', sort = sort_latest, wrap = true })
+  end, { desc = 'Next file in core' })
+  keys.map('n', ']]', function()
+    local sort_latest = MiniVisits.gen_sort.default({ recency_weight = 1 })
+    MiniVisits.iterate_paths('backward', vim.fn.getcwd(), { filter = 'core', sort = sort_latest, wrap = true })
+  end, { desc = 'Previous file in core' })
+  keys.map('n', '<leader>bA', '<CMD>:lua MiniVisits.add_label()<CR>', { desc = 'Add file to label' })
+  keys.map('n', '<leader>bR', '<CMD>:lua MiniVisits.remove_label()<CR>', { desc = 'Remove file from label' })
+  keys.map(
+    'n',
+    '<leader>bb',
+    '<CMD>:lua MiniVisits.select_path(nil, { filter = "core" })<CR>',
+    { desc = 'Select all paths in core' }
+  )
 end)
