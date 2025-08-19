@@ -259,10 +259,13 @@ deps.now(function()
 end)
 
 -- code action
-deps.later(function()
+deps.now(function()
   deps.add({ source = 'rachartier/tiny-code-action.nvim', depends = { 'nvim-lua/plenary.nvim', 'ibhagwan/fzf-lua' } })
 
-  require('tiny-code-action').setup()
+  require('tiny-code-action').setup({
+    backend = 'vim',
+    picker = 'select',
+  })
 end)
 
 -- buffer
