@@ -90,6 +90,8 @@ deps.later(function()
       },
     },
   })
+
+  vim.lsp.config('*', { capabilities = require('blink.cmp').get_lsp_capabilities(nil, true) })
 end)
 
 -- LSP
@@ -148,10 +150,21 @@ deps.later(function()
       keys.map(
         'n',
         '<leader>ld',
-        '<CMD>:Pick lsp scope="definition"<CR>',
+        '<CMD>:lua require("fzf-lua").lsp_definitions({ jump1 = true })<CR>',
+        { buffer = bufnr, desc = 'Go to definition' }
+      )
+      keys.map(
+        'n',
+        '<leader>lD',
+        '<CMD>:lua require("fzf-lua").lsp_definitions({ jump1 = false })<CR>',
         { buffer = bufnr, desc = 'Find definitions' }
       )
-      keys.map('n', '<leader>lr', '<CMD>:Pick lsp scope="references"<CR>', { buffer = bufnr, desc = 'Find references' })
+      keys.map(
+        'n',
+        '<leader>lr',
+        '<CMD>:lua require("fzf-lua").lsp_references()<CR>',
+        { buffer = bufnr, desc = 'Find references' }
+      )
       keys.map('n', '<leader>lh', '<CMD>:lua vim.lsp.buf.hover()<CR>', {
         buffer = bufnr,
         desc = 'Show hover information',
@@ -161,7 +174,7 @@ deps.later(function()
         desc = 'Show line diagnostics',
       })
       keys.map('n', '<leader>lcr', '<CMD>:lua vim.lsp.buf.rename()<CR>', { buffer = bufnr, desc = 'Rename symbol' })
-      keys.map('n', '<leader>lca', '<CMD>:lua vim.lsp.buf.code_action()<CR>', {
+      keys.map({ 'n', 'x' }, '<leader>lca', '<CMD>:lua require("tiny-code-action").code_action()<CR>', {
         buffer = bufnr,
         desc = 'Code actions',
       })

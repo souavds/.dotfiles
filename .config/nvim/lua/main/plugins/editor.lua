@@ -18,6 +18,33 @@ deps.now(function()
   require('mini.icons').setup()
 end)
 
+-- extra
+deps.now(function()
+  deps.add({
+    source = 'echasnovski/mini.extra',
+  })
+
+  require('mini.extra').setup({})
+end)
+
+-- comment
+deps.now(function()
+  deps.add({
+    source = 'echasnovski/mini.comment',
+  })
+
+  require('mini.comment').setup({})
+end)
+
+-- autopairs
+deps.now(function()
+  deps.add({
+    source = 'echasnovski/mini.pairs',
+  })
+
+  require('mini.pairs').setup({})
+end)
+
 -- notify
 deps.now(function()
   deps.add({
@@ -36,13 +63,13 @@ deps.now(function()
   })
 
   local hipatterns = require('mini.hipatterns')
-
+  local hi_words = MiniExtra.gen_highlighter.words
   hipatterns.setup({
     highlighters = {
-      fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-      hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
-      todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
-      note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+      fixme = hi_words({ 'FIXME', 'Fixme', 'fixme' }, 'MiniHipatternsFixme'),
+      hack = hi_words({ 'HACK', 'Hack', 'hack' }, 'MiniHipatternsHack'),
+      todo = hi_words({ 'TODO', 'Todo', 'todo' }, 'MiniHipatternsTodo'),
+      note = hi_words({ 'NOTE', 'Note', 'note' }, 'MiniHipatternsNote'),
 
       hex_color = hipatterns.gen_highlighter.hex_color(),
     },
@@ -167,20 +194,75 @@ end)
 
 -- fzf
 deps.now(function()
-  deps.add({ source = 'echasnovski/mini.pick' })
-  deps.add({ source = 'echasnovski/mini.extra' })
+  deps.add({
+    source = 'ibhagwan/fzf-lua',
+    depends = { 'echasnovski/mini.icons' },
+  })
 
-  require('mini.pick').setup({})
-  require('mini.extra').setup({})
+  local fzf_lua = require('fzf-lua')
+  local actions = require('fzf-lua.actions')
 
-  vim.ui.select = MiniPick.ui_select
+  fzf_lua.setup({
+    keymap = {
+      builtin = {
+        ['<C-/>'] = 'toggle-help',
+        ['<C-a>'] = 'toggle-fullscreen',
+        ['<C-i>'] = 'toggle-preview',
+      },
+      fzf = {
+        ['alt-s'] = 'toggle',
+        ['alt-a'] = 'toggle-all',
+        ['ctrl-i'] = 'toggle-preview',
+      },
+    },
+    winopts = {
+      border = 'rounded',
+      height = 0.5,
+      width = 0.4,
+      preview = {
+        scrollbar = false,
+        layout = 'vertical',
+        vertical = 'up:40%',
+      },
+    },
+    files = {
+      winopts = {
+        preview = { hidden = true },
+      },
+    },
+    helptags = {
+      actions = {
+        ['enter'] = actions.help_vert,
+      },
+    },
+  })
 
-  keys.map('n', '<leader>ff', '<CMD>:Pick files<CR>', { desc = 'Find files' })
-  keys.map('n', '<leader>fb', '<CMD>:Pick buffers<CR>', { desc = 'Find buffers' })
-  keys.map('n', '<leader>fh', '<CMD>:Pick help<CR>', { desc = 'Find help pages' })
-  keys.map('n', '<leader>fg', '<CMD>:Pick grep_live<CR>', { desc = 'Find live grep' })
-  keys.map('n', '<leader>fG', '<CMD>:Pick grep pattern="<cword>"<CR>', { desc = 'Find grep word' })
-  keys.map('n', '<leader>fR', '<CMD>:Pick resume<CR>', { desc = 'Find resume' })
+  fzf_lua.register_ui_select(function(opts)
+    opts.winopts = {
+      height = 0.5,
+      width = 0.4,
+    }
+
+    if opts.kind then opts.winopts.title = string.format(' %s', opts.kind) end
+
+    return opts
+  end)
+
+  keys.map('n', '<leader>ff', fzf_lua.files, { desc = 'Find files' })
+  keys.map('n', '<leader>fb', fzf_lua.buffers, { desc = 'Find buffers' })
+  keys.map('n', '<leader>fh', fzf_lua.help_tags, { desc = 'Find help pages' })
+  keys.map('n', '<leader>fg', fzf_lua.live_grep, { desc = 'Find live grep' })
+  keys.map('n', '<leader>fG', fzf_lua.grep_cword, { desc = 'Find grep word' })
+  keys.map('n', '<leader>fd', fzf_lua.lsp_document_diagnostics, { desc = 'Find document diagnostics' })
+  keys.map('n', '<leader>fo', fzf_lua.oldfiles, { desc = 'Find old files' })
+  keys.map('n', '<leader>fR', fzf_lua.resume, { desc = 'Find resume' })
+end)
+
+-- code action
+deps.later(function()
+  deps.add({ source = 'rachartier/tiny-code-action.nvim', depends = { 'nvim-lua/plenary.nvim', 'ibhagwan/fzf-lua' } })
+
+  require('tiny-code-action').setup()
 end)
 
 -- buffer
