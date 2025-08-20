@@ -230,6 +230,14 @@ deps.now(function()
         preview = { hidden = true },
       },
     },
+    grep = {
+      rg_glob = true,
+      RIPGREP_CONFIG_PATH = vim.env.RIPGREP_CONFIG_PATH,
+      actions = { ['ctrl-r'] = { actions.toggle_ignore } },
+      fzf_opts = {
+        ['--history'] = vim.fn.stdpath('data') .. '/fzf-lua-grep-history',
+      },
+    },
     helptags = {
       actions = {
         ['enter'] = actions.help_vert,
@@ -266,6 +274,14 @@ deps.now(function()
     backend = 'vim',
     picker = 'select',
   })
+end)
+
+-- inline diagnostics
+deps.now(function()
+  deps.add({ source = 'rachartier/tiny-inline-diagnostic.nvim' })
+
+  require('tiny-inline-diagnostic').setup()
+  vim.diagnostic.config({ virtual_text = false })
 end)
 
 -- buffer

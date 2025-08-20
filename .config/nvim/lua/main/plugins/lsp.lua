@@ -2,7 +2,7 @@ local deps = require('main.plugins.deps')
 local events = require('main.core.events')
 local keys = require('main.core.keymaps')
 
--- Installer
+-- installer
 deps.later(function()
   deps.add({ source = 'mason-org/mason.nvim' })
   require('mason').setup({
@@ -16,7 +16,7 @@ deps.later(function()
   })
 end)
 
--- CMP
+-- cmp
 deps.later(function()
   deps.add({
     source = 'saghen/blink.cmp',
@@ -94,7 +94,7 @@ deps.later(function()
   vim.lsp.config('*', { capabilities = require('blink.cmp').get_lsp_capabilities(nil, true) })
 end)
 
--- LSP
+-- lsp
 deps.later(function()
   deps.add({ source = 'neovim/nvim-lspconfig' })
   deps.add({
@@ -133,14 +133,17 @@ deps.later(function()
 
   vim.lsp.enable(lsp_servers)
   vim.diagnostic.config({
-    virtual_text = {
-      prefix = '●',
-      spacing = 2,
-    },
-    underline = true,
-    signs = true,
+    underline = false,
     update_in_insert = false,
     severity_sort = true,
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = ' ',
+        [vim.diagnostic.severity.WARN] = ' ',
+        [vim.diagnostic.severity.HINT] = ' ',
+        [vim.diagnostic.severity.INFO] = ' ',
+      },
+    },
   })
 
   events.autocmd('LspAttach', {
