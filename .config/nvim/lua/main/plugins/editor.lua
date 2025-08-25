@@ -27,6 +27,15 @@ deps.now(function()
   require('mini.extra').setup({})
 end)
 
+-- misc
+deps.now(function()
+  deps.add({
+    source = 'echasnovski/mini.misc',
+  })
+
+  require('mini.misc').setup({})
+end)
+
 -- comment
 deps.now(function()
   deps.add({
@@ -290,6 +299,8 @@ deps.now(function()
 
   require('mini.visits').setup({})
 
+  local fzf = require('main.plugins.fzf')
+
   keys.map('n', '<leader>ba', '<CMD>:lua MiniVisits.add_label("core")<CR>', { desc = 'Add file to core' })
   keys.map('n', '<leader>br', '<CMD>:lua MiniVisits.remove_label("core")<CR>', { desc = 'Remove file from core' })
   keys.map('n', '[[', function()
@@ -308,4 +319,5 @@ deps.now(function()
     '<CMD>:lua MiniVisits.select_path(nil, { filter = "core" })<CR>',
     { desc = 'Select all paths in core' }
   )
+  keys.map('n', '<leader>bf', fzf.pick_visits_labels, { desc = 'Find labels' })
 end)

@@ -1,6 +1,6 @@
 local deps = require('main.plugins.deps')
 
-deps.now(function()
+deps.later(function()
   deps.add({
     source = 'nvim-treesitter/nvim-treesitter',
     checkout = 'master',
@@ -9,11 +9,6 @@ deps.now(function()
       post_checkout = function() vim.cmd('TSUpdate') end,
     },
   })
-
-  -- deps.add({
-  --   source = 'nvim-treesitter/nvim-treesitter-textobjects',
-  --   depends = { 'nvim-treesitter/nvim-treesitter' },
-  -- })
 
   local ensure_installed = {
     'bash',
