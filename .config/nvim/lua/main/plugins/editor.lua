@@ -321,3 +321,30 @@ deps.now(function()
   )
   keys.map('n', '<leader>bf', fzf.pick_visits_labels, { desc = 'Find labels' })
 end)
+
+-- surround
+deps.now(function()
+  deps.add({ source = 'echasnovski/mini.surround' })
+
+  require('mini.surround').setup({})
+end)
+
+-- indent scope
+deps.now(function()
+  deps.add({ source = 'echasnovski/mini.indentscope' })
+
+  require('mini.indentscope').setup({
+    draw = {
+      delay = 100,
+      animation = require('mini.indentscope').gen_animation.none(),
+    },
+    options = { try_as_border = true },
+  })
+end)
+
+-- moviment
+deps.later(function()
+  deps.add({ source = 'tris203/precognition.nvim' })
+
+  require('precognition').setup({})
+end)
