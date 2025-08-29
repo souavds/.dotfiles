@@ -10,7 +10,7 @@ if not vim.loop.fs_stat(mini_path) then
     'git',
     'clone',
     '--filter=blob:none',
-    'https://github.com/echasnovski/mini.deps',
+    'https://github.com/nvim-mini/mini.deps',
     mini_path,
   }
   vim.fn.system(clone_cmd)

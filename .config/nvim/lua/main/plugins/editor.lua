@@ -13,7 +13,7 @@ end)
 -- icons
 deps.now(function()
   deps.add({
-    source = 'echasnovski/mini.icons',
+    source = 'nvim-mini/mini.icons',
   })
   require('mini.icons').setup()
 end)
@@ -21,7 +21,7 @@ end)
 -- extra
 deps.now(function()
   deps.add({
-    source = 'echasnovski/mini.extra',
+    source = 'nvim-mini/mini.extra',
   })
 
   require('mini.extra').setup({})
@@ -30,7 +30,7 @@ end)
 -- misc
 deps.now(function()
   deps.add({
-    source = 'echasnovski/mini.misc',
+    source = 'nvim-mini/mini.misc',
   })
 
   require('mini.misc').setup({})
@@ -39,7 +39,7 @@ end)
 -- comment
 deps.now(function()
   deps.add({
-    source = 'echasnovski/mini.comment',
+    source = 'nvim-mini/mini.comment',
   })
 
   require('mini.comment').setup({})
@@ -48,7 +48,7 @@ end)
 -- autopairs
 deps.now(function()
   deps.add({
-    source = 'echasnovski/mini.pairs',
+    source = 'nvim-mini/mini.pairs',
   })
 
   require('mini.pairs').setup({})
@@ -57,7 +57,7 @@ end)
 -- notify
 deps.now(function()
   deps.add({
-    source = 'echasnovski/mini.notify',
+    source = 'nvim-mini/mini.notify',
   })
   require('mini.notify').setup({
     window = { config = { border = 'rounded' } },
@@ -68,7 +68,7 @@ end)
 -- patterns
 deps.now(function()
   deps.add({
-    source = 'echasnovski/mini.hipatterns',
+    source = 'nvim-mini/mini.hipatterns',
   })
 
   local hipatterns = require('mini.hipatterns')
@@ -88,7 +88,7 @@ end)
 -- statusline
 deps.now(function()
   deps.add({
-    source = 'echasnovski/mini.statusline',
+    source = 'nvim-mini/mini.statusline',
   })
 
   require('mini.statusline').setup({})
@@ -97,7 +97,7 @@ end)
 -- starter
 deps.now(function()
   deps.add({
-    source = 'echasnovski/mini.starter',
+    source = 'nvim-mini/mini.starter',
   })
 
   local starter = require('mini.starter')
@@ -120,7 +120,7 @@ end)
 -- clue
 deps.now(function()
   deps.add({
-    source = 'echasnovski/mini.clue',
+    source = 'nvim-mini/mini.clue',
   })
 
   local miniclue = require('mini.clue')
@@ -184,7 +184,7 @@ deps.now(function()
   deps.add({
     source = 'stevearc/oil.nvim',
     depends = {
-      'echasnovski/mini.icons',
+      'nvim-mini/mini.icons',
     },
   })
 
@@ -205,7 +205,7 @@ end)
 deps.now(function()
   deps.add({
     source = 'ibhagwan/fzf-lua',
-    depends = { 'echasnovski/mini.icons' },
+    depends = { 'nvim-mini/mini.icons' },
   })
 
   local fzf_lua = require('fzf-lua')
@@ -295,7 +295,7 @@ end)
 
 -- buffer
 deps.now(function()
-  deps.add({ source = 'echasnovski/mini.visits' })
+  deps.add({ source = 'nvim-mini/mini.visits' })
 
   require('mini.visits').setup({})
 
@@ -324,14 +324,14 @@ end)
 
 -- surround
 deps.now(function()
-  deps.add({ source = 'echasnovski/mini.surround' })
+  deps.add({ source = 'nvim-mini/mini.surround' })
 
   require('mini.surround').setup({})
 end)
 
 -- indent scope
 deps.now(function()
-  deps.add({ source = 'echasnovski/mini.indentscope' })
+  deps.add({ source = 'nvim-mini/mini.indentscope' })
 
   require('mini.indentscope').setup({
     draw = {
@@ -339,12 +339,6 @@ deps.now(function()
       animation = require('mini.indentscope').gen_animation.none(),
     },
     options = { try_as_border = true },
+    symbol = '▎',
   })
-end)
-
--- moviment
-deps.later(function()
-  deps.add({ source = 'tris203/precognition.nvim' })
-
-  require('precognition').setup({})
 end)
