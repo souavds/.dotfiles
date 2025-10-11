@@ -201,83 +201,58 @@ deps.now(function()
   keys.map('n', '-', '<CMD>Oil<CR>', { desc = 'File explorer' })
 end)
 
--- fzf
+-- pick
 deps.now(function()
-  deps.add({
-    source = 'ibhagwan/fzf-lua',
-    depends = { 'nvim-mini/mini.icons' },
-  })
+  deps.add({ source = 'echasnovski/mini.pick' })
+  deps.add({ source = 'echasnovski/mini.extra' })
 
-  local fzf_lua = require('fzf-lua')
-  local actions = require('fzf-lua.actions')
+  local pick = require('mini.pick')
+  pick.setup({
+    window = {
+      config = function()
+        local height, width, starts, ends
+        local win_width = vim.o.columns
+        local win_height = vim.o.lines
 
-  fzf_lua.setup({
-    keymap = {
-      builtin = {
-        ['<C-/>'] = 'toggle-help',
-        ['<C-a>'] = 'toggle-fullscreen',
-        ['<C-i>'] = 'toggle-preview',
-      },
-      fzf = {
-        ['alt-s'] = 'toggle',
-        ['alt-a'] = 'toggle-all',
-        ['ctrl-i'] = 'toggle-preview',
-      },
-    },
-    winopts = {
-      border = 'rounded',
-      height = 0.5,
-      width = 0.4,
-      preview = {
-        scrollbar = false,
-        layout = 'vertical',
-        vertical = 'up:40%',
-      },
-    },
-    files = {
-      winopts = {
-        preview = { hidden = true },
-      },
-    },
-    grep = {
-      rg_glob = true,
-      RIPGREP_CONFIG_PATH = vim.env.RIPGREP_CONFIG_PATH,
-      actions = { ['ctrl-r'] = { actions.toggle_ignore } },
-      fzf_opts = {
-        ['--history'] = vim.fn.stdpath('data') .. '/fzf-lua-grep-history',
-      },
-    },
-    helptags = {
-      actions = {
-        ['enter'] = actions.help_vert,
-      },
+        if win_height <= 25 then
+          height = math.min(win_height, 18)
+          width = win_width
+          starts = 1
+          ends = win_height
+        else
+          width = math.floor(win_width * 0.5)
+          height = math.floor(win_height * 0.3)
+          starts = math.floor((win_width - width) / 2)
+          ends = math.floor(win_height * 0.65)
+        end
+
+        return {
+          col = starts,
+          row = ends,
+          height = height,
+          width = width,
+        }
+      end,
     },
   })
 
-  fzf_lua.register_ui_select(function(opts)
-    opts.winopts = {
-      height = 0.5,
-      width = 0.4,
-    }
+  local custom_pickers = require('main.plugins.pickers')
+  local pickers = vim.tbl_extend('force', custom_pickers, pick.builtin)
+  pick.registry = pickers
 
-    if opts.kind then opts.winopts.title = string.format(' %s', opts.kind) end
+  vim.ui.select = MiniPick.ui_select
 
-    return opts
-  end)
-
-  keys.map('n', '<leader>ff', fzf_lua.files, { desc = 'Find files' })
-  keys.map('n', '<leader>fb', fzf_lua.buffers, { desc = 'Find buffers' })
-  keys.map('n', '<leader>fh', fzf_lua.help_tags, { desc = 'Find help pages' })
-  keys.map('n', '<leader>fg', fzf_lua.live_grep, { desc = 'Find live grep' })
-  keys.map('n', '<leader>fG', fzf_lua.grep_cword, { desc = 'Find grep word' })
-  keys.map('n', '<leader>fd', fzf_lua.lsp_document_diagnostics, { desc = 'Find document diagnostics' })
-  keys.map('n', '<leader>fo', fzf_lua.oldfiles, { desc = 'Find old files' })
-  keys.map('n', '<leader>fR', fzf_lua.resume, { desc = 'Find resume' })
+  keys.map('n', '<leader>ff', '<CMD>:Pick files<CR>', { desc = 'Find files' })
+  keys.map('n', '<leader>fb', '<CMD>:Pick buffers<CR>', { desc = 'Find buffers' })
+  keys.map('n', '<leader>fh', '<CMD>:Pick help<CR>', { desc = 'Find help pages' })
+  keys.map('n', '<leader>fg', '<CMD>:Pick grep_live<CR>', { desc = 'Find live grep' })
+  keys.map('n', '<leader>fG', '<CMD>:Pick grep pattern="<cword>"<CR>', { desc = 'Find grep word' })
+  keys.map('n', '<leader>fR', '<CMD>:Pick resume<CR>', { desc = 'Find resume' })
 end)
 
 -- code action
 deps.now(function()
-  deps.add({ source = 'rachartier/tiny-code-action.nvim', depends = { 'nvim-lua/plenary.nvim', 'ibhagwan/fzf-lua' } })
+  deps.add({ source = 'rachartier/tiny-code-action.nvim', depends = { 'nvim-lua/plenary.nvim' } })
 
   require('tiny-code-action').setup({
     backend = 'vim',
@@ -299,7 +274,7 @@ deps.now(function()
 
   require('mini.visits').setup({})
 
-  local fzf = require('main.plugins.fzf')
+  -- local fzf = require('main.plugins.fzf')
 
   keys.map('n', '<leader>ba', '<CMD>:lua MiniVisits.add_label("core")<CR>', { desc = 'Add file to core' })
   keys.map('n', '<leader>br', '<CMD>:lua MiniVisits.remove_label("core")<CR>', { desc = 'Remove file from core' })
@@ -319,7 +294,7 @@ deps.now(function()
     '<CMD>:lua MiniVisits.select_path(nil, { filter = "core" })<CR>',
     { desc = 'Select all paths in core' }
   )
-  keys.map('n', '<leader>bf', fzf.pick_visits_labels, { desc = 'Find labels' })
+  -- keys.map('n', '<leader>bf', fzf.pick_visits_labels, { desc = 'Find labels' })
 end)
 
 -- surround

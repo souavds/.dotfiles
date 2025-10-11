@@ -110,6 +110,7 @@ deps.later(function()
     'lua_ls',
     'cssls',
     'tailwindcss',
+    'expert',
   }
 
   local formatters_linters = {
@@ -153,21 +154,10 @@ deps.later(function()
       keys.map(
         'n',
         '<leader>ld',
-        '<CMD>:lua require("fzf-lua").lsp_definitions({ jump1 = true })<CR>',
-        { buffer = bufnr, desc = 'Go to definition' }
-      )
-      keys.map(
-        'n',
-        '<leader>lD',
-        '<CMD>:lua require("fzf-lua").lsp_definitions({ jump1 = false })<CR>',
+        '<CMD>:Pick lsp scope="definition"<CR>',
         { buffer = bufnr, desc = 'Find definitions' }
       )
-      keys.map(
-        'n',
-        '<leader>lr',
-        '<CMD>:lua require("fzf-lua").lsp_references()<CR>',
-        { buffer = bufnr, desc = 'Find references' }
-      )
+      keys.map('n', '<leader>lr', '<CMD>:Pick lsp scope="references"<CR>', { buffer = bufnr, desc = 'Find references' })
       keys.map('n', '<leader>lh', '<CMD>:lua vim.lsp.buf.hover()<CR>', {
         buffer = bufnr,
         desc = 'Show hover information',
