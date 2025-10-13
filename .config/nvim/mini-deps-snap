@@ -19,7 +19,7 @@ return {
   ["mini.hipatterns"] = "5629d5fba132b4ab0b3f0039549308421f65ff45",
   ["mini.icons"] = "284798619aed9f4c1ac1b9417b9a5e3b4b85ef3a",
   ["mini.indentscope"] = "e9fa0714fc753e1e737940577904e553ee340903",
-  ["mini.misc"] = "dd6c04962aea3693c6c52b4f1e06b139fdaf9b96",
+  ["mini.misc"] = "165c34e43de9ae62cf8b72bd33bc90f4edde8e67",
   ["mini.notify"] = "7f3c4f05bb647bd2b8cb216c18db1768afe39ee0",
   ["mini.pairs"] = "b9aada8c0e59f2b938e98fbf4eae0799eba96ad9",
   ["mini.pick"] = "96ee37d07043aeed90ae6ae32733b2d0db8f1c13",
@@ -28,12 +28,12 @@ return {
   ["mini.surround"] = "444e155147e2b5159dd28a65f9736254c16cb817",
   ["mini.visits"] = "4796c453678ca11f4aab68ab33f4d534a2d84e6d",
   neogit = "90dcfa7b2bd5f3f35d1a7afe24dde9e2bc482cd4",
-  neotest = "2cf3544fb55cdd428a9a1b7154aea9c9823426e8",
+  neotest = "7166dc36af2760a76479e021e0521e23f62165f1",
   ["neotest-elixir"] = "a242aebeaa6997c1c149138ff77f6cacbe33b6fc",
   ["neotest-jest"] = "2f657403aabab7d68eaa2cb9181dc4bb7fdd8a08",
   ["neotest-vitest"] = "f5560d7048e514d8da92a9e1e1f1c6d84dd9096f",
   ["nvim-lint"] = "9da1fb942dd0668d5182f9c8dee801b9c190e2bb",
-  ["nvim-lspconfig"] = "623bcf08d5f9ff4ee3ce2686fa1f1947a045b1a5",
+  ["nvim-lspconfig"] = "ac98db2f9f06a56498ec890a96928774eae412c3",
   ["nvim-nio"] = "21f5324bfac14e22ba26553caf69ec76ae8a7662",
   ["nvim-treesitter"] = "42fc28ba918343ebfd5565147a42a26580579482",
   ["nvim-ts-autotag"] = "c4ca798ab95b316a768d51eaaaee48f64a4a46bc",
@@ -42,6 +42,5 @@ return {
   ["tiny-code-action.nvim"] = "9b7359aca74875880a4f83034ded67325e47ef9b",
   ["tiny-inline-diagnostic.nvim"] = "6d8dc61a9c4077d9ec62a9c8998506dcd2a5b6af",
   ["tokyonight.nvim"] = "d14614cbfc63b6037bfccd48bb982d2ad2003352",
-  ["ts-error-translator.nvim"] = "47e5ba89f71b9e6c72eaaaaa519dd59bd6897df4",
-  ["typescript-tools.nvim"] = "bf11d98ad5736e1cbc1082ca9a03196d45c701f1"
+  ["ts-error-translator.nvim"] = "47e5ba89f71b9e6c72eaaaaa519dd59bd6897df4"
 }

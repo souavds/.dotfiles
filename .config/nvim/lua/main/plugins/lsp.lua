@@ -111,6 +111,8 @@ deps.later(function()
     'cssls',
     'tailwindcss',
     'expert',
+    'ts_ls',
+    'vue_ls',
   }
 
   local formatters_linters = {
