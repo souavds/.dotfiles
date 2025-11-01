@@ -203,8 +203,7 @@ end)
 
 -- pick
 deps.now(function()
-  deps.add({ source = 'echasnovski/mini.pick' })
-  deps.add({ source = 'echasnovski/mini.extra' })
+  deps.add({ source = 'nvim-mini/mini.pick' })
 
   local pick = require('mini.pick')
   pick.setup({
@@ -236,9 +235,9 @@ deps.now(function()
     },
   })
 
-  local custom_pickers = require('main.plugins.pickers')
-  local pickers = vim.tbl_extend('force', custom_pickers, pick.builtin)
-  pick.registry = pickers
+  -- local custom_pickers = require('main.plugins.pickers')
+  -- local pickers = vim.tbl_extend('force', custom_pickers, pick.builtin)
+  -- pick.registry = pickers
 
   vim.ui.select = MiniPick.ui_select
 

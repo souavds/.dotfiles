@@ -1,25 +1,15 @@
 local M = {}
 
 M.pickers = {
-  files = function()
-    require('mini.pick').builtin.cli({
-      command = {
-        'fd',
-        '--type',
-        'f',
-        '--no-ignore',
-        '--hidden',
-        '--follow',
-        '--exclude',
-        '.git',
-        '--exclude',
-        'node_modules',
-        '--exclude',
-        'build',
-        '--exclude',
-        'tmp',
-      },
+  registry = function()
+    local picker = require('mini.pick')
+    local selected = picker.start({
+      source = { items = vim.tbl_keys(picker.registry), name = 'Registry' },
     })
+
+    if selected == nil then return end
+
+    return picker.registry[selected]()
   end,
 }
 
