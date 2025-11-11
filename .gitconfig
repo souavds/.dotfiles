@@ -3,7 +3,7 @@
 [user]
 	email = arthurvdinizs@gmail.com
 	name = Arthur Diniz
-	signingkey = ~/.ssh/id_ed25519.pub
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGHh2/DfPI+gJl2hEIh4hak/CdfISyrdKvrkSIthWkUD
 [init]
 	defaultBranch = main
 [push]

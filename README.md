@@ -19,4 +19,3 @@ stow -D . && stow .
 - [ ] GPG Keys
 - [ ] Linux laptop utils
     - [ ] Battery
-    - [ ] Nvidia

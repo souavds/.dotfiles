@@ -5,7 +5,7 @@ function languages() {
 
   check_and_install mise
 
-  mise use -g node go
+  mise use -g node
   KERL_CONFIGURE_OPTIONS="--enable-wx" mise use -g erlang
   mise use -g elixir
   mise reshim

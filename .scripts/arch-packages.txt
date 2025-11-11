@@ -1,0 +1,4 @@
+opencode-bin
+helium-browser-bin
+1password
+spotify

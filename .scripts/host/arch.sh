@@ -41,6 +41,8 @@ function aur_helper() {
   log ">>> Paru"
 
   pkg -S --needed base-devel
+  pkg -S rustup
+  rustup default stable
   rm -rf ./tmp/paru
   git clone https://aur.archlinux.org/paru-git.git ./tmp/paru
   (cd ./tmp/paru && makepkg -si)
@@ -54,7 +56,7 @@ function install_zsh() {
   
   pkg -S zsh
 
-  confirm "Do you want to make zsh the default shell?" && (chsh -s $(which zsh) && zsh)
+  confirm "Do you want to make zsh the default shell?" &&(chsh -s $(which zsh) && zsh)
 
   log "<<< ZSH"
 }
@@ -66,6 +68,15 @@ function packages() {
   pkg -S $PACKAGES
 
   log "<<< Packages"
+}
+
+function arch_packages() {
+  log ">>> Arch Packages"
+
+  ARCH_PACKAGES=$(cat ./.scripts/arch_packages.txt | choose "Which packages would you like to install?")
+  pkg -S $PACKAGES
+
+  log "<<< Arch Packages"
 }
 
 function languages_dependencies() {
@@ -83,6 +94,7 @@ install_git
 aur_helper
 install_zsh
 packages
+arch_packages
 languages_dependencies
 languages
 shell_setup
