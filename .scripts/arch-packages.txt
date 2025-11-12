@@ -2,3 +2,7 @@ opencode-bin
 helium-browser-bin
 1password
 spotify
+usbutils
+fprintd
+soteria-git
+noctalia-shell

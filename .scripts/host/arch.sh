@@ -87,6 +87,16 @@ function languages_dependencies() {
   log "<<< Languages dependencies"
 }
 
+function tlp_setup() {
+  log ">>> TLP"
+
+  pkg -S tlp tlp-rdw
+  sudo systemctl enable --now tlp.service
+  sudo cp ./.cp/tlp.conf /etc/tlp.conf
+
+  log "<<< TLP"
+}
+
 echo ">>> Archlinux setup"
 preinstall sudo pacman -S
 system_update

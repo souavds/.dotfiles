@@ -17,5 +17,3 @@ stow -D . && stow .
 
 - [ ] SSH agent
 - [ ] GPG Keys
-- [ ] Linux laptop utils
-    - [ ] Battery
