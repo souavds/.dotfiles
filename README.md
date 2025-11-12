@@ -1,5 +1,10 @@
 # souavds' dotfiles
 
+```
+machine:
+thinkpad t14 gen 5 - intel ultra 5 135u - 64gb ram ddr5
+```
+
 ## Installation
 
 ```bash
@@ -15,5 +20,3 @@ stow -D . && stow .
 
 ### Roadmap
 
-- [ ] SSH agent
-- [ ] GPG Keys
