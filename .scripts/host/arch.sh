@@ -87,26 +87,52 @@ function languages_dependencies() {
   log "<<< Languages dependencies"
 }
 
-function tlp_setup() {
-  log ">>> TLP"
+function laptop_tools_setup() {
+  log ">>> Laptop tools"
+
+  log ">> TLP"
 
   pkg -S tlp tlp-rdw
   sudo systemctl enable --now tlp.service
   sudo cp ./.cp/tlp.conf /etc/tlp.conf
   sudo systemctl restart tlp.service
 
-  log "<<< TLP"
-}
+  log "<< TLP"
 
-function dms_setup() {
-  log ">>> DankMaterialLinux"
+  log ">>> Thermald"
 
-  pkg -S dms-shell-bin
+  pkg -S thermald
+  systemctl enable --now thermald.service
 
-  log "<<< DankMaterialLinux"
-}
+  log "<<< Thermald"
 
-function fingerprint_setup() {
+  log ">>> acpi"
+
+  pkg -S acpi
+  systemctl enable --now acpid.service
+
+  log "<<< acpi"
+
+  log ">>> powertop"
+
+  pkg -S powertop
+
+  log "<<< powertop"
+
+  log ">>> microcode"
+
+  pkg -S intel-ucode 
+
+  log "<<< microcode"
+
+  log ">>> fwupd"
+
+  pkg -S fwupd
+  fwupdmgr get-updates
+  systemctl enable --now fwupd-refresh.timer
+
+  log "<<< fwupd"
+
   log ">>> Fingerprint"
 
   pkg -S fprintd
@@ -115,6 +141,16 @@ function fingerprint_setup() {
   sudo cp ./.cp/pam.d/system-local-login /etc/pam.d/system-local-login
 
   log "<<< Fingerprint"
+
+  log "<<< Laptop tools"
+}
+
+function dms_setup() {
+  log ">>> DankMaterialLinux"
+
+  pkg -S dms-shell-bin
+
+  log "<<< DankMaterialLinux"
 }
 
 echo ">>> Archlinux setup"
@@ -130,8 +166,11 @@ languages
 shell_setup
 fonts $HOME/.fonts/
 install_tmux
-tlp_setup
-fingerprint_setup
+laptop_tools_setup
+dms_setup
 symlink
+
+log "Please run the following commands: fwupdmgr update"
+
 cleanup sudo pacman -Rsn
 echo "<<< Archlinux setup"
