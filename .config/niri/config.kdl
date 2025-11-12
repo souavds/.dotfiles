@@ -37,7 +37,7 @@ input {
 
     mouse {
         // off
-        // natural-scroll
+        natural-scroll
         // accel-speed 0.2
         // accel-profile "flat"
         // scroll-method "no-scroll"
@@ -45,7 +45,7 @@ input {
 
     trackpoint {
         // off
-        // natural-scroll
+        natural-scroll
         // accel-speed 0.2
         // accel-profile "flat"
         // scroll-method "on-button-down"
@@ -59,7 +59,7 @@ input {
 
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-    focus-follows-mouse max-scroll-amount="0%"
+    focus-follows-mouse max-scroll-amount="90%"
 }
 
 // You can configure outputs by their name, which you can find
@@ -105,6 +105,7 @@ input {
 layout {
     // Set gaps around windows in logical pixels.
     gaps 5
+    background-color "transparent"
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -261,7 +262,6 @@ layout {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "/usr/lib/soteria-polkit/soteria" 
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -607,4 +607,7 @@ binds {
     Mod+Shift+P { power-off-monitors; }
 }
 
-spawn-at-startup "qs" "-c" "noctalia-shell"
+spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
+spawn-at-startup "dms" "run"
+spawn-at-startup "/usr/lib/soteria-polkit/soteria" 
+

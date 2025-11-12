@@ -93,8 +93,28 @@ function tlp_setup() {
   pkg -S tlp tlp-rdw
   sudo systemctl enable --now tlp.service
   sudo cp ./.cp/tlp.conf /etc/tlp.conf
+  sudo systemctl restart tlp.service
 
   log "<<< TLP"
+}
+
+function dms_setup() {
+  log ">>> DankMaterialLinux"
+
+  pkg -S dms-shell-bin
+
+  log "<<< DankMaterialLinux"
+}
+
+function fingerprint_setup() {
+  log ">>> Fingerprint"
+
+  pkg -S fprintd
+  fprintd-enroll
+  fprintd-verify
+  sudo cp ./.cp/pam.d/system-local-login /etc/pam.d/system-local-login
+
+  log "<<< Fingerprint"
 }
 
 echo ">>> Archlinux setup"
@@ -110,6 +130,8 @@ languages
 shell_setup
 fonts $HOME/.fonts/
 install_tmux
+tlp_setup
+fingerprint_setup
 symlink
 cleanup sudo pacman -Rsn
 echo "<<< Archlinux setup"
