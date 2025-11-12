@@ -4,3 +4,4 @@ helium-browser-bin
 spotify
 usbutils
 soteria-git
+impala

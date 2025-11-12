@@ -1,2 +1,3 @@
 font-family = "CommitMono Nerd Font"
 macos-option-as-alt = true
+gtk-titlebar = false

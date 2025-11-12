@@ -1,0 +1,12 @@
+[Default Applications]
+x-scheme-handler/http=${BROWSER}
+x-scheme-handler/https=${BROWSER}
+x-scheme-handler/ftp=${BROWSER}
+x-scheme-handler/chrome=${BROWSER}
+text/html=${BROWSER}
+application/x-extension-htm=${BROWSER}
+application/x-extension-html=${BROWSER}
+application/x-extension-shtml=${BROWSER}
+application/xhtml+xml=${BROWSER}
+application/x-extension-xhtml=${BROWSER}
+application/x-extension-xht=${BROWSER}

@@ -18,5 +18,10 @@ sh ./.scripts/host/darwin.sh
 stow -D . && stow .
 ```
 
+### Change mimeapps
+```bash
+BROWSER= sh ./.scripts/lib/mimeapps.sh
+```
+
 ### Roadmap
 

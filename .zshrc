@@ -53,6 +53,7 @@ alias ls="eza --color --icons --git -a"
 alias vim="nvim"
 alias lzg="lazygit"
 alias lzd="lazydocker" 
+alias wf="impala"
 
 # Functions
 function cd {
