@@ -94,7 +94,7 @@ function laptop_tools_setup() {
 
   pkg -S tlp tlp-rdw
   sudo systemctl enable --now tlp.service
-  sudo cp ./.cp/tlp.conf /etc/tlp.conf
+  sudo cp ./.cp/tlp.d/00-custom.conf /etc/tlp.d/
   sudo systemctl restart tlp.service
 
   log "<< TLP"
@@ -113,11 +113,12 @@ function laptop_tools_setup() {
 
   log "<<< acpi"
 
-  log ">>> powertop"
+  log ">>> auto-cpufreq"
 
-  pkg -S powertop
+  pkg -S auto-cpufreq
+  systemctl enable --now auto-cpufreq
 
-  log "<<< powertop"
+  log "<<< auto-cpufreq"
 
   log ">>> microcode"
 
