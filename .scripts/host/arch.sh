@@ -135,6 +135,12 @@ function laptop_tools_setup() {
 
   log "<<< Fingerprint"
 
+  log ">>> Lid management"
+
+  sudo cp -r ./.cp/systemd/logind.conf.d/ /etc/systemd/
+
+  log "<<< Lid management"
+
   log "<<< Laptop tools"
 }
 
@@ -144,6 +150,18 @@ function dms_setup() {
   pkg -S dms-shell-bin
 
   log "<<< DankMaterialLinux"
+}
+
+function firewall() {
+  log ">>> Firewall"
+
+  pkg -S ufw
+  systemctl enable --now ufw
+  sudo ufw default deny incoming
+  sudo ufw default allow outgoing
+  sudo ufw enable
+  
+  log "<<< Firewall"
 }
 
 echo ">>> Archlinux setup"
@@ -161,6 +179,7 @@ fonts $HOME/.fonts/
 install_tmux
 laptop_tools_setup
 dms_setup
+firewall
 symlink
 
 log "Please run the following commands: fwupdmgr update"
