@@ -90,15 +90,6 @@ function languages_dependencies() {
 function laptop_tools_setup() {
   log ">>> Laptop tools"
 
-  log ">> TLP"
-
-  pkg -S tlp tlp-rdw
-  sudo systemctl enable --now tlp.service
-  sudo cp ./.cp/tlp.d/00-custom.conf /etc/tlp.d/
-  sudo systemctl restart tlp.service
-
-  log "<< TLP"
-
   log ">>> Thermald"
 
   pkg -S thermald
