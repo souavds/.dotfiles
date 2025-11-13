@@ -1,20 +1,25 @@
 [core]
 	editor = nvim
-[user]
-	email = arthurvdinizs@gmail.com
-	name = Arthur Diniz
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGHh2/DfPI+gJl2hEIh4hak/CdfISyrdKvrkSIthWkUD
+
 [init]
 	defaultBranch = main
+
 [push]
-  autoSetupRemote = true
+	autoSetupRemote = true
+
 [pull]
-  rebase = true
+	rebase = true
+
 [gpg]
 	format = ssh
-[gpg "ssh"]
-  program = "/opt/1Password/op-ssh-sign"
+
 [commit]
 	gpgsign = true
+
 [tag]
 	gpgSign = true
+
+# Include local configuration (user info, signing keys)
+# This file is not tracked and should be created during installation
+[include]
+	path = ~/.gitconfig.local

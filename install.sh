@@ -127,19 +127,29 @@ main() {
             bash "$DOTFILES_DIR/scripts/bootstrap.sh"
             bash "$DOTFILES_DIR/modules/system/packages.sh"
             bash "$DOTFILES_DIR/modules/dev/languages.sh"
+            bash "$DOTFILES_DIR/modules/shell/zsh.sh"
+            bash "$DOTFILES_DIR/modules/shell/tmux.sh"
             bash "$DOTFILES_DIR/modules/shell/stow.sh"
-            # services script coming next
+            
+            # Platform-specific services (Arch Linux only)
+            if [[ "$PLATFORM" == "linux" ]] && [[ "$DISTRO" == "arch" ]]; then
+                bash "$DOTFILES_DIR/modules/system/services.sh"
+            fi
+            
             bash "$DOTFILES_DIR/scripts/post-install.sh"
             ;;
         minimal)
             log_info "Running minimal installation..."
             bash "$DOTFILES_DIR/modules/shell/stow.sh"
+            bash "$DOTFILES_DIR/scripts/post-install.sh"
             ;;
         dev)
             log_info "Running dev installation..."
             bash "$DOTFILES_DIR/scripts/bootstrap.sh"
             bash "$DOTFILES_DIR/modules/system/packages.sh"
             bash "$DOTFILES_DIR/modules/dev/languages.sh"
+            bash "$DOTFILES_DIR/modules/shell/zsh.sh"
+            bash "$DOTFILES_DIR/modules/shell/tmux.sh"
             bash "$DOTFILES_DIR/modules/shell/stow.sh"
             bash "$DOTFILES_DIR/scripts/post-install.sh"
             ;;

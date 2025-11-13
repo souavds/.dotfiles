@@ -14,34 +14,34 @@ source "$DOTFILES_DIR/lib/ui.sh"
 main() {
     header "Post-Installation"
     
-    # Setup ZSH plugins
-    if command_exists zsh; then
-        log_step "Checking ZSH setup..."
+    # Setup git config local file if it doesn't exist
+    if [[ ! -f "$HOME/.gitconfig.local" ]]; then
+        log_step "Setting up git local configuration..."
         
-        local zinit_home="${XDG_DATA_HOME:-$HOME/.local/share}/zinit/zinit.git"
-        
-        if [[ ! -d "$zinit_home" ]]; then
-            log_info "Installing zinit plugin manager..."
-            mkdir -p "$(dirname "$zinit_home")"
-            git clone https://github.com/zdharma-continuum/zinit.git "$zinit_home"
-            log_success "zinit installed"
-        else
-            log_skip "zinit already installed"
+        if [[ -f "$DOTFILES_DIR/.gitconfig.local.template" ]]; then
+            if [[ "$DRY_RUN" != "true" ]]; then
+                local name=$(input "Your full name" "Your Name")
+                local email=$(input "Your email" "you@example.com")
+                
+                cat > "$HOME/.gitconfig.local" <<EOF
+[user]
+	email = $email
+	name = $name
+
+# Uncomment and configure if using 1Password SSH signing:
+# [user]
+#	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA...
+#
+# [gpg "ssh"]
+#	program = "/opt/1Password/op-ssh-sign"
+EOF
+                log_success "Created ~/.gitconfig.local"
+            else
+                log_info "[DRY-RUN] Would create ~/.gitconfig.local"
+            fi
         fi
-    fi
-    
-    # Setup Tmux plugins
-    if command_exists tmux; then
-        log_step "Checking Tmux setup..."
-        
-        if [[ ! -d "$HOME/.tmux/plugins/tpm" ]]; then
-            log_info "Installing Tmux Plugin Manager..."
-            git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
-            log_success "TPM installed"
-            log_info "Run 'tmux' and press Ctrl+A + I to install tmux plugins"
-        else
-            log_skip "TPM already installed"
-        fi
+    else
+        log_skip "~/.gitconfig.local already exists"
     fi
     
     # Cleanup
@@ -55,7 +55,8 @@ main() {
     echo "1. Restart your shell or run: exec zsh"
     echo "2. Open tmux and press Ctrl+A + I to install plugins"
     echo "3. Run 'nvim' to let plugins install automatically"
-    echo "4. Review logs at: $LOG_FILE"
+    echo "4. Edit ~/.gitconfig.local if you need SSH signing"
+    echo "5. Review logs at: $LOG_FILE"
     echo
     
     if [[ "$PLATFORM" == "linux" ]] && [[ "$DISTRO" == "arch" ]]; then

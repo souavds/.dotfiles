@@ -1,0 +1,25 @@
+# Installation logs
+install.log
+*.log
+
+# Local git configuration (contains personal info)
+.gitconfig.local
+
+# Backups
+.backups/
+
+# Temporary files
+tmp/
+*.tmp
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.code-workspace

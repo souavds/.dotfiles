@@ -1,0 +1,11 @@
+# Local git configuration (not tracked)
+# This file is generated during installation
+# Copy this to ~/.gitconfig.local and customize
+
+[user]
+	email = your.email@example.com
+	name = Your Name
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+[gpg "ssh"]
+	program = "/opt/1Password/op-ssh-sign"

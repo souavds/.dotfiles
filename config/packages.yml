@@ -31,6 +31,8 @@ common:
     - just
     - mise
     - 1password-cli
+    - shellcheck
+    - shfmt
     
   # Terminal emulators
   terminals:

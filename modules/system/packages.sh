@@ -46,27 +46,39 @@ install_category() {
         return 0
     fi
     
-    local failed=()
+    # Filter out already installed packages and collect ones to install
+    local to_install=()
+    local already_installed=()
     
     while IFS= read -r pkg; do
-        if [[ -z "$pkg" ]]; then
-            continue
-        fi
+        [[ -z "$pkg" ]] && continue
         
-        if pkg_ensure "$pkg"; then
-            log_success "Installed: $pkg"
+        if pkg_is_installed "$pkg"; then
+            already_installed+=("$pkg")
         else
-            log_error "Failed to install: $pkg"
-            failed+=("$pkg")
+            to_install+=("$pkg")
         fi
     done <<< "$packages"
     
-    if [[ ${#failed[@]} -gt 0 ]]; then
-        log_warning "Failed packages: ${failed[*]}"
-        return 1
+    # Show already installed
+    if [[ ${#already_installed[@]} -gt 0 ]]; then
+        log_info "Already installed: ${already_installed[*]}"
     fi
     
-    log_success "All $category packages installed"
+    # Batch install new packages
+    if [[ ${#to_install[@]} -eq 0 ]]; then
+        log_success "All $category packages already installed"
+        return 0
+    fi
+    
+    log_step "Installing ${#to_install[@]} package(s)..."
+    
+    if pkg_install "${to_install[@]}"; then
+        log_success "All $category packages installed"
+    else
+        log_error "Some packages failed to install"
+        return 1
+    fi
 }
 
 # Main installation

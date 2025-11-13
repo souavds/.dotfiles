@@ -85,6 +85,11 @@ uninstall:
     @echo "→ Removing dotfiles symlinks..."
     @cd "{{justfile_directory()}}" && stow -D .
 
+# Configure system services (Arch Linux)
+services:
+    @echo "→ Configuring system services..."
+    @bash modules/system/services.sh
+
 # Install fonts
 fonts:
     @echo "→ Installing fonts..."
