@@ -21,3 +21,4 @@ yazi
 tmux
 jq
 ghostty
+kitty
