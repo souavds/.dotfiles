@@ -139,6 +139,7 @@ function laptop_tools_setup() {
   fprintd-enroll
   fprintd-verify
   sudo cp ./.cp/pam.d/system-local-login /etc/pam.d/system-local-login
+  sudo cp ./.cp/pam.d/polkit-1 /etc/pam.d/polkit-1
 
   log "<<< Fingerprint"
 

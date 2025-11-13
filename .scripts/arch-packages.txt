@@ -10,6 +10,5 @@ ttf-liberation
 noto-fonts
 noto-fonts-emoji
 wl-clipboard
-xclip
 cliphist
 vicinae-bin
