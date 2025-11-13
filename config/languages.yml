@@ -1,0 +1,36 @@
+# Programming language runtimes via mise
+# These will be installed using mise (asdf compatible)
+
+tools:
+  # JavaScript/TypeScript
+  node:
+    version: latest
+    
+  # Erlang (with wxWidgets support)
+  erlang:
+    version: latest
+    env:
+      KERL_CONFIGURE_OPTIONS: "--enable-wx"
+      
+  # Elixir
+  elixir:
+    version: latest
+    
+  # Shell completion tools
+  usage:
+    version: latest
+
+# Dependencies needed before language installation
+dependencies:
+  arch:
+    - jdk-openjdk
+    - unixodbc
+    - ncurses
+    - libssh
+    - wxwidgets-gtk3
+    - wxwidgets-common
+    - unzip
+    
+  darwin:
+    - openjdk
+    - unixodbc
