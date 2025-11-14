@@ -3,6 +3,7 @@ common:
     - stow
     - git
     - curl
+    - go-yq
     
   shell:
     - neovim

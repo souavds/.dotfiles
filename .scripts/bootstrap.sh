@@ -23,6 +23,12 @@ bootstrap_arch() {
     log_info "Updating package database..."
     sudo pacman -Sy --noconfirm
     
+    # Install yq (YAML parser) - required for parsing config files
+    if ! command_exists yq; then
+        log_info "Installing yq (YAML parser)..."
+        sudo pacman -S --needed --noconfirm go-yq
+    fi
+    
     # Install base-devel if not present (needed for AUR)
     if ! pacman -Qg base-devel &>/dev/null; then
         log_info "Installing base-devel..."
@@ -67,6 +73,12 @@ bootstrap_darwin() {
     
     # Update brew
     brew update
+    
+    # Install yq (YAML parser) - required for parsing config files
+    if ! command_exists yq; then
+        log_info "Installing yq (YAML parser)..."
+        brew install yq
+    fi
     
     log_success "macOS bootstrap complete"
 }

@@ -1,11 +1,22 @@
 #!/usr/bin/env bash
 
-# YAML parsing utilities
+# YAML parsing utilities using yq
 
 source "$(dirname "${BASH_SOURCE[0]}")/core.sh"
 
-# Parse YAML and extract values
-# Falls back to grep/sed if yq not available
+# Check if yq is available and show helpful error if not
+check_yq() {
+    if ! command_exists yq; then
+        log_error "yq is required for parsing YAML configuration files"
+        log_info "Install it with: sudo pacman -S go-yq (Arch) or brew install yq (macOS)"
+        log_info "Or run: just bootstrap"
+        return 1
+    fi
+}
+
+# Parse YAML and extract scalar values
+# Usage: yaml_get <file> <path>
+# Example: yaml_get "config/packages.yml" "common.essential"
 yaml_get() {
     local file="$1"
     local key="$2"
@@ -15,76 +26,21 @@ yaml_get() {
         return 1
     fi
     
-    # yq first (best YAML parser)
-    if command_exists yq; then
-        yq eval "$key" "$file" 2>/dev/null || true
-        return 0
-    fi
+    check_yq || return 1
     
-    # Fallback: parse nested YAML path to get scalar value
-    # Handle paths like "arch.firewall.package" or "arch.laptop.microcode.package"
-    local parts=(${key//./ })
-    local num_parts=${#parts[@]}
-    
-    if [[ $num_parts -eq 2 ]]; then
-        # Two levels: e.g., arch.firewall -> look for firewall.package
-        awk -v p1="${parts[0]}" -v p2="${parts[1]}" '
-            $0 ~ "^"p1":" { in_p1=1; next }
-            in_p1 && /^[^ ]/ { exit }
-            in_p1 && $0 ~ "^  "p2":" { sub(/.*: */, ""); print; exit }
-        ' "$file"
-    elif [[ $num_parts -eq 3 ]]; then
-        # Three levels: e.g., arch.laptop.microcode -> look for laptop.microcode.package
-        awk -v p1="${parts[0]}" -v p2="${parts[1]}" -v p3="${parts[2]}" '
-            $0 ~ "^"p1":" { in_p1=1; next }
-            in_p1 && /^[^ ]/ { exit }
-            in_p1 && $0 ~ "^  "p2":" { in_p2=1; next }
-            in_p2 && /^  [^ ]/ { exit }
-            in_p2 && $0 ~ "^    "p3":" { sub(/.*: */, ""); print; exit }
-        ' "$file"
-    elif [[ $num_parts -eq 4 ]]; then
-        # Four levels: e.g., arch.laptop.fingerprint.package
-        awk -v p1="${parts[0]}" -v p2="${parts[1]}" -v p3="${parts[2]}" -v p4="${parts[3]}" '
-            $0 ~ "^"p1":" { in_p1=1; next }
-            in_p1 && /^[^ ]/ { exit }
-            in_p1 && $0 ~ "^  "p2":" { in_p2=1; next }
-            in_p2 && /^  [^ ]/ { exit }
-            in_p2 && $0 ~ "^    "p3":" { in_p3=1; next }
-            in_p3 && /^    [^ ]/ { exit }
-            in_p3 && $0 ~ "^      "p4":" { sub(/.*: */, ""); print; exit }
-        ' "$file"
-    fi
+    yq eval "$key" "$file" 2>/dev/null || true
 }
 
 # Get array from YAML
+# Usage: yaml_array <file> <path>
+# Example: yaml_array "config/packages.yml" "common.essential"
 yaml_array() {
     local file="$1"
     local path="$2"
     
-    if command_exists yq; then
-        yq eval "${path}[]" "$file" 2>/dev/null | grep -v '^null$' || true
-    else
-        # Fallback grep-based extraction for arrays
-        # Handle paths like "common.essential" or "arch.packages"
-        local parts=(${path//./ })
-        local section="${parts[-1]}"
-        
-        # For nested paths, try to find the right section
-        if [[ ${#parts[@]} -eq 2 ]]; then
-            local parent="${parts[0]}"
-            # Extract items from parent.section using awk
-            awk -v parent="^${parent}:" -v section="^  ${section}:" '
-                $0 ~ parent {in_parent=1; next}
-                in_parent && /^[^ ]/ {exit}
-                in_parent && $0 ~ section {in_section=1; next}
-                in_section && /^  [^ ]/ && $0 !~ section {exit}
-                in_section && /^\s*-\s+/ {sub(/^\s*-\s*/, ""); print}
-            ' "$file"
-        else
-            # Simple single-level lookup
-            grep -A 100 "^${section}:" "$file" | sed -n '/^[^ #]/q;p' | grep -E '^\s*-\s+' | sed 's/^\s*-\s*//' || true
-        fi
-    fi
+    check_yq || return 1
+    
+    yq eval "${path}[]" "$file" 2>/dev/null | grep -v '^null$' || true
 }
 
 # Check if YAML key exists
@@ -92,11 +48,9 @@ yaml_has() {
     local file="$1"
     local key="$2"
     
-    if command_exists yq; then
-        yq eval "has(\"$key\")" "$file" 2>/dev/null | grep -q "true"
-    else
-        grep -q "^${key}:" "$file"
-    fi
+    check_yq || return 1
+    
+    yq eval "has(\"$key\")" "$file" 2>/dev/null | grep -q "true"
 }
 
 # Get packages for a specific category and platform
@@ -177,11 +131,10 @@ process_services() {
     local callback="$3"
     local yaml_file="$CONFIG_DIR/services.yml"
     
+    check_yq || return 1
+    
     # Get count of services
-    local count=0
-    if command_exists yq; then
-        count=$(yq eval ".${platform}.${device}.services | length" "$yaml_file" 2>/dev/null || echo "0")
-    fi
+    local count=$(yq eval ".${platform}.${device}.services | length" "$yaml_file" 2>/dev/null || echo "0")
     
     if [[ "$count" == "0" || "$count" == "null" ]]; then
         return 0
@@ -235,7 +188,7 @@ get_pam_files() {
     local platform="$1"
     local yaml_file="$CONFIG_DIR/services.yml"
     
-    if command_exists yq; then
-        yq eval ".${platform}.laptop.fingerprint.pam_files[] | (.src + \" \" + .dest)" "$yaml_file" 2>/dev/null
-    fi
+    check_yq || return 1
+    
+    yq eval ".${platform}.laptop.fingerprint.pam_files[] | (.src + \" \" + .dest)" "$yaml_file" 2>/dev/null
 }
