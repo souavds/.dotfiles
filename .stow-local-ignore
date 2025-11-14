@@ -8,10 +8,6 @@ install\.sh
 Justfile
 
 # Documentation
-README\.md
-README\.new\.md
-IMPROVEMENTS_SUMMARY\.md
-MIGRATION\.md
 .*\.md$
 
 # Configuration (not for home directory)
