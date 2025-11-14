@@ -12,7 +12,13 @@ if [[ -z "${RED:-}" ]]; then
     readonly NC='\033[0m'
 fi
 
-export DOTFILES_DIR="${DOTFILES_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+# DOTFILES_DIR should be set by calling script before sourcing this file
+# If not set, try to detect it (will be .scripts/ parent directory)
+if [[ -z "${DOTFILES_DIR:-}" ]]; then
+    # Go up two levels from .scripts/lib/ to get to dotfiles root
+    export DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+fi
+
 export BACKUP_DIR="${BACKUP_DIR:-$DOTFILES_DIR/.backups}"
 export CONFIG_DIR="${CONFIG_DIR:-$DOTFILES_DIR/config}"
 export LOG_FILE="${LOG_FILE:-$DOTFILES_DIR/install.log}"
@@ -130,8 +136,13 @@ spinner() {
     printf "    \b\b\b\b"
 }
 
+# Initialize log directory (but don't log yet - let scripts control logging)
 ensure_dir "$(dirname "$LOG_FILE")"
-log_info "=== Dotfiles installation started ==="
-log_info "Platform: $PLATFORM"
-log_info "Distro: $DISTRO"
-log_info "Dotfiles dir: $DOTFILES_DIR"
+
+# Optional: Scripts can call this function to log startup info
+log_startup_info() {
+    log_info "=== Dotfiles installation started ==="
+    log_info "Platform: $PLATFORM"
+    log_info "Distro: $DISTRO"
+    log_info "Dotfiles dir: $DOTFILES_DIR"
+}

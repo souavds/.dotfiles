@@ -5,9 +5,10 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)" pwd)"
+export DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 source "$DOTFILES_DIR/.scripts/lib/core.sh"
+source "$DOTFILES_DIR/.scripts/lib/ui.sh"
 
 bootstrap_arch() {
     log_step "Bootstrapping Arch Linux..."

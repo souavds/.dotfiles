@@ -20,7 +20,7 @@ install-dev: validate bootstrap packages languages dotfiles
 # Validate system requirements
 validate:
     @echo "→ Running pre-flight checks..."
-    @bash -c "source .scripts/lib/validation.sh && validate_all"
+    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/ui.sh && source .scripts/lib/validation.sh && validate_all"
 
 # Bootstrap (install essential tools)
 bootstrap:
@@ -55,20 +55,20 @@ post-install:
 # Create backup
 backup name="":
     @echo "→ Creating backup..."
-    @bash -c "source .scripts/lib/backup.sh && backup_create '{{name}}'"
+    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/backup.sh && backup_create '{{name}}'"
 
 # Restore from backup
 restore name="":
     @echo "→ Restoring from backup..."
-    @bash -c "source .scripts/lib/backup.sh && backup_restore '{{name}}'"
+    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/backup.sh && backup_restore '{{name}}'"
 
 # List backups
 list-backups:
-    @bash -c "source .scripts/lib/backup.sh && backup_list"
+    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/backup.sh && backup_list"
 
 # Clean old backups (keep last 5)
 clean-backups:
-    @bash -c "source .scripts/lib/backup.sh && backup_clean"
+    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/backup.sh && backup_clean"
 
 # Dry run (preview changes without applying)
 dry-run:
