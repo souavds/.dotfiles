@@ -10,9 +10,6 @@ Justfile
 # Documentation
 .*\.md$
 
-# Configuration (not for home directory)
-config
-
 # System config files (copied to /etc, not symlinked)
 \.cp
 

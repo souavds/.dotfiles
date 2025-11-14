@@ -20,7 +20,7 @@ if [[ -z "${DOTFILES_DIR:-}" ]]; then
 fi
 
 export BACKUP_DIR="${BACKUP_DIR:-$DOTFILES_DIR/.backups}"
-export CONFIG_DIR="${CONFIG_DIR:-$DOTFILES_DIR/config}"
+export CONFIG_DIR="${CONFIG_DIR:-$DOTFILES_DIR/.scripts/config}"
 export LOG_FILE="${LOG_FILE:-$DOTFILES_DIR/install.log}"
 detect_platform() {
     case "$(uname -s)" in
