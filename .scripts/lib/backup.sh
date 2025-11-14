@@ -42,7 +42,7 @@ backup_create() {
                 if [[ -e "$target" ]]; then
                     if run cp -rL "$file" "$backup_file"; then
                         log_info "Backed up: $rel_path (symlink -> actual content)"
-                        ((backed_up++))
+                        backed_up=$((backed_up + 1))
                     fi
                 else
                     log_warning "Skipping broken symlink: $rel_path"
@@ -51,7 +51,7 @@ backup_create() {
                 # Regular file or directory
                 if run cp -r "$file" "$backup_file"; then
                     log_info "Backed up: $rel_path"
-                    ((backed_up++))
+                    backed_up=$((backed_up + 1))
                 fi
             fi
         fi
@@ -78,11 +78,16 @@ backup_create() {
     esac
     
     # Create backup metadata
+    local hostname_value="unknown"
+    if command_exists hostname; then
+        hostname_value=$(hostname 2>/dev/null || echo "unknown")
+    fi
+    
     cat > "$backup_path/metadata.txt" <<EOF
 Backup created: $(date)
 Platform: $PLATFORM
 Distro: $DISTRO
-Hostname: $(hostname)
+Hostname: $hostname_value
 User: $USER
 Files backed up: $backed_up
 EOF
