@@ -114,11 +114,8 @@ main() {
         echo
     fi
     
-    # Create backup before making changes
-    if [[ "$DRY_RUN" != "true" ]]; then
-        backup_create "pre-install-$(date +%Y%m%d-%H%M%S)"
-        echo
-    fi
+    # Note: Backup will be created by stow.sh before symlinking
+    # This ensures we always have a backup right before dotfiles changes
     
     # Execute based on task
     case "$TASK" in

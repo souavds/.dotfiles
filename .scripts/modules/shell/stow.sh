@@ -24,6 +24,15 @@ main() {
     
     cd "$DOTFILES_DIR" || error "Failed to cd to $DOTFILES_DIR"
     
+    # Always create a backup before any stow operation
+    log_step "Creating backup before stowing..."
+    if [[ "$DRY_RUN" != "true" ]]; then
+        backup_create "pre-stow-$(date +%Y%m%d-%H%M%S)"
+        echo
+    else
+        log_info "[DRY-RUN] Would create backup"
+    fi
+    
     if is_stowed; then
         log_info "Dotfiles already linked"
         
@@ -35,7 +44,7 @@ main() {
     else
         log_step "Preparing to symlink dotfiles..."
         
-        # Check for conflicts
+        # Check for conflicts (informational only, since we already backed up)
         local conflicts=()
         
         for file in .zshrc .gitconfig .ripgreprc; do
@@ -49,12 +58,10 @@ main() {
             printf '  %s\n' "${conflicts[@]}"
             echo
             
-            if ! confirm "Create backup and continue?" true; then
+            if ! confirm "Continue with stowing?" true; then
                 log_info "Stow cancelled"
                 return 1
             fi
-            
-            backup_create "pre-stow-$(date +%Y%m%d-%H%M%S)"
         fi
         
         log_step "Symlinking dotfiles..."
