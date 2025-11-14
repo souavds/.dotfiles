@@ -1,37 +1,27 @@
-# System services and configurations
-# Arch Linux specific (laptop optimizations)
-
 arch:
-  # Laptop power management and performance
   laptop:
     services:
-      # Intel thermal management
       - name: thermald
         package: thermald
         enable: true
         
-      # ACPI daemon
       - name: acpid
         package: acpi
         enable: true
         
-      # CPU frequency optimization
       - name: auto-cpufreq
         package: auto-cpufreq
         enable: true
         config_src: .cp/auto-cpufreq.conf
         config_dest: /etc/auto-cpufreq.conf
         
-    # Firmware updates
     firmware:
       package: fwupd
       timer: fwupd-refresh.timer
       
-    # Intel microcode
     microcode:
       package: intel-ucode
       
-    # Fingerprint reader
     fingerprint:
       package: fprintd
       pam_files:
@@ -39,14 +29,12 @@ arch:
           dest: /etc/pam.d/system-local-login
         - src: .cp/pam.d/polkit-1
           dest: /etc/pam.d/polkit-1
-      interactive_setup: true  # Requires manual enrollment
+      interactive_setup: true
       
-    # Lid switch behavior
     logind:
       config_dir: .cp/systemd/logind.conf.d
       dest_dir: /etc/systemd/logind.conf.d
       
-  # Security
   firewall:
     package: ufw
     service: ufw
@@ -56,6 +44,4 @@ arch:
       - default allow outgoing
 
 darwin:
-  # macOS doesn't use systemd services
-  # Add macOS specific services here if needed
   services: []

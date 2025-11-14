@@ -1,14 +1,9 @@
-# Package definitions for dotfiles installation
-# Organized by category and platform
-
 common:
-  # Essential tools (always installed)
   essential:
     - stow
     - git
     - curl
     
-  # Shell utilities
   shell:
     - neovim
     - bat
@@ -23,7 +18,6 @@ common:
     - oh-my-posh
     - fastfetch
     
-  # Development tools
   dev:
     - lazygit
     - lazydocker
@@ -34,34 +28,28 @@ common:
     - shellcheck
     - shfmt
     
-  # Terminal emulators
   terminals:
     - tmux
     - ghostty
     - kitty
 
-# Arch Linux specific packages
 arch:
-  # Standard packages (pacman)
   packages:
     - usbutils
     - wl-clipboard
     - cliphist
     
-  # Base fonts
   fonts:
     - ttf-dejavu
     - ttf-liberation
     - noto-fonts
     - noto-fonts-emoji
     
-  # Nerd fonts (pacman available)
   nerd_fonts:
     - otf-commit-mono-nerd
     - otf-geist-mono-nerd
     - ttf-ibmplex-mono-nerd
     
-  # AUR packages (requires paru/yay)
   aur:
     - opencode-bin
     - helium-browser-bin
@@ -71,18 +59,10 @@ arch:
     - impala
     - vicinae-bin
 
-# macOS specific packages
 darwin:
-  # Homebrew formulas
   brew: []
-    # Most packages are cross-platform and installed via common
-    
-  # Homebrew casks
   cask: []
-    # Add macOS specific GUI apps here if needed
 
-# Nerd Fonts to download from GitHub
-# These will be downloaded if not available via package manager
 nerd_fonts:
   - CommitMono
   - GeistMono
