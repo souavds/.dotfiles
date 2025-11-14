@@ -45,8 +45,6 @@ validate_commands() {
             linux)
                 if [[ "$DISTRO" == "arch" ]]; then
                     log_info "  sudo pacman -S ${missing[*]}"
-                else
-                    log_info "  sudo apt-get install ${missing[*]}"
                 fi
                 ;;
             darwin)
@@ -106,12 +104,7 @@ validate_yaml_parser() {
         return 0
     fi
     
-    if command_exists gum; then
-        log_success "gum is available (can parse YAML)"
-        return 0
-    fi
-    
-    log_warning "No YAML parser found (yq or gum recommended)"
+    log_warning "No YAML parser found (yq recommended)"
     log_info "Installing yq is recommended for better YAML support"
     
     return 0

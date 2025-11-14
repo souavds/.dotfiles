@@ -3,7 +3,7 @@
 # macOS package manager abstraction
 # Handles Homebrew
 
-source "$DOTFILES_DIR/lib/core.sh"
+source "$DOTFILES_DIR/.scripts/lib/core.sh"
 
 # Install packages
 pkg_install() {

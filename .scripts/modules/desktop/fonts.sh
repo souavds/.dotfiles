@@ -5,11 +5,11 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+export DOTFILES_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
-source "$DOTFILES_DIR/lib/core.sh"
-source "$DOTFILES_DIR/lib/ui.sh"
-source "$DOTFILES_DIR/lib/yaml.sh"
+source "$DOTFILES_DIR/.scripts/lib/core.sh"
+source "$DOTFILES_DIR/.scripts/lib/ui.sh"
+source "$DOTFILES_DIR/.scripts/lib/yaml.sh"
 
 # Determine font directory based on platform
 get_font_dir() {

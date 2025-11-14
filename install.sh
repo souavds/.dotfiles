@@ -9,10 +9,10 @@ set -euo pipefail
 export DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Source core libraries
-source "$DOTFILES_DIR/lib/core.sh"
-source "$DOTFILES_DIR/lib/ui.sh"
-source "$DOTFILES_DIR/lib/validation.sh"
-source "$DOTFILES_DIR/lib/backup.sh"
+source "$DOTFILES_DIR/.scripts/lib/core.sh"
+source "$DOTFILES_DIR/.scripts/lib/ui.sh"
+source "$DOTFILES_DIR/.scripts/lib/validation.sh"
+source "$DOTFILES_DIR/.scripts/lib/backup.sh"
 
 # Parse arguments
 TASK="full"
@@ -124,34 +124,34 @@ main() {
     case "$TASK" in
         full)
             log_info "Running full installation..."
-            bash "$DOTFILES_DIR/scripts/bootstrap.sh"
-            bash "$DOTFILES_DIR/modules/system/packages.sh"
-            bash "$DOTFILES_DIR/modules/dev/languages.sh"
-            bash "$DOTFILES_DIR/modules/shell/zsh.sh"
-            bash "$DOTFILES_DIR/modules/shell/tmux.sh"
-            bash "$DOTFILES_DIR/modules/shell/stow.sh"
+            bash "$DOTFILES_DIR/.scripts/bootstrap.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/system/packages.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/dev/languages.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/shell/zsh.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/shell/tmux.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/shell/stow.sh"
             
             # Platform-specific services (Arch Linux only)
             if [[ "$PLATFORM" == "linux" ]] && [[ "$DISTRO" == "arch" ]]; then
-                bash "$DOTFILES_DIR/modules/system/services.sh"
+                bash "$DOTFILES_DIR/.scripts/modules/system/services.sh"
             fi
             
-            bash "$DOTFILES_DIR/scripts/post-install.sh"
+            bash "$DOTFILES_DIR/.scripts/post-install.sh"
             ;;
         minimal)
             log_info "Running minimal installation..."
-            bash "$DOTFILES_DIR/modules/shell/stow.sh"
-            bash "$DOTFILES_DIR/scripts/post-install.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/shell/stow.sh"
+            bash "$DOTFILES_DIR/.scripts/post-install.sh"
             ;;
         dev)
             log_info "Running dev installation..."
-            bash "$DOTFILES_DIR/scripts/bootstrap.sh"
-            bash "$DOTFILES_DIR/modules/system/packages.sh"
-            bash "$DOTFILES_DIR/modules/dev/languages.sh"
-            bash "$DOTFILES_DIR/modules/shell/zsh.sh"
-            bash "$DOTFILES_DIR/modules/shell/tmux.sh"
-            bash "$DOTFILES_DIR/modules/shell/stow.sh"
-            bash "$DOTFILES_DIR/scripts/post-install.sh"
+            bash "$DOTFILES_DIR/.scripts/bootstrap.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/system/packages.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/dev/languages.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/shell/zsh.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/shell/tmux.sh"
+            bash "$DOTFILES_DIR/.scripts/modules/shell/stow.sh"
+            bash "$DOTFILES_DIR/.scripts/post-install.sh"
             ;;
         *)
             error "Unknown task: $TASK"

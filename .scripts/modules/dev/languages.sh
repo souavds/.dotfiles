@@ -6,18 +6,18 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+export DOTFILES_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
-source "$DOTFILES_DIR/lib/core.sh"
-source "$DOTFILES_DIR/lib/ui.sh"
+source "$DOTFILES_DIR/.scripts/lib/core.sh"
+source "$DOTFILES_DIR/.scripts/lib/ui.sh"
 
 # Load platform-specific package manager
 case "$PLATFORM" in
     linux)
-        [[ "$DISTRO" == "arch" ]] && source "$DOTFILES_DIR/platforms/arch/package-manager.sh"
+        [[ "$DISTRO" == "arch" ]] && source "$DOTFILES_DIR/.scripts/platforms/arch/package-manager.sh"
         ;;
     darwin)
-        source "$DOTFILES_DIR/platforms/darwin/package-manager.sh"
+        source "$DOTFILES_DIR/.scripts/platforms/darwin/package-manager.sh"
         ;;
 esac
 

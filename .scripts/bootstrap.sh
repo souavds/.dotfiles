@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
 # Bootstrap script - installs minimal dependencies needed to run the installer
-# This runs first to ensure gum and other tools are available
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+export DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)" pwd)"
 
-source "$DOTFILES_DIR/lib/core.sh"
+source "$DOTFILES_DIR/.scripts/lib/core.sh"
 
 bootstrap_arch() {
     log_step "Bootstrapping Arch Linux..."
@@ -22,16 +21,6 @@ bootstrap_arch() {
     # Update package database
     log_info "Updating package database..."
     sudo pacman -Sy --noconfirm
-    
-    # Install gum for better UX
-    if ! command_exists gum; then
-        log_info "Installing gum..."
-        if command_exists paru; then
-            paru -S --needed --noconfirm gum
-        else
-            sudo pacman -S --needed --noconfirm gum
-        fi
-    fi
     
     # Install base-devel if not present (needed for AUR)
     if ! pacman -Qg base-devel &>/dev/null; then
@@ -77,12 +66,6 @@ bootstrap_darwin() {
     
     # Update brew
     brew update
-    
-    # Install gum
-    if ! command_exists gum; then
-        log_info "Installing gum..."
-        brew install gum
-    fi
     
     log_success "macOS bootstrap complete"
 }

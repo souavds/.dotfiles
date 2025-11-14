@@ -3,7 +3,7 @@
 # Arch Linux package manager abstraction
 # Handles pacman and AUR helpers (paru/yay)
 
-source "$DOTFILES_DIR/lib/core.sh"
+source "$DOTFILES_DIR/.scripts/lib/core.sh"
 
 # Determine which package manager to use
 pkg_manager() {
