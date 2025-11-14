@@ -28,6 +28,9 @@ yaml_get() {
     
     check_yq || return 1
     
+    # Add dot prefix if not present
+    [[ "$key" != .* ]] && key=".$key"
+    
     yq eval "$key" "$file" 2>/dev/null || true
 }
 
@@ -40,6 +43,9 @@ yaml_array() {
     
     check_yq || return 1
     
+    # Add dot prefix if not present
+    [[ "$path" != .* ]] && path=".$path"
+    
     yq eval "${path}[]" "$file" 2>/dev/null | grep -v '^null$' || true
 }
 
@@ -49,6 +55,9 @@ yaml_has() {
     local key="$2"
     
     check_yq || return 1
+    
+    # Add dot prefix if not present
+    [[ "$key" != .* ]] && key=".$key"
     
     yq eval "has(\"$key\")" "$file" 2>/dev/null | grep -q "true"
 }
