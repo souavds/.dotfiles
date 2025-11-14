@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# Backup and restore utilities
-# Provides safe backup before destructive operations
 
 source "$(dirname "${BASH_SOURCE[0]}")/core.sh"
 
@@ -94,7 +92,7 @@ backup_restore() {
     local backup_path="$BACKUP_DIR/$backup_name"
     
     if [[ ! -d "$backup_path" ]]; then
-        backup_path="$backup_name"  # Try as full path
+        backup_path="$backup_name"  # as full path
     fi
     
     if [[ ! -d "$backup_path" ]]; then

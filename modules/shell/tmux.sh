@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# Tmux setup module
 # Installs and configures Tmux with TPM (Tmux Plugin Manager)
 
 set -euo pipefail

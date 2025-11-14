@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# System services configuration module
 # Configures systemd services (Arch Linux laptop optimizations)
 
 set -euo pipefail

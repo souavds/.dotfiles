@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 
-# Core utilities for dotfiles installation
-# Provides logging, error handling, and platform detection
-
 set -euo pipefail
 
-# Colors for output (only set if not already defined)
 if [[ -z "${RED:-}" ]]; then
     readonly RED='\033[0;31m'
     readonly GREEN='\033[0;32m'
@@ -13,16 +9,13 @@ if [[ -z "${RED:-}" ]]; then
     readonly BLUE='\033[0;34m'
     readonly MAGENTA='\033[0;35m'
     readonly CYAN='\033[0;36m'
-    readonly NC='\033[0m' # No Color
+    readonly NC='\033[0m'
 fi
 
-# Dotfiles directory
 export DOTFILES_DIR="${DOTFILES_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 export BACKUP_DIR="${BACKUP_DIR:-$DOTFILES_DIR/.backups}"
 export CONFIG_DIR="${CONFIG_DIR:-$DOTFILES_DIR/config}"
 export LOG_FILE="${LOG_FILE:-$DOTFILES_DIR/install.log}"
-
-# Platform detection
 detect_platform() {
     case "$(uname -s)" in
         Linux*)     echo "linux" ;;
@@ -43,7 +36,6 @@ detect_distro() {
 export PLATFORM=$(detect_platform)
 export DISTRO=$(detect_distro)
 
-# Logging functions
 log() {
     local level="$1"
     shift
@@ -83,13 +75,11 @@ log_skip() {
     log "SKIP" "$*"
 }
 
-# Error handling
 error() {
     log_error "$1"
     exit "${2:-1}"
 }
 
-# Command validation
 command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
@@ -100,7 +90,6 @@ require_command() {
     fi
 }
 
-# File operations
 ensure_dir() {
     if [[ ! -d "$1" ]]; then
         mkdir -p "$1"
@@ -116,7 +105,6 @@ is_symlink() {
     [[ -L "$1" ]]
 }
 
-# Dry run support
 DRY_RUN="${DRY_RUN:-false}"
 
 run() {
@@ -127,7 +115,6 @@ run() {
     "$@"
 }
 
-# Progress indicator
 spinner() {
     local pid=$1
     local delay=0.1
@@ -143,7 +130,6 @@ spinner() {
     printf "    \b\b\b\b"
 }
 
-# Initialize logging
 ensure_dir "$(dirname "$LOG_FILE")"
 log_info "=== Dotfiles installation started ==="
 log_info "Platform: $PLATFORM"

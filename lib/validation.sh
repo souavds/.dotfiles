@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# Validation utilities for pre-flight checks
-# Ensures system meets requirements before installation
 
 source "$(dirname "${BASH_SOURCE[0]}")/core.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/ui.sh"
@@ -116,7 +114,7 @@ validate_yaml_parser() {
     log_warning "No YAML parser found (yq or gum recommended)"
     log_info "Installing yq is recommended for better YAML support"
     
-    return 0  # Not fatal, we can fall back to grep/sed
+    return 0
 }
 
 # Check disk space

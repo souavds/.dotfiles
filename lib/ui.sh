@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # UI utilities using gum for interactive prompts
-# Provides consistent user interaction across all scripts
 
 source "$(dirname "${BASH_SOURCE[0]}")/core.sh"
 

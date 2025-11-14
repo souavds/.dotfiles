@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# Font installation module
 # Installs Nerd Fonts from GitHub releases
 
 set -euo pipefail

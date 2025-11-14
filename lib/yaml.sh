@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # YAML parsing utilities
-# Provides simple YAML reading with fallback methods
 
 source "$(dirname "${BASH_SOURCE[0]}")/core.sh"
 
@@ -16,13 +15,13 @@ yaml_get() {
         return 1
     fi
     
-    # Try yq first (best YAML parser)
+  # yq first (best YAML parser)
     if command_exists yq; then
         yq eval "$key" "$file" 2>/dev/null || true
         return 0
     fi
     
-    # Try gum (has YAML support)
+  # gum (has YAML support)
     if command_exists gum; then
         # gum doesn't have direct YAML query, fall through to grep
         :

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# Package installation module
 # Installs packages from YAML manifests
 
 set -euo pipefail
