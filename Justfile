@@ -56,6 +56,11 @@ restore name="":
     @echo "→ Restoring from backup..."
     @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/ui.sh && source .scripts/lib/backup.sh && backup_restore '{{name}}'"
 
+# Preview backup restore (dry-run)
+restore-preview name="":
+    @echo "→ Previewing backup restore..."
+    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/ui.sh && source .scripts/lib/backup.sh && backup_restore '{{name}}' true"
+
 # List backups
 list-backups:
     @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/backup.sh && backup_list"
@@ -105,3 +110,19 @@ test:
     @echo "→ Testing scripts..."
     @find .scripts -name "*.sh" -type f -exec bash -n {} \;
     @echo "✓ All scripts passed syntax check"
+
+# Format all shell scripts
+format:
+    @echo "→ Formatting shell scripts..."
+    @shfmt -w -i 2 -ci -bn .scripts/**/*.sh .scripts/*.sh
+    @echo "✓ Scripts formatted"
+
+# Lint all shell scripts with shellcheck
+lint:
+    @echo "→ Linting shell scripts..."
+    @shellcheck .scripts/**/*.sh .scripts/*.sh
+    @echo "✓ All scripts passed linting"
+
+# Format and lint all scripts
+check: format lint
+    @echo "✓ All checks passed"

@@ -4,7 +4,7 @@ common:
     - git
     - curl
     - go-yq
-    
+    - rsync
   shell:
     - neovim
     - bat
@@ -18,7 +18,6 @@ common:
     - yazi
     - oh-my-posh
     - fastfetch
-    
   dev:
     - lazygit
     - lazydocker
@@ -28,29 +27,24 @@ common:
     - 1password-cli
     - shellcheck
     - shfmt
-    
   terminals:
     - tmux
     - ghostty
     - kitty
-
 arch:
   packages:
     - usbutils
     - wl-clipboard
     - cliphist
-    
   fonts:
     - ttf-dejavu
     - ttf-liberation
     - noto-fonts
     - noto-fonts-emoji
-    
   nerd_fonts:
     - otf-commit-mono-nerd
     - otf-geist-mono-nerd
     - ttf-ibmplex-mono-nerd
-    
   aur:
     - opencode-bin
     - helium-browser-bin
@@ -59,11 +53,9 @@ arch:
     - soteria-git
     - impala
     - vicinae-bin
-
 darwin:
   brew: []
   cask: []
-
 nerd_fonts:
   - CommitMono
   - GeistMono

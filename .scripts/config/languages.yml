@@ -1,18 +1,14 @@
 tools:
   node:
     version: latest
-    
   erlang:
     version: latest
     env:
       KERL_CONFIGURE_OPTIONS: "--enable-wx"
-      
   elixir:
     version: latest
-    
   usage:
     version: latest
-
 dependencies:
   arch:
     - jdk-openjdk
@@ -22,7 +18,6 @@ dependencies:
     - wxwidgets-gtk3
     - wxwidgets-common
     - unzip
-    
   darwin:
     - openjdk
     - unixodbc

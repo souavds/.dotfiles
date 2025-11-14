@@ -4,24 +4,19 @@ arch:
       - name: thermald
         package: thermald
         enable: true
-        
       - name: acpid
         package: acpi
         enable: true
-        
       - name: auto-cpufreq
         package: auto-cpufreq
         enable: true
         config_src: .cp/auto-cpufreq.conf
         config_dest: /etc/auto-cpufreq.conf
-        
     firmware:
       package: fwupd
       timer: fwupd-refresh.timer
-      
     microcode:
       package: intel-ucode
-      
     fingerprint:
       package: fprintd
       pam_files:
@@ -30,11 +25,9 @@ arch:
         - src: .cp/pam.d/polkit-1
           dest: /etc/pam.d/polkit-1
       interactive_setup: true
-      
     logind:
       config_dir: .cp/systemd/logind.conf.d
       dest_dir: /etc/systemd/logind.conf.d
-      
   firewall:
     package: ufw
     service: ufw
@@ -42,6 +35,5 @@ arch:
     rules:
       - default deny incoming
       - default allow outgoing
-
 darwin:
   services: []

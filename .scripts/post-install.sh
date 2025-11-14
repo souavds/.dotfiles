@@ -12,20 +12,20 @@ source "$DOTFILES_DIR/.scripts/lib/core.sh"
 source "$DOTFILES_DIR/.scripts/lib/ui.sh"
 
 main() {
-    header "Post-Installation"
+  header "Post-Installation"
 
-    # Setup git config local file if it doesn't exist
-    if [[ ! -f "$HOME/.gitconfig.local" ]]; then
-        log_step "Setting up git local configuration..."
+  # Setup git config local file if it doesn't exist
+  if [[ ! -f "$HOME/.gitconfig.local" ]]; then
+    log_step "Setting up git local configuration..."
 
-        if [[ -f "$DOTFILES_DIR/.gitconfig.local.template" ]]; then
-            if [[ "$DRY_RUN" != "true" ]]; then
-                read -p "Your full name [Your Name]: " name
-                name="${name:-Your Name}"
-                read -p "Your email [you@example.com]: " email
-                email="${email:-you@example.com}"
+    if [[ -f "$DOTFILES_DIR/.gitconfig.local.template" ]]; then
+      if [[ "$DRY_RUN" != "true" ]]; then
+        read -p "Your full name [Your Name]: " name
+        name="${name:-Your Name}"
+        read -p "Your email [you@example.com]: " email
+        email="${email:-you@example.com}"
 
-                cat >"$HOME/.gitconfig.local" <<EOF
+        cat >"$HOME/.gitconfig.local" <<EOF
 [user]
 	email = $email
 	name = $name
@@ -37,38 +37,38 @@ main() {
 # [gpg "ssh"]
 #	program = "/opt/1Password/op-ssh-sign"
 EOF
-                log_success "Created ~/.gitconfig.local"
-            else
-                log_info "[DRY-RUN] Would create ~/.gitconfig.local"
-            fi
-        fi
-    else
-        log_skip "~/.gitconfig.local already exists"
+        log_success "Created ~/.gitconfig.local"
+      else
+        log_info "[DRY-RUN] Would create ~/.gitconfig.local"
+      fi
     fi
+  else
+    log_skip "~/.gitconfig.local already exists"
+  fi
 
-    # Cleanup
-    log_step "Cleaning up temporary files..."
-    rm -rf "$DOTFILES_DIR/tmp"
+  # Cleanup
+  log_step "Cleaning up temporary files..."
+  rm -rf "$DOTFILES_DIR/tmp"
 
-    log_success "Post-installation complete!"
+  log_success "Post-installation complete!"
 
+  echo
+  header "Next Steps"
+  echo "1. Restart your shell or run: exec zsh"
+  echo "2. Open tmux and press Ctrl+A + I to install plugins"
+  echo "3. Run 'nvim' to let plugins install automatically"
+  echo "4. Edit ~/.gitconfig.local if you need SSH signing"
+  echo "5. Review logs at: $LOG_FILE"
+  echo
+
+  if [[ "$PLATFORM" == "linux" ]] && [[ "$DISTRO" == "arch" ]]; then
+    echo "Arch Linux specific:"
+    echo "  - Run 'fwupdmgr update' to update firmware"
+    echo "  - Run 'fprintd-enroll' to setup fingerprint (if hardware present)"
     echo
-    header "Next Steps"
-    echo "1. Restart your shell or run: exec zsh"
-    echo "2. Open tmux and press Ctrl+A + I to install plugins"
-    echo "3. Run 'nvim' to let plugins install automatically"
-    echo "4. Edit ~/.gitconfig.local if you need SSH signing"
-    echo "5. Review logs at: $LOG_FILE"
-    echo
-
-    if [[ "$PLATFORM" == "linux" ]] && [[ "$DISTRO" == "arch" ]]; then
-        echo "Arch Linux specific:"
-        echo "  - Run 'fwupdmgr update' to update firmware"
-        echo "  - Run 'fprintd-enroll' to setup fingerprint (if hardware present)"
-        echo
-    fi
+  fi
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    main "$@"
+  main "$@"
 fi

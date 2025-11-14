@@ -1,0 +1,8 @@
+# ShellCheck configuration for dotfiles automation scripts
+
+# Disable "not following" warnings for sourced files
+disable=SC1091
+
+# Disable "can't follow non-constant source" 
+# (we use dynamic paths for library files)
+disable=SC1090

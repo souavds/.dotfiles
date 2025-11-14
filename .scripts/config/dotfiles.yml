@@ -1,0 +1,17 @@
+# Dotfiles to backup and manage
+# Used by backup and stow operations
+
+files:
+  - .zshrc
+  - .gitconfig
+  - .ripgreprc
+
+directories:
+  - .config/nvim
+  - .config/tmux
+  - .config/kitty
+  - .config/ghostty
+  - .config/lazygit
+  - .config/niri
+  - .config/fastfetch
+  - .config/ohmyposh
