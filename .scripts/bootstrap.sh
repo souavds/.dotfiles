@@ -5,7 +5,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+export DOTFILES_DIR
 
 source "$DOTFILES_DIR/.scripts/lib/core.sh"
 source "$DOTFILES_DIR/.scripts/lib/ui.sh"
@@ -46,7 +47,8 @@ bootstrap_arch() {
     fi
 
     # Clone and build paru
-    local tmpdir=$(mktemp -d)
+    local tmpdir
+    tmpdir=$(mktemp -d)
     git clone https://aur.archlinux.org/paru-git.git "$tmpdir/paru"
     (cd "$tmpdir/paru" && makepkg -si --noconfirm)
     rm -rf "$tmpdir"

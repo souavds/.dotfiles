@@ -144,25 +144,25 @@ spinner() {
 with_spinner() {
   local message="$1"
   shift
-  
+
   if [[ "$DRY_RUN" == "true" ]]; then
     log_info "[DRY-RUN] Would execute: $*"
     return 0
   fi
-  
+
   printf "%s" "$message"
   "$@" >/dev/null 2>&1 &
   local pid=$!
   spinner "$pid"
   wait "$pid"
   local exit_code=$?
-  
+
   if [[ $exit_code -eq 0 ]]; then
     echo " ✓"
   else
     echo " ✗"
   fi
-  
+
   return $exit_code
 }
 

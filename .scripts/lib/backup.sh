@@ -6,13 +6,13 @@ source "$(dirname "${BASH_SOURCE[0]}")/yaml.sh"
 # Get list of files to backup from config
 get_backup_files() {
   local files=()
-  
+
   # Get individual files
   if command_exists yq; then
     while IFS= read -r file; do
       [[ -n "$file" ]] && files+=("$HOME/$file")
     done < <(yq eval '.files[]' "$CONFIG_DIR/dotfiles.yml" 2>/dev/null)
-    
+
     # Get directories
     while IFS= read -r dir; do
       [[ -n "$dir" ]] && files+=("$HOME/$dir")
@@ -33,7 +33,7 @@ get_backup_files() {
       "$HOME/.config/ohmyposh"
     )
   fi
-  
+
   printf '%s\n' "${files[@]}"
 }
 
@@ -159,7 +159,7 @@ backup_restore() {
       if [[ -f "$file" ]] && [[ ! "$file" =~ \.txt$ ]]; then
         local rel_path="${file#"$backup_path"/}"
         local target="$HOME/$rel_path"
-        
+
         if [[ -e "$target" ]]; then
           echo "  $rel_path (exists, would be overwritten)"
         else
