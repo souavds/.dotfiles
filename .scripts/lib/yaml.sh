@@ -38,9 +38,26 @@ yaml_array() {
     if command_exists yq; then
         yq eval "${path}[]" "$file" 2>/dev/null | grep -v '^null$' || true
     else
-        # Simple grep-based extraction for arrays
-        local section=$(echo "$path" | tr '.' ' ' | awk '{print $NF}')
-        grep -A 100 "^${section}:" "$file" | sed -n '/^[^ #]/q;p' | grep -E '^\s*-\s+' | sed 's/^\s*-\s*//' || true
+        # Fallback grep-based extraction for arrays
+        # Handle paths like "common.essential" or "arch.packages"
+        local parts=(${path//./ })
+        local section="${parts[-1]}"
+        
+        # For nested paths, try to find the right section
+        if [[ ${#parts[@]} -eq 2 ]]; then
+            local parent="${parts[0]}"
+            # Extract items from parent.section using awk
+            awk -v parent="^${parent}:" -v section="^  ${section}:" '
+                $0 ~ parent {in_parent=1; next}
+                in_parent && /^[^ ]/ {exit}
+                in_parent && $0 ~ section {in_section=1; next}
+                in_section && /^  [^ ]/ && $0 !~ section {exit}
+                in_section && /^\s*-\s+/ {sub(/^\s*-\s*/, ""); print}
+            ' "$file"
+        else
+            # Simple single-level lookup
+            grep -A 100 "^${section}:" "$file" | sed -n '/^[^ #]/q;p' | grep -E '^\s*-\s+' | sed 's/^\s*-\s*//' || true
+        fi
     fi
 }
 

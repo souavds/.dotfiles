@@ -26,15 +26,16 @@ esac
 # Install packages from a category
 install_category() {
     local category="$1"
-    
-    header "Installing $category packages"
+    local display_name="${2:-$category}"
     
     local packages=$(get_all_packages "$category")
     
     if [[ -z "$packages" ]]; then
-        log_info "No packages in category: $category"
+        # No packages in this category, skip silently
         return 0
     fi
+    
+    header "Installing $display_name packages"
     
     log_info "Packages to install:"
     echo "$packages" | sed 's/^/  - /'
@@ -109,20 +110,20 @@ main() {
         linux)
             if [[ "$DISTRO" == "arch" ]]; then
                 if confirm "Install Arch-specific packages?" true; then
-                    install_category "packages"
-                    install_category "fonts"
-                    install_category "nerd_fonts"
+                    install_category "packages" "Arch-specific"
+                    install_category "fonts" "fonts"
+                    install_category "nerd_fonts" "Nerd Fonts"
                 fi
                 
                 if confirm "Install AUR packages?" false; then
-                    install_category "aur"
+                    install_category "aur" "AUR"
                 fi
             fi
             ;;
         darwin)
             if confirm "Install macOS-specific packages?" true; then
-                install_category "brew"
-                install_category "cask"
+                install_category "brew" "Homebrew"
+                install_category "cask" "Homebrew Cask"
             fi
             ;;
     esac
