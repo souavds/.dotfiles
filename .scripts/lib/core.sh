@@ -24,9 +24,9 @@ export CONFIG_DIR="${CONFIG_DIR:-$DOTFILES_DIR/.scripts/config}"
 export LOG_FILE="${LOG_FILE:-$DOTFILES_DIR/install.log}"
 detect_platform() {
     case "$(uname -s)" in
-        Linux*)     echo "linux" ;;
-        Darwin*)    echo "darwin" ;;
-        *)          echo "unknown" ;;
+    Linux*) echo "linux" ;;
+    Darwin*) echo "darwin" ;;
+    *) echo "unknown" ;;
     esac
 }
 
@@ -47,8 +47,8 @@ log() {
     shift
     local message="$*"
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    
-    echo "[$timestamp] [$level] $message" >> "$LOG_FILE"
+
+    echo "[$timestamp] [$level] $message" >>"$LOG_FILE"
 }
 
 log_info() {
@@ -125,8 +125,8 @@ spinner() {
     local pid=$1
     local delay=0.1
     local spinstr='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-    
-    while ps -p $pid > /dev/null 2>&1; do
+
+    while ps -p $pid >/dev/null 2>&1; do
         local temp=${spinstr#?}
         printf " [%c]  " "$spinstr"
         local spinstr=$temp${spinstr%"$temp"}

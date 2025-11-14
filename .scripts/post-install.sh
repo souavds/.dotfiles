@@ -13,17 +13,19 @@ source "$DOTFILES_DIR/.scripts/lib/ui.sh"
 
 main() {
     header "Post-Installation"
-    
+
     # Setup git config local file if it doesn't exist
     if [[ ! -f "$HOME/.gitconfig.local" ]]; then
         log_step "Setting up git local configuration..."
-        
+
         if [[ -f "$DOTFILES_DIR/.gitconfig.local.template" ]]; then
             if [[ "$DRY_RUN" != "true" ]]; then
-                local name=$(input "Your full name" "Your Name")
-                local email=$(input "Your email" "you@example.com")
-                
-                cat > "$HOME/.gitconfig.local" <<EOF
+                read -p "Your full name [Your Name]: " name
+                name="${name:-Your Name}"
+                read -p "Your email [you@example.com]: " email
+                email="${email:-you@example.com}"
+
+                cat >"$HOME/.gitconfig.local" <<EOF
 [user]
 	email = $email
 	name = $name
@@ -43,13 +45,13 @@ EOF
     else
         log_skip "~/.gitconfig.local already exists"
     fi
-    
+
     # Cleanup
     log_step "Cleaning up temporary files..."
     rm -rf "$DOTFILES_DIR/tmp"
-    
+
     log_success "Post-installation complete!"
-    
+
     echo
     header "Next Steps"
     echo "1. Restart your shell or run: exec zsh"
@@ -58,7 +60,7 @@ EOF
     echo "4. Edit ~/.gitconfig.local if you need SSH signing"
     echo "5. Review logs at: $LOG_FILE"
     echo
-    
+
     if [[ "$PLATFORM" == "linux" ]] && [[ "$DISTRO" == "arch" ]]; then
         echo "Arch Linux specific:"
         echo "  - Run 'fwupdmgr update' to update firmware"

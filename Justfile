@@ -1,43 +1,37 @@
-# Justfile for dotfiles installation and management
+# Dotfiles Management
 # Run `just --list` to see all available commands
 
-# Default recipe (shows help)
 default:
     @just --list
 
-# Install everything (full setup)
-install: validate bootstrap packages languages services dotfiles post-install
+# Full installation (everything)
+install: bootstrap packages languages services dotfiles
     @echo "✓ Full installation complete!"
 
 # Minimal install (just dotfiles)
-install-minimal: validate dotfiles
+minimal: dotfiles
     @echo "✓ Minimal installation complete!"
 
-# Development environment only
-install-dev: validate bootstrap packages languages dotfiles
+# Development environment
+dev: bootstrap packages languages dotfiles
     @echo "✓ Development environment ready!"
 
-# Validate system requirements
-validate:
-    @echo "→ Running pre-flight checks..."
-    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/ui.sh && source .scripts/lib/validation.sh && validate_all"
-
-# Bootstrap (install essential tools)
+# Bootstrap system (install essential tools like yq, paru)
 bootstrap:
     @echo "→ Bootstrapping system..."
     @bash .scripts/bootstrap.sh
 
-# Install packages
+# Install packages from YAML
 packages:
     @echo "→ Installing packages..."
     @bash .scripts/modules/system/packages.sh
 
-# Install programming languages
+# Install programming languages via mise
 languages:
     @echo "→ Setting up programming languages..."
     @bash .scripts/modules/dev/languages.sh
 
-# Configure system services
+# Configure system services (Arch Linux laptop tools)
 services:
     @echo "→ Configuring system services..."
     @bash .scripts/modules/system/services.sh
@@ -55,12 +49,12 @@ post-install:
 # Create backup
 backup name="":
     @echo "→ Creating backup..."
-    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/backup.sh && backup_create '{{name}}'"
+    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/ui.sh && source .scripts/lib/backup.sh && backup_create '{{name}}'"
 
 # Restore from backup
 restore name="":
     @echo "→ Restoring from backup..."
-    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/backup.sh && backup_restore '{{name}}'"
+    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/ui.sh && source .scripts/lib/backup.sh && backup_restore '{{name}}'"
 
 # List backups
 list-backups:
@@ -70,17 +64,12 @@ list-backups:
 clean-backups:
     @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && source .scripts/lib/backup.sh && backup_clean"
 
-# Dry run (preview changes without applying)
-dry-run:
-    @echo "→ Dry run mode..."
-    @DRY_RUN=true bash install.sh
-
 # Uninstall dotfiles (remove symlinks)
 uninstall:
     @echo "→ Removing dotfiles symlinks..."
     @cd "{{justfile_directory()}}" && stow -D .
 
-# Install fonts
+# Install Nerd Fonts
 fonts:
     @echo "→ Installing fonts..."
     @bash .scripts/modules/desktop/fonts.sh
@@ -109,33 +98,10 @@ clean:
 
 # Show system information
 info:
-    @echo "Platform: $(uname -s)"
-    @echo "Distro: $(cat /etc/os-release 2>/dev/null | grep ^ID= | cut -d= -f2)"
-    @echo "Dotfiles: {{justfile_directory()}}"
-    @echo "User: $USER"
-    @echo "Home: $HOME"
+    @bash -c "export DOTFILES_DIR={{justfile_directory()}} && source .scripts/lib/core.sh && echo \"Platform: \$PLATFORM\" && echo \"Distro: \$DISTRO\" && echo \"Dotfiles: {{justfile_directory()}}\" && echo \"User: \$USER\" && echo \"Home: \$HOME\""
 
-# Test installation scripts (syntax check)
+# Test all scripts (syntax check)
 test:
     @echo "→ Testing scripts..."
     @find .scripts -name "*.sh" -type f -exec bash -n {} \;
     @echo "✓ All scripts passed syntax check"
-
-# Format shell scripts (requires shfmt)
-format:
-    @if command -v shfmt >/dev/null 2>&1; then \
-        echo "→ Formatting shell scripts..."; \
-        find .scripts -name "*.sh" -type f -exec shfmt -w -i 4 {} \;; \
-        echo "✓ Formatted"; \
-    else \
-        echo "shfmt not installed, skipping format"; \
-    fi
-
-# Lint shell scripts (requires shellcheck)
-lint:
-    @if command -v shellcheck >/dev/null 2>&1; then \
-        echo "→ Linting shell scripts..."; \
-        find .scripts -name "*.sh" -type f -exec shellcheck {} \;; \
-    else \
-        echo "shellcheck not installed, skipping lint"; \
-    fi
