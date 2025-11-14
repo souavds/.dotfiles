@@ -30,15 +30,29 @@ backup_create() {
     local backed_up=0
     
     for file in "${files_to_backup[@]}"; do
-        if [[ -e "$file" ]] && [[ ! -L "$file" ]]; then
+        if [[ -e "$file" ]] || [[ -L "$file" ]]; then
             local rel_path="${file#$HOME/}"
             local backup_file="$backup_path/$rel_path"
             
             ensure_dir "$(dirname "$backup_file")"
             
-            if run cp -r "$file" "$backup_file"; then
-                log_info "Backed up: $rel_path"
-                ((backed_up++))
+            # If it's a symlink, follow it to backup the actual content
+            if [[ -L "$file" ]]; then
+                local target=$(readlink -f "$file")
+                if [[ -e "$target" ]]; then
+                    if run cp -rL "$file" "$backup_file"; then
+                        log_info "Backed up: $rel_path (symlink -> actual content)"
+                        ((backed_up++))
+                    fi
+                else
+                    log_warning "Skipping broken symlink: $rel_path"
+                fi
+            else
+                # Regular file or directory
+                if run cp -r "$file" "$backup_file"; then
+                    log_info "Backed up: $rel_path"
+                    ((backed_up++))
+                fi
             fi
         fi
     done
