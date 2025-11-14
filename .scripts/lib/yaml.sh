@@ -21,12 +21,38 @@ yaml_get() {
         return 0
     fi
     
-    # Fallback to grep/sed (limited, but works for simple cases)
-    # This won't handle complex YAML, but good enough for our use case
-    local result=$(grep -A 100 "$key:" "$file" | sed -n '/^[^ ]/q;p' | grep -E '^\s*-\s+' | sed 's/^\s*-\s*//' | grep -v ':' || true)
+    # Fallback: parse nested YAML path to get scalar value
+    # Handle paths like "arch.firewall.package" or "arch.laptop.microcode.package"
+    local parts=(${key//./ })
+    local num_parts=${#parts[@]}
     
-    if [[ -n "$result" ]]; then
-        echo "$result"
+    if [[ $num_parts -eq 2 ]]; then
+        # Two levels: e.g., arch.firewall -> look for firewall.package
+        awk -v p1="${parts[0]}" -v p2="${parts[1]}" '
+            $0 ~ "^"p1":" { in_p1=1; next }
+            in_p1 && /^[^ ]/ { exit }
+            in_p1 && $0 ~ "^  "p2":" { sub(/.*: */, ""); print; exit }
+        ' "$file"
+    elif [[ $num_parts -eq 3 ]]; then
+        # Three levels: e.g., arch.laptop.microcode -> look for laptop.microcode.package
+        awk -v p1="${parts[0]}" -v p2="${parts[1]}" -v p3="${parts[2]}" '
+            $0 ~ "^"p1":" { in_p1=1; next }
+            in_p1 && /^[^ ]/ { exit }
+            in_p1 && $0 ~ "^  "p2":" { in_p2=1; next }
+            in_p2 && /^  [^ ]/ { exit }
+            in_p2 && $0 ~ "^    "p3":" { sub(/.*: */, ""); print; exit }
+        ' "$file"
+    elif [[ $num_parts -eq 4 ]]; then
+        # Four levels: e.g., arch.laptop.fingerprint.package
+        awk -v p1="${parts[0]}" -v p2="${parts[1]}" -v p3="${parts[2]}" -v p4="${parts[3]}" '
+            $0 ~ "^"p1":" { in_p1=1; next }
+            in_p1 && /^[^ ]/ { exit }
+            in_p1 && $0 ~ "^  "p2":" { in_p2=1; next }
+            in_p2 && /^  [^ ]/ { exit }
+            in_p2 && $0 ~ "^    "p3":" { in_p3=1; next }
+            in_p3 && /^    [^ ]/ { exit }
+            in_p3 && $0 ~ "^      "p4":" { sub(/.*: */, ""); print; exit }
+        ' "$file"
     fi
 }
 
