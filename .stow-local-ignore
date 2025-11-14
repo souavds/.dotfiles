@@ -1,5 +1,41 @@
+# Version control
 \.git
+\.gitignore
+
+# Scripts and automation
 \.scripts
+install\.sh
+Justfile
+
+# Documentation
+README\.md
+README\.new\.md
+IMPROVEMENTS_SUMMARY\.md
+MIGRATION\.md
+.*\.md$
+
+# Configuration (not for home directory)
+config
+
+# System config files (copied to /etc, not symlinked)
 \.cp
+
+# Templates (processed, not symlinked)
 \.templates
-README.md
+.*\.template$
+
+# Logs and temporary files
+install\.log
+.*\.log$
+tmp
+
+# Backups
+\.backups
+
+# SSH (ignore sensitive files, but allow config to be symlinked)
+\.ssh/known_hosts
+\.ssh/known_hosts\.old
+
+# Git local config files (personal info)
+\.gitconfig\.local
+\.gitconfig\.local\.template
