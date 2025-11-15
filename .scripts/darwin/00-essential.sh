@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
 
-log_step "Installing essential packages"
+log_header "Installing Essential Packages"
 
 # Install Homebrew if not present
 if ! command -v brew &>/dev/null; then
@@ -30,6 +30,6 @@ log_info "Installing essential packages..."
 while IFS= read -r pkg; do
   [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
   brew install "$pkg"
-done < "$SCRIPT_DIR/../packages/darwin/essential.txt"
+done < "$SCRIPT_DIR/../packages/darwin/essential"
 
 log_success "Essential packages installed"

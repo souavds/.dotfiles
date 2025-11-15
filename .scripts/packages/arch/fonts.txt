@@ -1,7 +1,0 @@
-ttf-dejavu
-ttf-liberation
-noto-fonts
-noto-fonts-emoji
-otf-commit-mono-nerd
-otf-geist-mono-nerd
-ttf-ibmplex-mono-nerd

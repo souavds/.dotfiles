@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
 
-log_step "Shell setup"
+log_header "Shell Setup"
 
 # Install zsh (usually pre-installed on macOS)
 if ! command -v zsh &>/dev/null; then

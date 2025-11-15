@@ -1,7 +1,0 @@
-opencode-bin
-helium-browser-bin
-1password
-spotify
-soteria-git
-impala
-vicinae-bin

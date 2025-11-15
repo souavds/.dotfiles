@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
 
-log_step "Laptop tools setup"
+log_header "Laptop Tools Setup"
 
 if ! confirm "Is this a laptop? Install laptop-specific tools?"; then
   log_info "Skipping laptop tools"
@@ -13,13 +13,13 @@ fi
 
 # Thermald
 log_info "Installing thermald..."
-sudo pacman -S --needed --noconfirm thermald
+paru -S --needed --noconfirm thermald
 sudo systemctl enable --now thermald.service
 log_success "thermald configured"
 
 # ACPI
 log_info "Installing acpi..."
-sudo pacman -S --needed --noconfirm acpi
+paru -S --needed --noconfirm acpi
 sudo systemctl enable --now acpid.service
 log_success "acpid configured"
 
@@ -34,19 +34,19 @@ fi
 
 # Intel microcode
 if confirm "Install Intel microcode?"; then
-  sudo pacman -S --needed --noconfirm intel-ucode
+  paru -S --needed --noconfirm intel-ucode
   log_success "Intel microcode installed"
 fi
 
 # Firmware updates
 log_info "Installing fwupd..."
-sudo pacman -S --needed --noconfirm fwupd
+paru -S --needed --noconfirm fwupd
 sudo systemctl enable --now fwupd-refresh.timer
 log_info "Run 'fwupdmgr update' manually to update firmware"
 
 # Fingerprint reader
 if confirm "Setup fingerprint reader (fprintd)?"; then
-  sudo pacman -S --needed --noconfirm fprintd
+  paru -S --needed --noconfirm fprintd
   
   log_info "Enrolling fingerprint..."
   fprintd-enroll

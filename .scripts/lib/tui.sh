@@ -32,6 +32,14 @@ log_step() {
   echo -e "${BLUE}==>${NC} $*"
 }
 
+log_header() {
+  echo
+  echo -e "${BLUE}================================================${NC}"
+  echo -e "${BLUE}  $*${NC}"
+  echo -e "${BLUE}================================================${NC}"
+  echo
+}
+
 # User confirmation
 confirm() {
   local prompt="$1"

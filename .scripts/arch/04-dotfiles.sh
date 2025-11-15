@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOTFILES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
 
-log_step "Dotfiles setup"
+log_header "Dotfiles Setup"
 
 # Stow dotfiles
 if confirm "Symlink dotfiles using stow?"; then

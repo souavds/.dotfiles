@@ -20,20 +20,24 @@ sh ./bootstrap.sh arch  # or darwin for macOS
 │   ├── lib/
 │   │   └── tui.sh           # UI helpers (logging, prompts)
 │   ├── packages/            # Package lists
-│   │   ├── arch/           # Arch Linux packages
-│   │   └── darwin/         # macOS packages
-│   ├── arch/               # Arch Linux setup scripts
-│   │   ├── 00-essential.sh # Essential packages & paru
-│   │   ├── 01-packages.sh  # User packages
-│   │   ├── 02-laptop.sh    # Laptop tools
-│   │   ├── 03-shell.sh     # Shell setup
-│   │   ├── 04-dotfiles.sh  # Dotfiles symlinks
-│   │   └── 05-security.sh  # Firewall setup
-│   └── darwin/             # macOS setup scripts
-│       ├── 00-essential.sh # Homebrew & essentials
-│       ├── 01-packages.sh  # User packages
-│       ├── 02-shell.sh     # Shell setup
-│       └── 03-dotfiles.sh  # Dotfiles symlinks
+│   │   ├── arch/            # Arch Linux packages
+│   │   │   ├── essential    # Essential packages (stow, git, etc)
+│   │   │   └── packages     # All other packages
+│   │   └── darwin/          # macOS packages
+│   │       ├── essential    # Essential packages
+│   │       └── packages     # All other packages
+│   ├── arch/                # Arch Linux setup scripts
+│   │   ├── 00-essential.sh  # Essential packages & paru
+│   │   ├── 01-packages.sh   # User packages
+│   │   ├── 02-laptop.sh     # Laptop tools
+│   │   ├── 03-shell.sh      # Shell setup
+│   │   ├── 04-dotfiles.sh   # Dotfiles symlinks
+│   │   └── 05-security.sh   # Firewall setup
+│   └── darwin/              # macOS setup scripts
+│       ├── 00-essential.sh  # Homebrew & essentials
+│       ├── 01-packages.sh   # User packages
+│       ├── 02-shell.sh      # Shell setup
+│       └── 03-dotfiles.sh   # Dotfiles symlinks
 └── .cp/                    # System config files (PAM, systemd, etc)
 ```
 
@@ -55,7 +59,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
 
-log_step "My custom setup"
+log_header "My Custom Setup"
 
 # Your setup code here
 log_info "Doing something..."
@@ -74,16 +78,23 @@ Scripts run in alphabetical order, so use prefixes:
 
 ## Package Management
 
-Add packages to `.scripts/packages/<system>/*.txt`:
+Package lists are stored in `.scripts/packages/<system>/`:
+
+- **essential** - Required packages for bootstrap (stow, git, curl, etc)
+- **packages** - All other packages (one per line, comments start with `#`)
+
+Example `.scripts/packages/arch/packages`:
 
 ```
-# .scripts/packages/arch/shell.txt
+# Shell tools
 neovim
 bat
 ripgrep
-```
 
-Each package on its own line. Comments start with `#`.
+# Development
+lazygit
+docker
+```
 
 ## Included Configurations
 
@@ -95,8 +106,9 @@ Each package on its own line. Comments start with `#`.
 
 ## Arch Linux Specific
 
-- Installs paru (AUR helper)
-- Laptop tools: thermald, auto-cpufreq, tlp
+- Installs paru (AUR helper) during bootstrap
+- All packages installed via paru (handles both official repos and AUR)
+- Laptop tools: thermald, auto-cpufreq, acpi
 - Fingerprint reader setup
 - Firewall (ufw) configuration
 

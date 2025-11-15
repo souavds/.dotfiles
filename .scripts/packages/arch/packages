@@ -1,0 +1,49 @@
+# Shell tools
+neovim
+bat
+eza
+zoxide
+fzf
+fd
+bottom
+ripgrep
+jq
+yazi
+oh-my-posh
+fastfetch
+tmux
+
+# Terminal emulators
+ghostty
+kitty
+
+# Development tools
+lazygit
+lazydocker
+docker
+just
+mise
+1password-cli
+
+# System utilities
+usbutils
+wl-clipboard
+cliphist
+
+# Fonts
+ttf-dejavu
+ttf-liberation
+noto-fonts
+noto-fonts-emoji
+otf-commit-mono-nerd
+otf-geist-mono-nerd
+ttf-ibmplex-mono-nerd
+
+# AUR packages
+opencode-bin
+helium-browser-bin
+1password
+spotify
+soteria-git
+impala
+vicinae-bin

@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
 
-log_step "Installing essential packages"
+log_header "Installing Essential Packages"
 
 # Update system
 log_info "Updating package database..."
@@ -15,7 +15,7 @@ log_info "Installing essential packages..."
 while IFS= read -r pkg; do
   [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
   sudo pacman -S --needed --noconfirm "$pkg"
-done < "$SCRIPT_DIR/../packages/arch/essential.txt"
+done < "$SCRIPT_DIR/../packages/arch/essential"
 
 # Install rustup for building AUR packages
 if ! command -v rustc &>/dev/null; then
