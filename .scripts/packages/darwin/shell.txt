@@ -1,0 +1,13 @@
+neovim
+bat
+eza
+zoxide
+fzf
+fd
+bottom
+ripgrep
+jq
+yazi
+oh-my-posh
+fastfetch
+tmux

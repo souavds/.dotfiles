@@ -1,0 +1,6 @@
+lazygit
+lazydocker
+docker
+just
+mise
+1password-cli

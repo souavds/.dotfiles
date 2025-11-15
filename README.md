@@ -1,27 +1,117 @@
-# souavds' dotfiles
+# Dotfiles
 
-```
-machine:
-thinkpad t14 gen 5 - intel ultra 5 135u - 64gb ram ddr5
-```
+Clean and simple dotfiles for Arch Linux and macOS.
 
-## Installation
+## Quick Start
 
 ```bash
-git clone git@github.com:souavds/.dotfiles.git
-
-# Choose a host and run its script
-sh ./.scripts/host/arch.sh
-sh ./.scripts/host/darwin.sh
-
-# Or just stow the config files
-stow -D . && stow .
+git clone https://github.com/yourusername/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+sh ./bootstrap.sh arch  # or darwin for macOS
 ```
 
-### Change mimeapps
+## Structure
+
+```
+.dotfiles/
+├── bootstrap.sh              # Main bootstrap script
+├── .config/                  # Application configs
+├── .scripts/
+│   ├── lib/
+│   │   └── tui.sh           # UI helpers (logging, prompts)
+│   ├── packages/            # Package lists
+│   │   ├── arch/           # Arch Linux packages
+│   │   └── darwin/         # macOS packages
+│   ├── arch/               # Arch Linux setup scripts
+│   │   ├── 00-essential.sh # Essential packages & paru
+│   │   ├── 01-packages.sh  # User packages
+│   │   ├── 02-laptop.sh    # Laptop tools
+│   │   ├── 03-shell.sh     # Shell setup
+│   │   ├── 04-dotfiles.sh  # Dotfiles symlinks
+│   │   └── 05-security.sh  # Firewall setup
+│   └── darwin/             # macOS setup scripts
+│       ├── 00-essential.sh # Homebrew & essentials
+│       ├── 01-packages.sh  # User packages
+│       ├── 02-shell.sh     # Shell setup
+│       └── 03-dotfiles.sh  # Dotfiles symlinks
+└── .cp/                    # System config files (PAM, systemd, etc)
+```
+
+## How It Works
+
+1. **bootstrap.sh** detects your system (arch/darwin)
+2. Runs all `.sh` scripts in `.scripts/<system>/` in alphabetical order
+3. Each script is independent and can prompt for user input
+4. Scripts read package lists from `.scripts/packages/<system>/`
+
+## Adding New Scripts
+
+Create a new script in `.scripts/arch/` or `.scripts/darwin/`:
+
 ```bash
-BROWSER= sh ./.scripts/lib/mimeapps.sh
+#!/usr/bin/env bash
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../lib/tui.sh"
+
+log_step "My custom setup"
+
+# Your setup code here
+log_info "Doing something..."
+
+if confirm "Install optional thing?"; then
+  # Install optional thing
+fi
+
+log_success "Setup complete"
 ```
 
-### Roadmap
+Scripts run in alphabetical order, so use prefixes:
+- `00-` for essentials
+- `01-` for packages
+- `02-` and up for everything else
 
+## Package Management
+
+Add packages to `.scripts/packages/<system>/*.txt`:
+
+```
+# .scripts/packages/arch/shell.txt
+neovim
+bat
+ripgrep
+```
+
+Each package on its own line. Comments start with `#`.
+
+## Included Configurations
+
+- **Shell**: zsh with oh-my-posh
+- **Editor**: neovim
+- **Terminal**: ghostty, kitty, tmux
+- **Dev Tools**: mise, lazygit, lazydocker
+- **CLI Tools**: bat, eza, zoxide, fzf, ripgrep, yazi
+
+## Arch Linux Specific
+
+- Installs paru (AUR helper)
+- Laptop tools: thermald, auto-cpufreq, tlp
+- Fingerprint reader setup
+- Firewall (ufw) configuration
+
+## macOS Specific
+
+- Installs Homebrew
+- Uses brew for all package management
+
+## Post-Installation
+
+1. Restart your shell: `exec zsh`
+2. Install tmux plugins: Open tmux, press `Ctrl+A + I`
+3. Setup neovim: Run `nvim` (plugins install automatically)
+4. Update firmware (Arch): `fwupdmgr update`
+
+## License
+
+MIT

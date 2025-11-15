@@ -1,0 +1,5 @@
+lazygit
+lazydocker
+docker
+just
+mise

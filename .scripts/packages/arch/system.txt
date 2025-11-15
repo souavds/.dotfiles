@@ -1,0 +1,3 @@
+usbutils
+wl-clipboard
+cliphist
