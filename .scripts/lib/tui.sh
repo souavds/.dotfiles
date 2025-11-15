@@ -1,72 +1,47 @@
 #!/usr/bin/env bash
 
-# TUI Helper Library
-# Simple logging and user interaction functions
+# TUI Helper Library using gum
+# https://github.com/charmbracelet/gum
 
-# Colors
-readonly RED='\033[0;31m'
-readonly GREEN='\033[0;32m'
-readonly YELLOW='\033[1;33m'
-readonly BLUE='\033[0;34m'
-readonly NC='\033[0m' # No Color
-
-# Log functions
 log_info() {
-  echo -e "${BLUE}[INFO]${NC} $*"
+  gum log --level info "$*"
 }
 
 log_success() {
-  echo -e "${GREEN}[SUCCESS]${NC} $*"
+  gum log --level info --prefix "✓" "$*"
 }
 
 log_error() {
-  echo -e "${RED}[ERROR]${NC} $*" >&2
+  gum log --level error "$*" >&2
 }
 
 log_warn() {
-  echo -e "${YELLOW}[WARN]${NC} $*"
+  gum log --level warn "$*"
 }
 
 log_step() {
+  gum style --foreground 212 "==> $*"
   echo
-  echo -e "${BLUE}==>${NC} $*"
 }
 
 log_header() {
   echo
-  echo -e "${BLUE}================================================${NC}"
-  echo -e "${BLUE}  $*${NC}"
-  echo -e "${BLUE}================================================${NC}"
+  gum style \
+    --border double \
+    --align center \
+    --width 50 \
+    --margin "1 2" \
+    --padding "1 4" \
+    "$*"
   echo
 }
 
-# User confirmation
 confirm() {
-  local prompt="$1"
-  local response
-  
-  while true; do
-    read -r -p "$prompt [y/N] " response
-    case "$response" in
-      [yY][eE][sS]|[yY]) 
-        return 0
-        ;;
-      [nN][oO]|[nN]|"")
-        return 1
-        ;;
-      *)
-        echo "Please answer yes or no."
-        ;;
-    esac
-  done
+  gum confirm "$*"
 }
 
-# Read user input with default
 read_input() {
   local prompt="$1"
   local default="$2"
-  local response
-  
-  read -r -p "$prompt [$default]: " response
-  echo "${response:-$default}"
+  gum input --placeholder "$default" --prompt "$prompt: "
 }

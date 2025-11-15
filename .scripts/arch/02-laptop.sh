@@ -20,7 +20,6 @@ log_success "thermald configured"
 # ACPI
 log_info "Installing acpi..."
 paru -S --needed --noconfirm acpi
-sudo systemctl enable --now acpid.service
 log_success "acpid configured"
 
 # auto-cpufreq

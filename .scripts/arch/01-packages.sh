@@ -6,12 +6,22 @@ source "$SCRIPT_DIR/../lib/tui.sh"
 
 log_header "Installing Packages"
 
-log_info "Installing packages from list..."
-
+# Read all packages into array (skip comments and empty lines)
+packages=()
 while IFS= read -r pkg; do
   [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
-  
-  paru -S --needed --noconfirm "$pkg" || log_warn "Failed to install: $pkg"
+  packages+=("$pkg")
 done < "$SCRIPT_DIR/../packages/arch/packages"
 
-log_success "Package installation complete"
+if [[ ${#packages[@]} -eq 0 ]]; then
+  log_warn "No packages found in list"
+  exit 0
+fi
+
+log_info "Found ${#packages[@]} packages to install"
+
+# Install all packages at once
+gum spin --spinner dot --title "Installing packages..." -- \
+  paru -S --needed --noconfirm "${packages[@]}"
+
+log_success "Package installation complete (${#packages[@]} packages)"
