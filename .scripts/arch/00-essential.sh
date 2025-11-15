@@ -10,12 +10,16 @@ log_header "Installing Essential Packages"
 log_info "Updating package database..."
 sudo pacman -Sy --noconfirm
 
-# Install essential packages
-log_info "Installing essential packages..."
+# Read essential packages into array
+packages=()
 while IFS= read -r pkg; do
   [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
-  sudo pacman -S --needed --noconfirm "$pkg"
+  packages+=("$pkg")
 done < "$SCRIPT_DIR/../packages/arch/essential"
+
+# Install all essential packages at once
+log_info "Installing essential packages..."
+sudo pacman -S --needed --noconfirm "${packages[@]}"
 
 # Install rustup for building AUR packages
 if ! command -v rustc &>/dev/null; then

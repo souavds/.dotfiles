@@ -25,11 +25,15 @@ fi
 log_info "Updating Homebrew..."
 brew update
 
-# Install essential packages
-log_info "Installing essential packages..."
+# Read essential packages into array
+packages=()
 while IFS= read -r pkg; do
   [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
-  brew install "$pkg"
+  packages+=("$pkg")
 done < "$SCRIPT_DIR/../packages/darwin/essential"
+
+# Install all essential packages at once
+log_info "Installing essential packages..."
+brew install "${packages[@]}"
 
 log_success "Essential packages installed"

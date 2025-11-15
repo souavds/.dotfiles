@@ -32,12 +32,14 @@ sh ./bootstrap.sh arch  # or darwin for macOS
 │   │   ├── 02-laptop.sh     # Laptop tools
 │   │   ├── 03-shell.sh      # Shell setup
 │   │   ├── 04-dotfiles.sh   # Dotfiles symlinks
-│   │   └── 05-security.sh   # Firewall setup
+│   │   ├── 05-security.sh   # Firewall setup
+│   │   └── 06-plugins.sh    # Plugin installation (nvim, tmux)
 │   └── darwin/              # macOS setup scripts
 │       ├── 00-essential.sh  # Homebrew & essentials
 │       ├── 01-packages.sh   # User packages
 │       ├── 02-shell.sh      # Shell setup
-│       └── 03-dotfiles.sh   # Dotfiles symlinks
+│       ├── 03-dotfiles.sh   # Dotfiles symlinks
+│       └── 04-plugins.sh    # Plugin installation (nvim, tmux)
 └── .cp/                    # System config files (PAM, systemd, etc)
 ```
 
@@ -108,21 +110,25 @@ docker
 
 - Installs paru (AUR helper) during bootstrap
 - All packages installed via paru (handles both official repos and AUR)
+- Batch installation for faster setup
 - Laptop tools: thermald, auto-cpufreq, acpi
-- Fingerprint reader setup
+- Fingerprint reader setup (interactive enrollment at the end)
 - Firewall (ufw) configuration
+- Automatic plugin installation (nvim, tmux)
 
 ## macOS Specific
 
 - Installs Homebrew
 - Uses brew for all package management
+- Batch installation for faster setup
+- Automatic plugin installation (nvim, tmux)
 
 ## Post-Installation
 
 1. Restart your shell: `exec zsh`
-2. Install tmux plugins: Open tmux, press `Ctrl+A + I`
-3. Setup neovim: Run `nvim` (plugins install automatically)
-4. Update firmware (Arch): `fwupdmgr update`
+2. Update firmware (Arch): `fwupdmgr update`
+
+Note: tmux and neovim plugins are installed automatically during bootstrap!
 
 ## License
 

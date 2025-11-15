@@ -11,52 +11,35 @@ if ! confirm "Is this a laptop? Install laptop-specific tools?"; then
   exit 0
 fi
 
-# Thermald
-log_info "Installing thermald..."
-paru -S --needed --noconfirm thermald
+# Collect packages to install
+packages=(thermald acpi auto-cpufreq fwupd)
+
+# Ask about optional packages upfront
+install_intel_microcode=false
+if confirm "Install Intel microcode?"; then
+  packages+=(intel-ucode)
+  install_intel_microcode=true
+fi
+
+setup_fingerprint=false
+if confirm "Setup fingerprint reader (fprintd)?"; then
+  packages+=(fprintd)
+  setup_fingerprint=true
+fi
+
+# Install all packages at once
+log_info "Installing laptop tools..."
+paru -S --needed --noconfirm "${packages[@]}"
+
+# Enable services (non-interactive)
+log_info "Enabling services..."
 sudo systemctl enable --now thermald.service
-log_success "thermald configured"
-
-# ACPI
-log_info "Installing acpi..."
-paru -S --needed --noconfirm acpi
-log_success "acpid configured"
-
-# auto-cpufreq
-log_info "Installing auto-cpufreq..."
-paru -S --needed --noconfirm auto-cpufreq
+sudo systemctl enable --now acpid.service
+sudo systemctl enable --now fwupd-refresh.timer
 
 if confirm "Enable auto-cpufreq service?"; then
   sudo systemctl enable --now auto-cpufreq
   log_success "auto-cpufreq enabled"
-fi
-
-# Intel microcode
-if confirm "Install Intel microcode?"; then
-  paru -S --needed --noconfirm intel-ucode
-  log_success "Intel microcode installed"
-fi
-
-# Firmware updates
-log_info "Installing fwupd..."
-paru -S --needed --noconfirm fwupd
-sudo systemctl enable --now fwupd-refresh.timer
-log_info "Run 'fwupdmgr update' manually to update firmware"
-
-# Fingerprint reader
-if confirm "Setup fingerprint reader (fprintd)?"; then
-  paru -S --needed --noconfirm fprintd
-  
-  log_info "Enrolling fingerprint..."
-  fprintd-enroll
-  fprintd-verify
-  
-  # Copy PAM configuration
-  if [[ -f "$SCRIPT_DIR/../../.cp/pam.d/system-local-login" ]]; then
-    sudo cp "$SCRIPT_DIR/../../.cp/pam.d/system-local-login" /etc/pam.d/system-local-login
-    sudo cp "$SCRIPT_DIR/../../.cp/pam.d/polkit-1" /etc/pam.d/polkit-1
-    log_success "PAM configuration updated"
-  fi
 fi
 
 # Lid management
@@ -67,4 +50,23 @@ if confirm "Configure lid management?"; then
   fi
 fi
 
-log_success "Laptop tools setup complete"
+log_success "Laptop tools installed and configured"
+log_info "Run 'fwupdmgr update' to update firmware"
+
+# Interactive steps at the end
+if [[ "$setup_fingerprint" == "true" ]]; then
+  echo
+  log_header "Fingerprint Enrollment"
+  log_info "Starting fingerprint enrollment..."
+  fprintd-enroll
+  fprintd-verify
+  
+  # Copy PAM configuration
+  if [[ -f "$SCRIPT_DIR/../../.cp/pam.d/system-local-login" ]]; then
+    sudo cp "$SCRIPT_DIR/../../.cp/pam.d/system-local-login" /etc/pam.d/system-local-login
+    sudo cp "$SCRIPT_DIR/../../.cp/pam.d/polkit-1" /etc/pam.d/polkit-1
+    log_success "PAM configuration updated"
+  fi
+  
+  log_success "Fingerprint setup complete"
+fi
