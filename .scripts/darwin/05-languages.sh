@@ -16,20 +16,12 @@ mise settings set legacy_version_file true
 
 log_info "Installing language runtimes..."
 
-runtimes=(
-  "node@lts"
-  "python@latest"
-  "go@latest"
-  "bun@latest"
-)
+mise use -g node
+KERL_CONFIGURE_OPTIONS="--enable-wx" mise use -g erlang
+mise use -g elixir
+mise use -g usage
 
-for runtime in "${runtimes[@]}"; do
-  log_info "Installing $runtime..."
-  mise use -g "$runtime"
-done
-
-log_info "Activating mise in current shell..."
-eval "$(mise activate bash)"
+mise reshim
 
 log_success "Language runtimes installed"
 mise list
