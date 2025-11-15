@@ -1,9 +1,7 @@
+[include]
+	path = ~/.gitconfig.local
 [core]
 	editor = nvim
-[user]
-	email = arthurvdinizs@gmail.com
-	name = Arthur Diniz
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGHh2/DfPI+gJl2hEIh4hak/CdfISyrdKvrkSIthWkUD
 [init]
 	defaultBranch = main
 [push]
@@ -12,8 +10,6 @@
   rebase = true
 [gpg]
 	format = ssh
-[gpg "ssh"]
-  program = "/opt/1Password/op-ssh-sign"
 [commit]
 	gpgsign = true
 [tag]
