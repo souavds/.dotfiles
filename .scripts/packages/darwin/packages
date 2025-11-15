@@ -1,0 +1,21 @@
+# Shell tools
+neovim
+bat
+eza
+zoxide
+fzf
+fd
+bottom
+ripgrep
+jq
+yazi
+oh-my-posh
+fastfetch
+tmux
+
+# Development tools
+lazygit
+lazydocker
+docker
+just
+mise
