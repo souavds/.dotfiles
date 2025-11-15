@@ -21,7 +21,6 @@ fi
 log_info "Found ${#packages[@]} packages to install"
 
 # Install all packages at once
-gum spin --spinner dot --title "Installing packages..." -- \
-  paru -S --needed --noconfirm "${packages[@]}"
+paru -S --needed --noconfirm "${packages[@]}"
 
 log_success "Package installation complete (${#packages[@]} packages)"

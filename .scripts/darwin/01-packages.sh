@@ -21,7 +21,6 @@ fi
 log_info "Found ${#packages[@]} packages to install"
 
 # Install all packages at once
-gum spin --spinner dot --title "Installing packages..." -- \
-  brew install "${packages[@]}"
+brew install "${packages[@]}"
 
 log_success "Package installation complete (${#packages[@]} packages)"
