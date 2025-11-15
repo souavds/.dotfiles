@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -17,16 +18,12 @@ fi
 
 if [[ ! -f "$HOME/.gitconfig.local" ]]; then
   if confirm "Setup git local configuration?"; then
-    if [[ -f "$DOTFILES_DIR/.gitconfig.local.template" ]]; then
+    if [[ -f "$DOTFILES_DIR/.templates/.gitconfig.local.template" ]]; then
       name=$(read_input "Your full name" "Your Name")
       email=$(read_input "Your email" "you@example.com")
       
-      cat > "$HOME/.gitconfig.local" << GITEOF
-[user]
-	email = $email
-	name = $name
-
-GITEOF
+      sed "s/you@example.com/$email/; s/Your Name/$name/" \
+        "$DOTFILES_DIR/.templates/.gitconfig.local.template" > "$HOME/.gitconfig.local"
       
       log_success "Git local config created at $HOME/.gitconfig.local"
     fi

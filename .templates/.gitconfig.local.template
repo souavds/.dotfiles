@@ -1,0 +1,10 @@
+[user]
+	email = you@example.com
+	name = Your Name
+
+# Uncomment and configure if using 1Password SSH signing:
+# [user]
+#	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA...
+#
+# [gpg "ssh"]
+#	program = "/opt/1Password/op-ssh-sign"
