@@ -24,12 +24,13 @@ else
   log_warn "tmux config not found, skipping tmux plugins"
 fi
 
-# Neovim plugins
+# Neovim plugins (mini.deps)
 if command -v nvim &>/dev/null; then
   log_info "Installing neovim plugins..."
   
-  # Run headless nvim to trigger lazy.nvim installation
-  nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
+  # Run headless nvim to trigger mini.deps installation
+  # mini.deps will auto-install itself and load plugins from snap
+  nvim --headless -c "lua MiniDeps.update()" -c "qa" 2>/dev/null || true
   
   log_success "neovim plugins installed"
 else

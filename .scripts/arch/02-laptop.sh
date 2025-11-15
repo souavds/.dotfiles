@@ -34,7 +34,6 @@ paru -S --needed --noconfirm "${packages[@]}"
 # Enable services (non-interactive)
 log_info "Enabling services..."
 sudo systemctl enable --now thermald.service
-sudo systemctl enable --now acpid.service
 sudo systemctl enable --now fwupd-refresh.timer
 
 if confirm "Enable auto-cpufreq service?"; then
