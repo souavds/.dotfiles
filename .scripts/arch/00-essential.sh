@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -6,29 +5,24 @@ source "$SCRIPT_DIR/../lib/tui.sh"
 
 log_header "Installing Essential Packages"
 
-# Update system
 log_info "Updating package database..."
 sudo pacman -Sy --noconfirm
 
-# Read essential packages into array
 packages=()
 while IFS= read -r pkg; do
   [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
   packages+=("$pkg")
 done < "$SCRIPT_DIR/../packages/arch/essential"
 
-# Install all essential packages at once
 log_info "Installing essential packages..."
 sudo pacman -S --needed --noconfirm "${packages[@]}"
 
-# Install rustup for building AUR packages
 if ! command -v rustc &>/dev/null; then
   log_info "Installing Rust toolchain..."
   sudo pacman -S --needed --noconfirm rustup
   rustup default stable
 fi
 
-# Install paru (AUR helper)
 if ! command -v paru &>/dev/null; then
   log_info "Installing paru (AUR helper)..."
   

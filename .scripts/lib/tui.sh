@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# TUI Helper Library using gum
-# https://github.com/charmbracelet/gum
-
 log_info() {
   gum log --level info "$*"
 }

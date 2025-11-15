@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -11,7 +10,6 @@ if ! confirm "Setup firewall (ufw)?"; then
   exit 0
 fi
 
-# Install and configure UFW
 log_info "Installing ufw..."
 paru -S --needed --noconfirm ufw
 

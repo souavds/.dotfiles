@@ -1,11 +1,11 @@
 # Dotfiles
 
-Clean and simple dotfiles for Arch Linux and macOS.
+Clean dotfiles for Arch Linux and macOS.
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/yourusername/dotfiles.git ~/.dotfiles
+git clone https://github.com/souavds/.dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 sh ./bootstrap.sh arch  # or darwin for macOS
 ```
@@ -14,121 +14,83 @@ sh ./bootstrap.sh arch  # or darwin for macOS
 
 ```
 .dotfiles/
-├── bootstrap.sh              # Main bootstrap script
-├── .config/                  # Application configs
+├── bootstrap.sh
+├── .config/              # App configurations
 ├── .scripts/
 │   ├── lib/
-│   │   └── tui.sh           # UI helpers (logging, prompts)
-│   ├── packages/            # Package lists
-│   │   ├── arch/            # Arch Linux packages
-│   │   │   ├── essential    # Essential packages (stow, git, etc)
-│   │   │   └── packages     # All other packages
-│   │   └── darwin/          # macOS packages
-│   │       ├── essential    # Essential packages
-│   │       └── packages     # All other packages
-│   ├── arch/                # Arch Linux setup scripts
-│   │   ├── 00-essential.sh  # Essential packages & paru
-│   │   ├── 01-packages.sh   # User packages
-│   │   ├── 02-laptop.sh     # Laptop tools
-│   │   ├── 03-shell.sh      # Shell setup
-│   │   ├── 04-dotfiles.sh   # Dotfiles symlinks
-│   │   ├── 05-security.sh   # Firewall setup
-│   │   └── 06-plugins.sh    # Plugin installation (nvim, tmux)
-│   └── darwin/              # macOS setup scripts
-│       ├── 00-essential.sh  # Homebrew & essentials
-│       ├── 01-packages.sh   # User packages
-│       ├── 02-shell.sh      # Shell setup
-│       ├── 03-dotfiles.sh   # Dotfiles symlinks
-│       └── 04-plugins.sh    # Plugin installation (nvim, tmux)
-└── .cp/                    # System config files (PAM, systemd, etc)
+│   │   └── tui.sh       # UI helpers (gum)
+│   ├── packages/
+│   │   ├── arch/
+│   │   │   ├── essential
+│   │   │   └── packages
+│   │   └── darwin/
+│   │       ├── essential
+│   │       └── packages
+│   ├── arch/
+│   │   ├── 00-essential.sh
+│   │   ├── 01-packages.sh
+│   │   ├── 02-laptop.sh
+│   │   ├── 03-shell.sh
+│   │   ├── 04-dotfiles.sh
+│   │   ├── 05-security.sh
+│   │   └── 06-plugins.sh
+│   └── darwin/
+│       ├── 00-essential.sh
+│       ├── 01-packages.sh
+│       ├── 02-shell.sh
+│       ├── 03-dotfiles.sh
+│       └── 04-plugins.sh
+└── .cp/                  # System configs (PAM, systemd, etc)
 ```
 
 ## How It Works
 
-1. **bootstrap.sh** detects your system (arch/darwin)
-2. Runs all `.sh` scripts in `.scripts/<system>/` in alphabetical order
-3. Each script is independent and can prompt for user input
-4. Scripts read package lists from `.scripts/packages/<system>/`
-
-## Adding New Scripts
-
-Create a new script in `.scripts/arch/` or `.scripts/darwin/`:
-
-```bash
-#!/usr/bin/env bash
-set -e
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../lib/tui.sh"
-
-log_header "My Custom Setup"
-
-# Your setup code here
-log_info "Doing something..."
-
-if confirm "Install optional thing?"; then
-  # Install optional thing
-fi
-
-log_success "Setup complete"
-```
-
-Scripts run in alphabetical order, so use prefixes:
-- `00-` for essentials
-- `01-` for packages
-- `02-` and up for everything else
+1. Run `bootstrap.sh` with `arch` or `darwin`
+2. Scripts run in alphabetical order
+3. Packages install in batch (fast)
+4. Plugins install automatically (nvim, tmux)
 
 ## Package Management
 
-Package lists are stored in `.scripts/packages/<system>/`:
+Two files per system:
+- `essential` - Bootstrap requirements
+- `packages` - Everything else
 
-- **essential** - Required packages for bootstrap (stow, git, curl, etc)
-- **packages** - All other packages (one per line, comments start with `#`)
-
-Example `.scripts/packages/arch/packages`:
-
+Add packages (one per line):
 ```
-# Shell tools
 neovim
 bat
 ripgrep
-
-# Development
-lazygit
-docker
 ```
 
-## Included Configurations
+## Included
 
-- **Shell**: zsh with oh-my-posh
-- **Editor**: neovim
+- **Shell**: zsh + oh-my-posh
+- **Editor**: neovim + mini.deps
 - **Terminal**: ghostty, kitty, tmux
-- **Dev Tools**: mise, lazygit, lazydocker
-- **CLI Tools**: bat, eza, zoxide, fzf, ripgrep, yazi
+- **Dev**: mise, lazygit, lazydocker, docker
+- **CLI**: bat, eza, zoxide, fzf, ripgrep, yazi
 
-## Arch Linux Specific
+## Arch Linux
 
-- Installs paru (AUR helper) during bootstrap
-- All packages installed via paru (handles both official repos and AUR)
-- Batch installation for faster setup
+- Batch installation via paru
 - Laptop tools: thermald, auto-cpufreq, acpi
-- Fingerprint reader setup (interactive enrollment at the end)
-- Firewall (ufw) configuration
-- Automatic plugin installation (nvim, tmux)
+- Fingerprint reader setup
+- Firewall (ufw)
+- Auto plugin install
 
-## macOS Specific
+## macOS
 
-- Installs Homebrew
-- Uses brew for all package management
-- Batch installation for faster setup
-- Automatic plugin installation (nvim, tmux)
+- Homebrew
+- Batch installation
+- Auto plugin install
 
-## Post-Installation
+## Post-Install
 
-1. Restart your shell: `exec zsh`
+1. Restart shell: `exec zsh`
 2. Update firmware (Arch): `fwupdmgr update`
 
-Note: tmux and neovim plugins are installed automatically during bootstrap!
+Plugins install automatically!
 
 ## License
 

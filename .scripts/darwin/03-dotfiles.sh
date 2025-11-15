@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -7,7 +6,6 @@ source "$SCRIPT_DIR/../lib/tui.sh"
 
 log_header "Dotfiles Setup"
 
-# Stow dotfiles
 if confirm "Symlink dotfiles using stow?"; then
   log_info "Creating symlinks..."
   
@@ -17,7 +15,6 @@ if confirm "Symlink dotfiles using stow?"; then
   log_success "Dotfiles symlinked"
 fi
 
-# Setup .gitconfig.local
 if [[ ! -f "$HOME/.gitconfig.local" ]]; then
   if confirm "Setup git local configuration?"; then
     if [[ -f "$DOTFILES_DIR/.gitconfig.local.template" ]]; then
@@ -29,12 +26,6 @@ if [[ ! -f "$HOME/.gitconfig.local" ]]; then
 	email = $email
 	name = $name
 
-# Uncomment and configure if using 1Password SSH signing:
-# [user]
-#	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA...
-#
-# [gpg "ssh"]
-#	program = "/opt/1Password/op-ssh-sign"
 GITEOF
       
       log_success "Git local config created at $HOME/.gitconfig.local"

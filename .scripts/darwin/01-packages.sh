@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -6,7 +5,6 @@ source "$SCRIPT_DIR/../lib/tui.sh"
 
 log_header "Installing Packages"
 
-# Read all packages into array (skip comments and empty lines)
 packages=()
 while IFS= read -r pkg; do
   [[ -z "$pkg" || "$pkg" =~ ^# ]] && continue
@@ -20,7 +18,6 @@ fi
 
 log_info "Found ${#packages[@]} packages to install"
 
-# Install all packages at once
 brew install "${packages[@]}"
 
 log_success "Package installation complete (${#packages[@]} packages)"
