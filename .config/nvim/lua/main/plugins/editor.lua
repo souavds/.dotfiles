@@ -4,10 +4,10 @@ local keys = require('main.core.keymaps')
 -- colorscheme
 deps.now(function()
   deps.add({
-    source = 'folke/tokyonight.nvim',
+    source = 'rebelot/kanagawa.nvim',
   })
 
-  vim.cmd('colorscheme tokyonight-night')
+  vim.cmd('colorscheme kanagawa-dragon')
 end)
 
 -- icons
