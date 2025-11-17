@@ -54,8 +54,23 @@ alias vim="nvim"
 alias lzg="lazygit"
 alias lzd="lazydocker" 
 alias wf="impala"
+alias bt="bluetui"
 
 # Functions
+function br {
+    local cmd cmd_file code
+    cmd_file=$(mktemp)
+    if broot --outcmd "$cmd_file" "$@"; then
+        cmd=$(<"$cmd_file")
+        command rm -f "$cmd_file"
+        eval "$cmd"
+    else
+        code=$?
+        command rm -f "$cmd_file"
+        return "$code"
+    fi
+}
+
 function cd {
   z "$@" && eza --color --icons --git -a
 }

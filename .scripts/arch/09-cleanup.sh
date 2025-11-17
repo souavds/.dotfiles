@@ -6,6 +6,8 @@ source "$SCRIPT_DIR/../lib/tui.sh"
 
 log_header "Cleanup"
 
+broot --set-install-state installed
+
 log_info "Removing temporary files..."
 rm -rf "$SCRIPT_DIR/../../tmp"
 

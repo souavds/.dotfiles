@@ -8,10 +8,11 @@ fd
 bottom
 ripgrep
 jq
-yazi
+broot
 oh-my-posh
 fastfetch
 tmux
+glow
 
 # Development tools
 lazygit

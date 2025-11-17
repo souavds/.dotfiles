@@ -8,10 +8,11 @@ fd
 bottom
 ripgrep
 jq
-yazi
+broot
 oh-my-posh-bin
 fastfetch
 tmux
+glow
 
 # Terminal emulators
 ghostty
@@ -29,6 +30,9 @@ mise
 usbutils
 wl-clipboard
 cliphist
+bluetui
+ffmpeg
+7zip
 
 # Fonts
 ttf-dejavu

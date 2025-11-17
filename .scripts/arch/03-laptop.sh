@@ -34,6 +34,7 @@ sudo systemctl enable --now fwupd-refresh.timer
 
 if confirm "Enable auto-cpufreq service?"; then
   sudo systemctl enable --now auto-cpufreq
+  sudo auto-cpufreq --bluetooth_boot_off
   log_success "auto-cpufreq enabled"
 fi
 
