@@ -10,7 +10,7 @@ if you want to see the packages that will be installed go to `./.scripts/package
 wanna try?
 
 
-```
+```bash
 git clone git@github.com:souavds/.dotfiles.git && cd .dotfiles/ && bash bootstrap <arch|darwin>
 
 ```

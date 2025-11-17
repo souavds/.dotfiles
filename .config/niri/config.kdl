@@ -358,10 +358,11 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
-    Mod+B hotkey-overlay-title="Open browser: helium" { spawn "helium-browser"; }
+    Mod+T hotkey-overlay-title="Open a Terminal" { spawn "kitty"; }
+    Mod+B hotkey-overlay-title="Open browser" { spawn "helium-browser"; }
+    Mod+P hotkey-overlay-title="Open password manager" { spawn "1password"; }
     Mod+Space repeat=false { spawn "vicinae" "toggle"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Super+Alt+L hotkey-overlay-title="Lock" { spawn "hyprlock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
