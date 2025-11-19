@@ -316,3 +316,10 @@ deps.now(function()
     symbol = '▎',
   })
 end)
+
+deps.later(function()
+  deps.add({ source = 'MeanderingProgrammer/render-markdown.nvim' })
+  require('render-markdown').setup({
+    completions = { lsp = { enabled = true } },
+  })
+end)
