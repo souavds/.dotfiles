@@ -41,6 +41,7 @@ fi
 if confirm "Configure lid management?"; then
   if [[ -d "$SCRIPT_DIR/../../.cp/systemd/logind.conf.d" ]]; then
     sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/logind.conf.d/" /etc/systemd/
+    sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/sleep.conf.d/" /etc/systemd/ 
     log_success "Lid management configured"
   fi
 fi
