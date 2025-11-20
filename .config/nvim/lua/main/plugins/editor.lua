@@ -1,5 +1,6 @@
 local deps = require('main.plugins.deps')
 local keys = require('main.core.keymaps')
+local events = require('main.core.events')
 
 -- colorscheme
 deps.now(function()
@@ -7,7 +8,50 @@ deps.now(function()
     source = 'rebelot/kanagawa.nvim',
   })
 
-  vim.cmd('colorscheme kanagawa-dragon')
+  require('kanagawa').setup({
+    colors = {
+      theme = {
+        all = {
+          ui = {
+            bg_gutter = 'none',
+          },
+        },
+      },
+    },
+    theme = 'dragon',
+    background = {
+      dark = 'dragon',
+      light = 'lotus',
+    },
+    overrides = function(colors)
+      local theme = colors.theme
+      return {
+        NormalFloat = { bg = 'none' },
+        FloatBorder = { fg = theme.ui.bg_p2, bg = 'none' },
+        FloatTitle = { bg = 'none' },
+        Pmenu = { fg = theme.ui.shade0, bg = 'none' },
+        PmenuSel = { fg = 'NONE', bg = theme.ui.bg_p2 },
+        PmenuSbar = { bg = theme.ui.bg_m1 },
+        PmenuThumb = { bg = theme.ui.bg_p2 },
+        BlinkCmpMenuBorder = { fg = theme.ui.bg_p2, bg = 'none' },
+      }
+    end,
+  })
+
+  events.autocmd('ColorScheme', {
+    pattern = 'kanagawa',
+    callback = function()
+      if vim.o.background == 'light' then
+        vim.fn.system('kitty +kitten themes Kanagawa_light')
+      elseif vim.o.background == 'dark' then
+        vim.fn.system('kitty +kitten themes Kanagawa_dragon')
+      else
+        vim.fn.system('kitty +kitten themes Kanagawa')
+      end
+    end,
+  })
+
+  vim.cmd('colorscheme kanagawa')
 end)
 
 -- icons

@@ -14,3 +14,4 @@ vim.opt.shiftwidth = 2
 vim.opt.wrap = true
 vim.opt.undofile = true
 vim.opt.winborder = 'rounded'
+vim.opt.background = 'dark'
