@@ -35,8 +35,4 @@ deps.later(function()
       return '<C-i>'
     end
   end, { desc = 'Accept Copilot NES suggestion', expr = true })
-
-  vim.keymap.set('n', '<esc>', function()
-    if not require('copilot-lsp.nes').clear() then return '<esc>' end
-  end, { desc = 'Clear Copilot suggestion or fallback' })
 end)
