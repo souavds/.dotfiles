@@ -323,6 +323,11 @@ window-rule {
     open-floating true
 }
 
+window-rule {
+    geometry-corner-radius 10
+    clip-to-geometry true
+}
+
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
 /-window-rule {
@@ -362,7 +367,9 @@ binds {
     Mod+B hotkey-overlay-title="Open browser" { spawn "helium-browser"; }
     Mod+P hotkey-overlay-title="Open password manager" { spawn "1password"; }
     Mod+Space repeat=false { spawn "vicinae" "toggle"; }
-    Super+Alt+L hotkey-overlay-title="Lock" { spawn "hyprlock"; }
+    Mod+Alt+L hotkey-overlay-title="Lock Screen" {
+        spawn "dms" "ipc" "call" "lock" "lock";
+    }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -380,8 +387,10 @@ binds {
     // Example brightness key mappings for brightnessctl.
     // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
     // but you need to manually put each argument in separate "" quotes.
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    // XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+    // XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "5" ""; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
@@ -610,6 +619,14 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
+}
+
+environment {
+  XDG_CURRENT_DESKTOP "niri"
+  QT_QPA_PLATFORM "wayland"
+  ELECTRON_OZONE_PLATFORM_HINT "auto"
+  QT_QPA_PLATFORMTHEME "gtk3"
+  QT_QPA_PLATFORMTHEME_QT6 "gtk3"
 }
 
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"

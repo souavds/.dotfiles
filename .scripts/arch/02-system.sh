@@ -13,8 +13,8 @@ log_info "Installing ly..."
 paru -S --needed --noconfirm ly 
 sudo systemctl enable ly.service
 
-log_info "Installing hyprlock..."
-paru -S --needed --noconfirm hyprlock
+log_info "Installing dms..."
+paru -S --needed --noconfirm dms-shell-bin
 
 log_info "Cleaning up niri dependencies..."
 
