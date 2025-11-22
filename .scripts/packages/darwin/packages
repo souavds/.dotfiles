@@ -15,6 +15,7 @@ tmux
 glow
 
 # Development tools
+gitu
 lazygit
 lazydocker
 docker
