@@ -75,10 +75,6 @@ function cd {
   z "$@" && eza --color --icons --git -a
 }
 
-function cvim {
-  z "$@" && nvim
-}
-
 # Completion style
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
