@@ -57,8 +57,9 @@ if [[ "$setup_fingerprint" == "true" ]]; then
   fprintd-verify
   
   if [[ -f "$SCRIPT_DIR/../../.cp/pam.d/system-local-login" ]]; then
-    sudo cp "$SCRIPT_DIR/../../.cp/pam.d/system-local-login" /etc/pam.d/system-local-login
-    sudo cp "$SCRIPT_DIR/../../.cp/pam.d/polkit-1" /etc/pam.d/polkit-1
+    sudo cp -r "$SCRIPT_DIR/../../.cp/pam.d/system-local-login" /etc/pam.d/system-local-login
+    sudo cp -r "$SCRIPT_DIR/../../.cp/pam.d/polkit-1" /etc/pam.d/polkit-1
+    sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/system/kill-fprintd.service" /etc/systemd/system/
     log_success "PAM configuration updated"
   fi
   

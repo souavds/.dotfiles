@@ -43,11 +43,12 @@ otf-commit-mono-nerd
 otf-geist-mono-nerd
 ttf-ibmplex-mono-nerd
 
-# AUR packages
+# Other packages
 opencode-bin
 helium-browser-bin
 1password
 spotify
+spotify-player
 soteria-git
 impala
 vicinae-bin

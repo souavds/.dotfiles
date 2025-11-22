@@ -55,6 +55,7 @@ alias lzg="lazygit"
 alias lzd="lazydocker" 
 alias wf="impala"
 alias bt="bluetui"
+alias spt="spotify_player"
 
 # Functions
 function br {
