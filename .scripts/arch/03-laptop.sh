@@ -33,6 +33,9 @@ sudo systemctl enable --now thermald.service
 sudo systemctl enable --now fwupd-refresh.timer
 
 if confirm "Enable auto-cpufreq service?"; then
+  if [[ -f "$SCRIPT_DIR/../../.cp/auto-cpufreq.conf" ]]; then
+    sudo cp -r "$SCRIPT_DIR/../../.cp/auto-cpufreq.conf" /etc/
+  fi
   sudo systemctl enable --now auto-cpufreq
   sudo auto-cpufreq --bluetooth_boot_off
   log_success "auto-cpufreq enabled"
@@ -40,10 +43,12 @@ fi
 
 if confirm "Configure lid management?"; then
   if [[ -d "$SCRIPT_DIR/../../.cp/systemd/logind.conf.d" ]]; then
-    sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/logind.conf.d/" /etc/systemd/
     sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/sleep.conf.d/" /etc/systemd/ 
-    log_success "Lid management configured"
   fi
+  if [[ -d "$SCRIPT_DIR/../../.cp/systemd/sleep.conf.d" ]]; then
+    sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/sleep.conf.d/" /etc/systemd/ 
+  fi
+  log_success "Lid management configured"
 fi
 
 log_success "Laptop tools installed and configured"
@@ -56,12 +61,14 @@ if [[ "$setup_fingerprint" == "true" ]]; then
   fprintd-enroll
   fprintd-verify
   
-  if [[ -f "$SCRIPT_DIR/../../.cp/pam.d/system-local-login" ]]; then
+  if [[ -d "$SCRIPT_DIR/../../.cp/pam.d" ]]; then
     sudo cp -r "$SCRIPT_DIR/../../.cp/pam.d/system-local-login" /etc/pam.d/system-local-login
     sudo cp -r "$SCRIPT_DIR/../../.cp/pam.d/polkit-1" /etc/pam.d/polkit-1
-    sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/system/kill-fprintd.service" /etc/systemd/system/
-    log_success "PAM configuration updated"
   fi
+  if [[ -f "$SCRIPT_DIR/../../.cp/systemd/system/kill-fprintd.service" ]]; then
+    sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/system/kill-fprintd.service" /etc/systemd/system/
+  fi
+  log_success "PAM configuration updated"
   
   log_success "Fingerprint setup complete"
 fi

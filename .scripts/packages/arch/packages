@@ -34,6 +34,7 @@ cliphist
 bluetui
 ffmpeg
 7zip
+inotify-tools
 
 # Fonts
 ttf-dejavu
