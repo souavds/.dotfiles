@@ -1,12 +1,15 @@
 [Default Applications]
-x-scheme-handler/http=helium-browser.desktop
-x-scheme-handler/https=helium-browser.desktop
+x-scheme-handler/http=google-chrome.desktop
+x-scheme-handler/https=google-chrome.desktop
 x-scheme-handler/ftp=helium-browser.desktop
 x-scheme-handler/chrome=helium-browser.desktop
-text/html=helium-browser.desktop
+text/html=google-chrome.desktop
 application/x-extension-htm=helium-browser.desktop
 application/x-extension-html=helium-browser.desktop
 application/x-extension-shtml=helium-browser.desktop
 application/xhtml+xml=helium-browser.desktop
 application/x-extension-xhtml=helium-browser.desktop
 application/x-extension-xht=helium-browser.desktop
+x-scheme-handler/discord=vesktop.desktop
+x-scheme-handler/about=google-chrome.desktop
+x-scheme-handler/unknown=google-chrome.desktop
