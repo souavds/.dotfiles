@@ -2,5 +2,6 @@
 \.scripts
 \.cp
 \.templates
+.gitignore
 bootstrap.sh
 README.md
