@@ -1,4 +1,4 @@
-#### souavds dotfiles
+#### osdva dotfiles
 
 > machine:
 > thinkpad t14 gen 5 - intel ultra 5 135u - 64gb ddr5
@@ -11,6 +11,6 @@ wanna try?
 
 
 ```bash
-git clone git@github.com:souavds/.dotfiles.git && cd .dotfiles/ && bash bootstrap <arch|darwin>
+git clone git@github.com:osdva/.dotfiles.git && cd .dotfiles/ && bash bootstrap <arch|darwin>
 
 ```
