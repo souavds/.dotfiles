@@ -361,9 +361,17 @@ deps.now(function()
   })
 end)
 
+-- render markdown
 deps.later(function()
   deps.add({ source = 'MeanderingProgrammer/render-markdown.nvim' })
   require('render-markdown').setup({
     completions = { lsp = { enabled = true } },
   })
+end)
+
+-- replace
+deps.now(function()
+  deps.add({ source = 'MagicDuck/grug-far.nvim' })
+
+  require('grug-far').setup({})
 end)
