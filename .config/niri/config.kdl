@@ -368,7 +368,7 @@ binds {
     Mod+P hotkey-overlay-title="Open password manager" { spawn "1password"; }
     Mod+Space repeat=false { spawn "vicinae" "toggle"; }
     Mod+Alt+L hotkey-overlay-title="Lock Screen" {
-        spawn "dms" "ipc" "call" "lock" "lock";
+        spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock";
     }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
