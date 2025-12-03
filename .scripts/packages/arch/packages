@@ -35,6 +35,7 @@ bluetui
 ffmpeg
 7zip
 inotify-tools
+trash-cli
 
 # Fonts
 ttf-dejavu
@@ -51,7 +52,8 @@ google-chrome
 1password
 spotify
 spotify-player
+vesktop-bin
 soteria-git
 impala
 vicinae-bin
-dms-shell-bin
+noctalia-shell

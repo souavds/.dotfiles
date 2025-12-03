@@ -43,12 +43,22 @@ fi
 
 if confirm "Configure lid management?"; then
   if [[ -d "$SCRIPT_DIR/../../.cp/systemd/logind.conf.d" ]]; then
-    sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/sleep.conf.d/" /etc/systemd/ 
+    sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/logind.conf.d/" /etc/systemd/ 
   fi
   if [[ -d "$SCRIPT_DIR/../../.cp/systemd/sleep.conf.d" ]]; then
     sudo cp -r "$SCRIPT_DIR/../../.cp/systemd/sleep.conf.d/" /etc/systemd/ 
   fi
   log_success "Lid management configured"
+fi
+
+if confirm "Enable weekly filesystem TRIM? (Recommended for SSDs)"; then
+  log_info "Enabling fstrim.timer..."
+  sudo systemctl enable --now fstrim.timer
+  log_success "fstrim.timer enabled (runs weekly)"
+  
+  log_info "Running initial TRIM on all mounted filesystems..."
+  sudo fstrim -av
+  log_success "Initial TRIM complete"
 fi
 
 log_success "Laptop tools installed and configured"
