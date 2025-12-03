@@ -10,7 +10,7 @@ log_info "Installing zsh..."
 paru -S --needed --noconfirm zsh
 
 if confirm "Set zsh as default shell for $USER?"; then
-  chsh -s "$(which zsh)"
+  chsh -s /usr/bin/zsh
   log_success "zsh set as default shell (requires re-login)"
 fi
 

@@ -4,6 +4,8 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../lib/tui.sh"
 
+sudo pacman -S gum
+
 log_header "Installing Essential Packages"
 
 log_info "Updating package database..."
