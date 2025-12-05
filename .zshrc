@@ -57,6 +57,8 @@ alias lzd="lazydocker"
 alias wf="impala"
 alias bt="bluetui"
 alias spt="spotify_player"
+alias dot="(cd ~/.dotfiles && nvim)"
+alias refresh="source ~/.zshrc"
 
 # Functions
 function br {
