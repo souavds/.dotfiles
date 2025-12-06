@@ -58,6 +58,7 @@ alias wf="impala"
 alias bt="bluetui"
 alias spt="spotify_player"
 alias dot="(cd ~/.dotfiles && nvim)"
+alias udot="(cd ~/.dotfiles && stow -D . && stow .)"
 alias sr="source ~/.zshrc"
 
 # Functions
